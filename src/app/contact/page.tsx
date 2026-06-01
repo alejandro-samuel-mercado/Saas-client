@@ -67,6 +67,10 @@ export default function ContactPage() {
         return <PerfumeContact />;
     }
 
+    if (config?.rubro?.slug === "inmuebles") {
+        return <RealEstateContact />;
+    }
+
     return <ContactContent config={config} />;
 }
 
@@ -79,10 +83,6 @@ function ContactContent({ config }: { config: any }) {
         queryFn: branchService.getAll,
         staleTime: 1000 * 60 * 60,
     });
-
-    if (config?.rubro?.slug === "inmuebles") {
-        return <RealEstateContact />;
-    }
 
     const {
         register,

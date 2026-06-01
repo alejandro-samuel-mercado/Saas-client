@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { FavoritesTab } from "@/components/features/profile/FavoritesTab";
@@ -52,6 +53,7 @@ export function PerfumeProfile() {
         router.push("/login");
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authUser, isLoading, router, searchParams]);
 
   if (isLoading || (!user && !isGuest)) {

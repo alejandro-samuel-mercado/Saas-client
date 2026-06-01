@@ -48,7 +48,7 @@ export function CartDrawer() {
 
     const triggerPreview = useCallback(() => {
         previewMutation.mutate();
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedItems]);
 
     useEffect(() => {
