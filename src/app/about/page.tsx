@@ -15,6 +15,9 @@ import {
     Users,
 } from "lucide-react";
 import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
+import { configService } from "@/services/config";
+import { PerfumeAbout } from "@/components/shared/rubro/PerfumeAbout";
 import Link from "next/link";
 
 const iconMap: Record<string, any> = {
@@ -28,6 +31,16 @@ const iconMap: Record<string, any> = {
 };
 
 export default function AboutPage() {
+    const { data: config } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+        staleTime: 0,
+    });
+
+    if (config?.rubro?.slug === "perfumes") {
+        return <PerfumeAbout />;
+    }
+
     return (
         <main className="min-h-screen pb-40  relative overflow-hidden">
             <section className="relative pt-40 max-sm:pt-20 pb-48 max-sm:pb-20  flex items-center justify-center overflow-hidden bg-gradient-to-r from-secondary/60 to-primary/60">

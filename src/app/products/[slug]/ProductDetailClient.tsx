@@ -2,6 +2,7 @@
 
 import { ProductGalleryModal } from "@/components/features/products/ProductGalleryModal";
 import { ProductCard } from "@/components/shared/ProductCard";
+import { SplashScreen } from "@/components/ui/SplashScreen";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,6 +43,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { RealEstateDetail } from "@/components/shared/rubro/RealEstateDetail";
+import { PerfumeDetail } from "@/components/shared/rubro/PerfumeDetail";
 
 interface ProductDetailClientProps {
     slug: string;
@@ -84,7 +87,7 @@ export function ProductDetailClient({
         initialData: initialProduct,
     });
 
-    const { data: config } = useQuery({
+    const { data: config, isLoading: isConfigLoading } = useQuery({
         queryKey: ["publicConfig"],
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60, // 1 hora
@@ -143,12 +146,15 @@ export function ProductDetailClient({
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    if (isLoading && !product) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p>Cargando...</p>
-            </div>
-        );
+    if ((isLoading && !product) || isConfigLoading || !config) {
+        if (!isLoading && !product) {
+            return (
+                <div className="min-h-screen flex items-center justify-center">
+                    <p>Producto no encontrado</p>
+                </div>
+            );
+        }
+        return <SplashScreen isLoading={true} storeName={config?.storeName} logo={config?.logoUrl} />;
     }
 
     if (!product) {
@@ -157,6 +163,14 @@ export function ProductDetailClient({
                 <p>Producto no encontrado</p>
             </div>
         );
+    }
+
+    if (config?.rubro?.slug === "inmuebles") {
+        return <RealEstateDetail product={product} config={config} />;
+    }
+
+    if (config?.rubro?.slug === "perfumes") {
+        return <PerfumeDetail product={product} config={config} />;
     }
 
     const currentSku = product?.skus?.find((sku: SKU) => sku.id === selectedSku);

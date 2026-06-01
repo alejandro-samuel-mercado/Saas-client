@@ -22,6 +22,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { guestOrderPersistence } from "@/lib/guest-persistence";
+import { RealEstateNavbar } from "./RealEstateNavbar";
+import { PerfumeNavbar } from "./PerfumeNavbar";
 
 export function Navbar() {
   const { user } = useAuth();
@@ -162,6 +164,14 @@ export function Navbar() {
       setActiveMegaMenu(null);
     }
   };
+
+  if (config?.rubro?.slug === "inmuebles") {
+    return <RealEstateNavbar />;
+  }
+
+  if (config?.rubro?.slug === "perfumes") {
+    return <PerfumeNavbar />;
+  }
 
   return (
     <motion.header

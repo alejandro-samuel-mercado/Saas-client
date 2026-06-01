@@ -78,8 +78,7 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground;
-    background: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(180 100% 97%) 40%, hsl(200 100% 95%) 100%);
+    @apply text-foreground bg-background;
     min-height: 100vh;
   }
   html {
@@ -99,5 +98,57 @@
 
   .animate-shimmer {
     animation: shimmer 2s infinite linear;
+  }
+}
+
+@layer base {
+  .theme-perfumes {
+    --background: 26 18% 8%;
+    --foreground: 45 66% 91%;
+    --texto-principal: 45 66% 91%;
+    
+    --card: 32 18% 11%;
+    --card-foreground: 45 66% 91%;
+    
+    --popover: 32 18% 11%;
+    --popover-foreground: 45 66% 91%;
+    
+    --primary: 46 65% 52%;
+    --primary-foreground: 26 18% 8%;
+    --texto-primario: 26 18% 8%;
+    
+    --secondary: 45 66% 91%;
+    --secondary-foreground: 26 18% 8%;
+    --texto-secundario: 26 18% 8%;
+    
+    --muted: 32 18% 15%;
+    --muted-foreground: 45 30% 60%;
+    
+    --accent: 46 65% 52%;
+    --accent-foreground: 26 18% 8%;
+    
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 45 66% 91%;
+    
+    --border: 46 65% 52% / 20%;
+    --input: 46 65% 52% / 20%;
+    --ring: 46 65% 52%;
+  }
+
+  body.theme-perfumes {
+    background: #171310;
+    color: #f9f1d8;
+  }
+
+  /* Forzar bordes rectos y colores premium en componentes compartidos */
+  .theme-perfumes .rounded-\[2\.5rem\], 
+  .theme-perfumes .rounded-2xl, 
+  .theme-perfumes .rounded-xl, 
+  .theme-perfumes .rounded-full {
+    border-radius: 0 !important;
+  }
+  
+  .theme-perfumes .bg-card {
+    border: 1px solid hsla(46, 65%, 52%, 0.2) !important; /* Borde dorado sutil */
   }
 }

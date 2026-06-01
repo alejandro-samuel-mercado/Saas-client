@@ -1,15 +1,22 @@
 "use client";
 
-import { ProductCard } from "@/components/shared/ProductCard";
+import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
 import { Button } from "@/components/ui/button";
 import { useRubroConfig } from "@/hooks/useRubroConfig";
 import { productService } from "@/services/products";
 import { useQuery } from "@tanstack/react-query";
+import { configService } from "@/services/config";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export function NewProducts() {
     const rubroConfig = useRubroConfig();
+
+    const { data: config } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+        staleTime: 1000 * 60 * 60,
+    });
 
     const { data, isLoading } = useQuery({
         queryKey: ["products", "new"],
@@ -69,9 +76,9 @@ export function NewProducts() {
                         </Link>
                     </Button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div className={`grid gap-6 ${config?.rubro?.slug === "inmuebles" ? "grid-cols-1 lg:grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"}`}>
                     {data?.data.slice(0, 10).map((product) => (
-                        <ProductCard key={product.id} product={product} />
+                        <ProductCardRouter key={product.id} product={product} />
                     ))}
                 </div>
             </div>

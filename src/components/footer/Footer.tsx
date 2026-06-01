@@ -5,15 +5,10 @@ import { Button } from "@/components/ui/button";
 import { branchService } from "@/services/branch";
 import { configService } from "@/services/config";
 import { useQuery } from "@tanstack/react-query";
-import {
-    Clock,
-    Facebook,
-    Instagram,
-    MapPin,
-    Phone,
-    Twitter,
-} from "lucide-react";
+import { Phone, MapPin, Facebook, Instagram, Twitter, Clock } from "lucide-react";
 import Link from "next/link";
+import { RealEstateFooter } from "./RealEstateFooter";
+import { PerfumeFooter } from "./PerfumeFooter";
 
 const iconMap: Record<string, any> = {
     facebook: Facebook,
@@ -83,6 +78,14 @@ export function Footer() {
         }
         return [];
     })();
+
+    if (config?.rubro?.slug === "inmuebles") {
+        return <RealEstateFooter />;
+    }
+
+    if (config?.rubro?.slug === "perfumes") {
+        return <PerfumeFooter />;
+    }
 
     return (
         <footer className="relative bg-primary text-primary-foreground pt-20 z-10000">

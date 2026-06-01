@@ -20,7 +20,21 @@ const loginSchema = z.object({
 
 type LoginForm = z.infer<typeof loginSchema>;
 
+import { PerfumeLogin } from "@/components/shared/rubro/PerfumeLogin";
+import { useQuery } from "@tanstack/react-query";
+import { configService } from "@/services/config";
+
 export default function LoginPage() {
+  const { data: config } = useQuery({
+    queryKey: ["publicConfig"],
+    queryFn: configService.getPublicConfig,
+    staleTime: 0,
+  });
+
+  if (config?.rubro?.slug === "perfumes") {
+    return <PerfumeLogin />;
+  }
+
   return (
     <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-background"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>}>
       <LoginContent />

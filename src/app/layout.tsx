@@ -61,6 +61,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             const storeName = config.storeName || "Storefront";
             const productLabel = config.rubro?.productFormConfig?.productLabel || "Productos";
             document.title = `${storeName} | Descubre nuestros/as ${productLabel.toLowerCase()}`;
+            
+            if (config.rubro?.slug === "perfumes") {
+                document.body.classList.add("theme-perfumes");
+            } else {
+                document.body.classList.remove("theme-perfumes");
+            }
         }
     }, [config]);
 
@@ -80,17 +86,22 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
             {config?.themeColors && Object.keys(config.themeColors).length > 0 && (
                 <style dangerouslySetInnerHTML={{
-                    __html: `:root {
+                    __html: `:root, .theme-perfumes {
                         ${Object.entries(config.themeColors)
                             .filter(([key]) => !key.endsWith('-hex'))
-                            .map(([key, value]) => `--${key}: ${value};`)
+                            .map(([key, value]) => `--${key}: ${value} !important;`)
                             .join('\n')}
-                    }`
+                    }
+                    ${config.themeColors.background ? `
+                    body.theme-perfumes {
+                        background: hsl(${config.themeColors.background}) !important;
+                    }
+                    ` : ''}`
                 }} />
             )}
 
-            {!isHomePage && <Navbar />}
-            <div className={!isHomePage ? "pt-16  md:pt-2  " : "max-sm:px-2 max-md:px-6 max-xl:px-10 overflow-x-hidden"}>
+            <Navbar />
+            <div className={!isHomePage && config?.rubro?.slug !== "perfumes" ? "pt-16  md:pt-2  " : "max-sm:px-2 max-md:px-6 max-xl:px-10 overflow-x-hidden"}>
                 {children}
             </div>
             <Footer />

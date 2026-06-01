@@ -5,12 +5,28 @@ import { ProductSkeleton } from "@/components/shared/ProductSkeleton";
 import { Button } from "@/components/ui/button";
 import { productService } from "@/services/products";
 import { useFavoritesStore } from "@/store/favorites";
+import { PerfumeFavorites } from "@/components/shared/rubro/PerfumeFavorites";
 import { useQuery } from "@tanstack/react-query";
+import { configService } from "@/services/config";
 import { Heart } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
 export default function FavoritesPage() {
+  const { data: config } = useQuery({
+    queryKey: ["publicConfig"],
+    queryFn: configService.getPublicConfig,
+    staleTime: 0,
+  });
+
+  if (config?.rubro?.slug === "perfumes") {
+    return <PerfumeFavorites />;
+  }
+
+  return <FavoritesContent />;
+}
+
+function FavoritesContent() {
   const { favorites } = useFavoritesStore();
 
   const { data: products, isLoading } = useQuery({

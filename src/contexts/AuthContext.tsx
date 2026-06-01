@@ -130,9 +130,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const height = 650;
         const left = window.screen.width / 2 - width / 2;
         const top = window.screen.height / 2 - height / 2;
+        
+        const tenantId = process.env.NEXT_PUBLIC_TENANT_ID || "1";
 
         window.open(
-            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google?tenantId=${tenantId}`,
             "Google Login",
             `width=${width},height=${height},left=${left},top=${top}`,
         );

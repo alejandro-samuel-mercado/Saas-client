@@ -52,7 +52,25 @@ function haversineDistance(
     return R * c;
 }
 
+import { RealEstateContact } from "@/components/shared/rubro/RealEstateContact";
+import { PerfumeContact } from "@/components/shared/rubro/PerfumeContact";
+import { configService } from "@/services/config";
+
 export default function ContactPage() {
+    const { data: config } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+        staleTime: 1000 * 60 * 60,
+    });
+
+    if (config?.rubro?.slug === "perfumes") {
+        return <PerfumeContact />;
+    }
+
+    return <ContactContent config={config} />;
+}
+
+function ContactContent({ config }: { config: any }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [nearestBranchId, setNearestBranchId] = useState<number | null>(null);
 
@@ -61,6 +79,10 @@ export default function ContactPage() {
         queryFn: branchService.getAll,
         staleTime: 1000 * 60 * 60,
     });
+
+    if (config?.rubro?.slug === "inmuebles") {
+        return <RealEstateContact />;
+    }
 
     const {
         register,

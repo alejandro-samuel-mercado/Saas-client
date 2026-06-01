@@ -939,7 +939,7 @@ function CartContent() {
                                             ? "bg-gradient-to-r from-primary to-secondary text-white scale-110"
                                             : isActive
                                                 ? "bg-gradient-to-r from-primary to-secondary text-white scale-125 ring-4 ring-primary/20"
-                                                : "bg-white text-muted-foreground border-2 border-border"
+                                                : "bg-card text-muted-foreground border-2 border-border"
                                             }`}
                                     >
                                         {isCompleted ? <Check className="h-5 w-5" /> : step.id}
@@ -960,7 +960,7 @@ function CartContent() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                     <div className="lg:col-span-2 space-y-6">
-                        <Card className="p-6 md:p-8 rounded-[2rem] border-2 border-primary/40 bg-white/60 backdrop-blur-xl shadow-xl shadow-primary/5">
+                        <Card className="p-6 md:p-8 rounded-[2rem] border-2 border-primary/40 bg-card/60 backdrop-blur-xl shadow-xl shadow-primary/5">
                             {/* Step 1: Carrito */}
                             {currentStep === "cart" && (
                                 <div>
@@ -1092,11 +1092,11 @@ function CartContent() {
 
                                                     <div className="flex flex-col items-end justify-between gap-4">
                                                         {item.allowFractional ? (
-                                                            <div className="flex items-center gap-2 bg-white/40 backdrop-blur-sm p-1.5 rounded-2xl border border-white/60">
+                                                            <div className="flex items-center gap-2 bg-card/40 backdrop-blur-sm p-1.5 rounded-2xl border border-white/60">
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-9 w-9 rounded-xl hover:bg-white/60 text-primary"
+                                                                    className="h-9 w-9 rounded-xl hover:bg-card/60 text-primary"
                                                                     onClick={() => {
                                                                         const step =
                                                                             item.measurementUnit === "KG"
@@ -1145,7 +1145,7 @@ function CartContent() {
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-9 w-9 rounded-xl hover:bg-white/60 text-primary"
+                                                                    className="h-9 w-9 rounded-xl hover:bg-card/60 text-primary"
                                                                     onClick={() => {
                                                                         const step =
                                                                             item.measurementUnit === "KG"
@@ -1171,11 +1171,11 @@ function CartContent() {
                                                                 </Button>
                                                             </div>
                                                         ) : (
-                                                            <div className="flex items-center gap-4 bg-white/40 backdrop-blur-sm p-1.5 rounded-2xl border border-white/60">
+                                                            <div className="flex items-center gap-4 bg-card/40 backdrop-blur-sm p-1.5 rounded-2xl border border-white/60">
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-9 w-9 rounded-xl hover:bg-white/60 text-primary"
+                                                                    className="h-9 w-9 rounded-xl hover:bg-card/60 text-primary"
                                                                     onClick={() =>
                                                                         handleQuantityChange(
                                                                             item,
@@ -1191,7 +1191,7 @@ function CartContent() {
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-9 w-9 rounded-xl hover:bg-white/60 text-primary"
+                                                                    className="h-9 w-9 rounded-xl hover:bg-card/60 text-primary"
                                                                     onClick={() =>
                                                                         handleQuantityChange(item, item.qty + 1)
                                                                     }
@@ -1230,7 +1230,7 @@ function CartContent() {
                                                 {cartContent.step1.coupon.label}
                                             </Label>
                                             {appliedCoupon ? (
-                                                <div className="flex items-center gap-2 p-1 bg-white/50 rounded-full border border-primary/20 pl-4">
+                                                <div className="flex items-center gap-2 p-1 bg-card/50 rounded-full border border-primary/20 pl-4">
                                                     <span className="font-bold text-primary flex-1">
                                                         {appliedCoupon}
                                                     </span>
@@ -1252,7 +1252,7 @@ function CartContent() {
                                                             setCouponCode(e.target.value.toUpperCase())
                                                         }
                                                         disabled={isUpdating}
-                                                        className="rounded-full border-2 border-primary/40 focus:border-primary bg-white/50 backdrop-blur-sm"
+                                                        className="rounded-full border-2 border-primary/40 focus:border-primary bg-card/50 backdrop-blur-sm"
                                                     />
                                                     <Button
                                                         onClick={handleApplyCoupon}
@@ -1305,7 +1305,7 @@ function CartContent() {
                                                                 );
                                                             }}
                                                             disabled={isUpdating}
-                                                            className="h-12 rounded-xl border-2 border-primary/20 focus:border-primary bg-white/50"
+                                                            className="h-12 rounded-xl border-2 border-primary/20 focus:border-primary bg-card/50"
                                                         />
                                                     </div>
                                                     {pointsToUse > 0 &&
@@ -1395,7 +1395,7 @@ function CartContent() {
                                                     }))
                                                 }
                                                 disabled={!!user}
-                                                className="border-2 border-primary/50 focus:border-primary bg-white/50 backdrop-blur-sm"
+                                                className="border-2 border-primary/50 focus:border-primary bg-card/50 backdrop-blur-sm"
                                             />
                                         </div>
 
@@ -1416,7 +1416,7 @@ function CartContent() {
                                                             name: e.target.value,
                                                         }))
                                                     }
-                                                    className="h-12 placeholder:text-gray-400/70  rounded-xl border-2 border-primary/40 focus:border-primary bg-white/50"
+                                                    className="h-12 placeholder:text-gray-400/70  rounded-xl border-2 border-primary/40 focus:border-primary bg-card/50"
                                                 />
                                             </div>
                                             <div>
@@ -1437,7 +1437,7 @@ function CartContent() {
                                                             phone: e.target.value,
                                                         }))
                                                     }
-                                                    className="h-12 placeholder:text-gray-400/70  rounded-xl border-2 border-primary/40 focus:border-primary bg-white/50"
+                                                    className="h-12 placeholder:text-gray-400/70  rounded-xl border-2 border-primary/40 focus:border-primary bg-card/50"
                                                 />
                                             </div>
                                         </div>
@@ -1457,7 +1457,7 @@ function CartContent() {
                                                         dni: e.target.value,
                                                     }))
                                                 }
-                                                className="h-12 rounded-xl border-2 text-gray-900 placeholder:text-gray-400/70 border-primary/40 focus:border-primary bg-white/50 placeholder:text-gray-400/70"
+                                                className="h-12 rounded-xl border-2 text-foreground placeholder:text-gray-400/70 border-primary/40 focus:border-primary bg-card/50 placeholder:text-gray-400/70"
                                             />
                                         </div>
 
@@ -1490,7 +1490,7 @@ function CartContent() {
                                                         }))
                                                     }
                                                 >
-                                                    <SelectTrigger className="w-full bg-white/50 backdrop-blur-sm border-primary/40">
+                                                    <SelectTrigger className="w-full bg-card/50 backdrop-blur-sm border-primary/40">
                                                         <SelectValue placeholder="Seleccionar País" />
                                                     </SelectTrigger>
                                                     <SelectContent>
@@ -1526,7 +1526,7 @@ function CartContent() {
                                                         }
                                                         disabled={!customerData.country}
                                                     >
-                                                        <SelectTrigger className="w-full bg-white/50 backdrop-blur-sm border-primary/40">
+                                                        <SelectTrigger className="w-full bg-card/50 backdrop-blur-sm border-primary/40">
                                                             <SelectValue placeholder="Seleccionar Provincia" />
                                                         </SelectTrigger>
                                                         <SelectContent>
@@ -1568,7 +1568,7 @@ function CartContent() {
                                                         }
                                                         disabled={!customerData.state}
                                                     >
-                                                        <SelectTrigger className="w-full bg-white/50 backdrop-blur-sm border-primary/40">
+                                                        <SelectTrigger className="w-full bg-card/50 backdrop-blur-sm border-primary/40">
                                                             <SelectValue placeholder="Seleccionar Ciudad" />
                                                         </SelectTrigger>
                                                         <SelectContent>
@@ -1612,7 +1612,7 @@ function CartContent() {
                                                                 address: e.target.value,
                                                             }))
                                                         }
-                                                        className="h-12 rounded-xl border-2 border-primary/40 text-gray-900 focus:border-primary bg-white/50 placeholder:text-gray-400/70 "
+                                                        className="h-12 rounded-xl border-2 border-primary/40 text-foreground focus:border-primary bg-card/50 placeholder:text-gray-400/70 "
                                                     />
                                                 </div>
                                                 <div>
@@ -1630,14 +1630,14 @@ function CartContent() {
                                                                 zipCode: e.target.value,
                                                             }))
                                                         }
-                                                        className="h-12 rounded-xl border-2 border-primary/40 focus:border-primary bg-white/50 placeholder:text-gray-400/70"
+                                                        className="h-12 rounded-xl border-2 border-primary/40 focus:border-primary bg-card/50 placeholder:text-gray-400/70"
                                                     />
                                                 </div>
                                             </div>
                                         </div>
 
                                         {!user && (
-                                            <div className="flex items-center gap-3 p-4 bg-white/50 rounded-xl border border-primary/10 mt-4">
+                                            <div className="flex items-center gap-3 p-4 bg-card/50 rounded-xl border border-primary/10 mt-4">
                                                 <Checkbox
                                                     id="create-account"
                                                     checked={createAccount}
@@ -1679,7 +1679,7 @@ function CartContent() {
                                                 htmlFor="pickup"
                                                 className={`flex items-start space-x-3 p-6 border-2 rounded-2xl cursor-pointer transition-all hover:shadow-lg ${deliveryData.method === "pickup"
                                                     ? "border-primary bg-primary/5 shadow-primary/10"
-                                                    : "border-border bg-white/50 hover:border-primary/40"
+                                                    : "border-border bg-card/50 hover:border-primary/40"
                                                     }`}
                                             >
                                                 <RadioGroupItem
@@ -1705,7 +1705,7 @@ function CartContent() {
                                                     htmlFor="shipping"
                                                     className={`flex items-start space-x-3 p-6 border-2 rounded-2xl cursor-pointer transition-all hover:shadow-lg ${deliveryData.method === "shipping"
                                                         ? "border-primary bg-primary/5 shadow-primary/10"
-                                                        : "border-border bg-white/50 hover:border-primary/40"
+                                                        : "border-border bg-card/50 hover:border-primary/40"
                                                         }`}
                                                 >
                                                     <RadioGroupItem
@@ -1761,10 +1761,10 @@ function CartContent() {
                                                             disabled={!isBranchAvailable}
                                                             variant={isSelected ? "secondary" : "outline"}
                                                             className={`w-full justify-start h-auto py-4 px-6 rounded-xl border-2 transition-all ${!isBranchAvailable
-                                                                ? "opacity-60 bg-gray-50 border-gray-200 cursor-not-allowed"
+                                                                ? "opacity-60 bg-muted/50 border-border cursor-not-allowed"
                                                                 : isSelected
                                                                     ? "border-primary bg-primary/5 hover:bg-primary/10"
-                                                                    : "border-transparent bg-white/50 hover:border-primary/30"
+                                                                    : "border-transparent bg-card/50 hover:border-primary/30"
                                                                 }`}
                                                             onClick={() => {
                                                                 if (isBranchAvailable) {
@@ -1787,7 +1787,7 @@ function CartContent() {
                                                                 <div className="flex justify-between items-center w-full">
                                                                     <span
                                                                         className={`font-bold block ${!isBranchAvailable
-                                                                            ? "text-gray-500 line-through"
+                                                                            ? "text-muted-foreground line-through"
                                                                             : "text-gray-700"
                                                                             }`}
                                                                     >
@@ -1810,8 +1810,8 @@ function CartContent() {
                                                                 </span>
 
                                                                 {!isBranchAvailable && (
-                                                                    <div className="mt-2 text-[11px] leading-tight text-gray-500 bg-gray-100 p-2.5 rounded-lg border border-gray-200">
-                                                                        <strong className="block mb-0.5 text-gray-600">
+                                                                    <div className="mt-2 text-[11px] leading-tight text-muted-foreground bg-muted p-2.5 rounded-lg border border-border">
+                                                                        <strong className="block mb-0.5 text-muted-foreground">
                                                                             Stock físico insuficiente
                                                                         </strong>
                                                                         Esta sucursal no posee la cantidad exacta de
@@ -1820,7 +1820,7 @@ function CartContent() {
                                                                         <strong>Envío a Domicilio</strong>.
                                                                         {availability?.missingItems &&
                                                                             availability.missingItems.length > 0 && (
-                                                                                <ul className="mt-1.5 space-y-0.5 text-left border-t border-gray-200 pt-1.5">
+                                                                                <ul className="mt-1.5 space-y-0.5 text-left border-t border-border pt-1.5">
                                                                                     {availability.missingItems.map(
                                                                                         (item: any, i: any) => (
                                                                                             <li
@@ -1846,7 +1846,7 @@ function CartContent() {
                                     )}
 
                                     {deliveryData.method === "shipping" && (
-                                        <div className="p-6 bg-white/50 rounded-2xl border border-primary/10 space-y-3 animate-in fade-in slide-in-from-top-2 duration-300 shadow-sm">
+                                        <div className="p-6 bg-card/50 rounded-2xl border border-primary/10 space-y-3 animate-in fade-in slide-in-from-top-2 duration-300 shadow-sm">
                                             <div className="flex items-center gap-2 mb-2">
                                                 <MapPin className="h-5 w-5 text-primary" />
                                                 <p className="font-bold text-lg">Dirección de Envío</p>
@@ -1926,7 +1926,7 @@ function CartContent() {
                                                                     htmlFor={`gateway-${option.slug}`}
                                                                     className={`flex items-center justify-between p-4 border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${selectedGateway === option.slug
                                                                         ? "border-primary bg-primary/5 shadow-primary/10"
-                                                                        : "border-border bg-white/50 hover:border-primary/30"
+                                                                        : "border-border bg-card/50 hover:border-primary/30"
                                                                         }`}
                                                                 >
                                                                     <div className="flex items-center gap-3">
@@ -1948,7 +1948,7 @@ function CartContent() {
                                                                 </Label>
                                                                 
                                                                 {selectedGateway === option.slug && option.slug === "mercadopago_custom" && (
-                                                                    <div className="mt-4 animate-in fade-in zoom-in duration-500 border-2 border-primary/20 rounded-2xl p-4 bg-white/40 shadow-inner">
+                                                                    <div className="mt-4 animate-in fade-in zoom-in duration-500 border-2 border-primary/20 rounded-2xl p-4 bg-card/40 shadow-inner">
                                                                         <MercadoPagoBrick
                                                                             amount={preview?.total !== undefined && preview.total !== null ? preview.total : clientSubtotal}
                                                                             onSubmit={handleBrickSubmit}
@@ -1973,7 +1973,7 @@ function CartContent() {
                                                 </span>
                                                 {cartContent.step4.deliveryInfo}
                                             </h3>
-                                            <Card className="p-6 rounded-2xl bg-white/50 border border-primary/10 shadow-sm">
+                                            <Card className="p-6 rounded-2xl bg-card/50 border border-primary/10 shadow-sm">
                                                 <div className="flex items-center gap-3 mb-4">
                                                     <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
                                                         <User className="h-5 w-5 text-muted-foreground" />
@@ -2115,10 +2115,10 @@ function CartContent() {
                     </div>
 
                     <div className="lg:col-span-1">
-                        <Card className="p-6 md:p-8 md:px-5 rounded-[2rem] border-2 border-primary/70 bg-white/60 backdrop-blur-xl shadow-xl sticky top-0 overflow-hidden relative">
+                        <Card className="p-6 md:p-8 md:px-5 rounded-[2rem] border-2 border-primary/70 bg-card/60 backdrop-blur-xl shadow-xl sticky top-0 overflow-hidden relative">
                             {/* Loader Localizado de la Tarjeta de Precios  */}
                             {isUpdating && (
-                                <div className="absolute inset-0 z-20 bg-white/80 backdrop-blur-[2px] rounded-[2rem] flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
+                                <div className="absolute inset-0 z-20 bg-card/80 backdrop-blur-[2px] rounded-[2rem] flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300">
                                     <div className="relative mb-4">
                                         <Loader2 className="h-12 w-12 animate-spin text-primary/30" />
                                         <ShieldCheck className="h-6 w-6 text-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
