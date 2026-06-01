@@ -64,7 +64,9 @@ export async function http<T>(
       const hostname = window.location.hostname;
       if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
           const parts = hostname.split('.');
-          if (parts.length >= 3 || (parts.length === 2 && !hostname.includes('vercel.app'))) {
+          const isVercel = hostname.endsWith('.vercel.app') || hostname.includes('vercel.app');
+          
+          if (!isVercel && (parts.length >= 3 || (parts.length === 2 && !hostname.includes('vercel.app')))) {
               const sub = parts[0].toLowerCase();
               const systemSubdomains = ['saas', 'www', 'admin', 'panel', 'api'];
               if (systemSubdomains.includes(sub)) {
