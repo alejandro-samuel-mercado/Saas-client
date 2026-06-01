@@ -376,7 +376,7 @@ export function ProductDetailClient({
                                 <h1 className="text-3xl lg:text-4xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent leading-tight">
                                     {product?.name}
                                 </h1>
-                                {(product?.brand && product.brand !== "-" || product?.model && product.model !== "-") && (
+                                {(product?.brand && product.brand !== "-" || product?.model && product.model !== "-") && !config?.rubro?.productFormConfig?.hideBrand && (
                                     <p className="text-lg text-muted-foreground mt-2 font-medium flex items-center gap-2">
                                         {[product.brand && product.brand !== "-" ? product.brand : "", product.model && product.model !== "-" ? product.model : ""].filter(Boolean).join(" · ")}
                                     </p>
@@ -487,7 +487,13 @@ export function ProductDetailClient({
                         </div>
 
                         <div className="mb-8 font-bold">
-                            {currentStock === 0 ? (
+                            {!isCartEnabled ? (
+                                <Badge
+                                    className={`rounded-full px-4 py-1 text-sm shadow-sm ${currentStock === 0 ? "bg-destructive text-white" : "bg-emerald-100 text-emerald-800 border-emerald-300"}`}
+                                >
+                                    {currentStock === 0 ? "No Disponible" : "Disponible"}
+                                </Badge>
+                            ) : currentStock === 0 ? (
                                 <Badge
                                     variant="destructive"
                                     className="rounded-full px-4 py-1 text-sm bg-destructive text-white shadow-lg"
@@ -713,26 +719,28 @@ export function ProductDetailClient({
                         )}
 
                         {/* Información de envío */}
-                        <div className="space-y-3 text-sm font-medium text-foreground/70 bg-secondary/30 p-5 rounded-2xl border border-secondary/10">
-                            <div className="flex items-center gap-3">
-                                <div className=" p-1.5 rounded-full">
-                                    <Star className="w-4 h-4 text-secondary/80 " />
+                        {isCartEnabled && (
+                            <div className="space-y-3 text-sm font-medium text-foreground/70 bg-secondary/30 p-5 rounded-2xl border border-secondary/10">
+                                <div className="flex items-center gap-3">
+                                    <div className=" p-1.5 rounded-full">
+                                        <Star className="w-4 h-4 text-secondary/80 " />
+                                    </div>
+                                    <span className="text-gray-700">
+                                        Garantía de calidad asegurada
+                                    </span>
                                 </div>
-                                <span className="text-gray-700">
-                                    Garantía de calidad asegurada
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className=" p-1.5 rounded-full">
-                                    <ShoppingCart className="w-4 h-4 text-secondary/80" />
+                                <div className="flex items-center gap-3">
+                                    <div className=" p-1.5 rounded-full">
+                                        <ShoppingCart className="w-4 h-4 text-secondary/80" />
+                                    </div>
+                                    <span className="text-gray-700">
+                                        {config?.freeShippingThreshold
+                                            ? `Envío gratis en compras superiores a ${formatPrice(config.freeShippingThreshold, currency)}`
+                                            : "Envío gratis disponible (ver condiciones)"}
+                                    </span>
                                 </div>
-                                <span className="text-gray-700">
-                                    {config?.freeShippingThreshold
-                                        ? `Envío gratis en compras superiores a ${formatPrice(config.freeShippingThreshold, currency)}`
-                                        : "Envío gratis disponible (ver condiciones)"}
-                                </span>
                             </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 
@@ -761,7 +769,7 @@ export function ProductDetailClient({
                                     "description",
                                     "specifications",
                                     ...(isFoodCategory ? ["nutritional"] : []),
-                                    "shipping",
+                                    ...(isCartEnabled ? ["shipping"] : []),
                                     "reviews",
                                 ].map((tab) => (
                                     <TabsTrigger
@@ -800,7 +808,7 @@ export function ProductDetailClient({
                                     <div className="bg-white/40 backdrop-blur-md rounded-2xl border border-primary/10 overflow-hidden shadow-sm">
                                         <table className="w-full border-collapse text-left">
                                             <tbody className="divide-y divide-primary/10 text-sm sm:text-base">
-                                                {product?.brand && product.brand !== "-" && (
+                                                {product?.brand && product.brand !== "-" && !config?.rubro?.productFormConfig?.hideBrand && (
                                                     <tr className="group hover:bg-white/60 transition-colors">
                                                         <th scope="row" className="py-4 px-6 font-semibold text-foreground/80 w-1/3 bg-primary/5 group-hover:bg-primary/10 transition-colors">
                                                             Marca
@@ -810,7 +818,7 @@ export function ProductDetailClient({
                                                         </td>
                                                     </tr>
                                                 )}
-                                                {product?.model && product.model !== "-" && (
+                                                {product?.model && product.model !== "-" && !config?.rubro?.productFormConfig?.hideBrand && (
                                                     <tr className="group hover:bg-white/60 transition-colors">
                                                         <th scope="row" className="py-4 px-6 font-semibold text-foreground/80 w-1/3 bg-primary/5 group-hover:bg-primary/10 transition-colors">
                                                             Modelo
@@ -843,7 +851,9 @@ export function ProductDetailClient({
                                                         Disponibilidad
                                                     </th>
                                                     <td className="py-4 px-6 text-foreground/90 font-bold">
-                                                        {currentStock === 0 ? "Sin stock" :
+                                                        {!isCartEnabled ? (
+                                                            currentStock === 0 ? "No Disponible" : "Disponible"
+                                                        ) : currentStock === 0 ? "Sin stock" :
                                                             currentStock >= 50 ? "+50 unidades" :
                                                                 currentStock >= 10 ? "+10 unidades" :
                                                                     `${currentStock} unidades`}
