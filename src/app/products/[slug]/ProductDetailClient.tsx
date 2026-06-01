@@ -174,7 +174,8 @@ export function ProductDetailClient({
         : currentPrice;
     const savings = hasDiscount ? currentPrice - discountedPrice : 0;
 
-    const safetyStock = config?.webSafetyStock || 0;
+    const isCartEnabled = config?.rubro ? config.rubro.cartEnabled !== false : true;
+    const safetyStock = isCartEnabled ? (config?.webSafetyStock || 0) : 0;
 
     const rawTotalStock =
         product?.skus?.reduce((acc: number, sku: SKU) => acc + Number(sku.stock || 0), 0) || 0;

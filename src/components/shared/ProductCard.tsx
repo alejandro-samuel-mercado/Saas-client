@@ -33,7 +33,8 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
     staleTime: 1000 * 60 * 60,
   });
   
-  const safetyStock = config?.webSafetyStock || 0;
+  const isCartEnabled = config?.rubro ? config.rubro.cartEnabled !== false : true;
+  const safetyStock = isCartEnabled ? (config?.webSafetyStock || 0) : 0;
 
   const rawTotalStock =
     product.skus?.reduce((acc, sku) => acc + Number(sku.stock || 0), 0) || 0;
