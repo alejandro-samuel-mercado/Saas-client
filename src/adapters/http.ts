@@ -65,7 +65,13 @@ export async function http<T>(
       if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
           const parts = hostname.split('.');
           if (parts.length >= 3 || (parts.length === 2 && !hostname.includes('vercel.app'))) {
-              resolvedTenantId = parts[0];
+              const sub = parts[0].toLowerCase();
+              const systemSubdomains = ['saas', 'www', 'admin', 'panel', 'api'];
+              if (systemSubdomains.includes(sub)) {
+                  resolvedTenantId = TENANT_ID;
+              } else {
+                  resolvedTenantId = parts[0];
+              }
           }
       } else {
           const localTenant = localStorage.getItem('dev-tenant-id');
