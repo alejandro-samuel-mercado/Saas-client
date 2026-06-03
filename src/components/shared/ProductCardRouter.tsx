@@ -21,11 +21,15 @@ interface ProductCardRouterProps {
  * Falls back to the generic ProductCard for unknown / default rubros.
  */
 export function ProductCardRouter({ product }: ProductCardRouterProps) {
-    const { data: config } = useQuery({
+    const { data: config, isLoading } = useQuery({
         queryKey: ["publicConfig"],
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60,
     });
+
+    if (isLoading) {
+        return <div className="animate-pulse bg-stone-800 rounded-sm aspect-square w-full"></div>;
+    }
 
     const rubroSlug = config?.rubro?.slug ?? "general";
 

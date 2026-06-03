@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -150,5 +152,49 @@
   
   .theme-perfumes .bg-card {
     border: 1px solid hsla(46, 65%, 52%, 0.2) !important; /* Borde dorado sutil */
+  }
+
+  /* ── RELOJES Y ACCESORIOS THEME ── */
+  .theme-relojes {
+    --background: 0 0% 10%;        /* #1A1A1A Charcoal */
+    --foreground: 43 45% 85%;      /* #E6D2B5 Soft Gold */
+    --texto-principal: 43 45% 85%;
+
+    --card: 0 0% 14%;             /* #242424 Surface */
+    --card-foreground: 43 45% 85%;
+
+    --popover: 0 0% 12%;
+    --popover-foreground: 43 45% 85%;
+
+    --primary: 38 43% 64%;         /* #C8A97E Gold Accent */
+    --primary-foreground: 0 0% 10%;
+    --texto-primario: 0 0% 10%;
+
+    --secondary: 0 0% 18%;        /* #2E2E2E Light Charcoal */
+    --secondary-foreground: 43 45% 85%;
+    --texto-secundario: 43 45% 85%;
+
+    --muted: 0 0% 16%;
+    --muted-foreground: 43 20% 65%;
+
+    --accent: 38 43% 64%;
+    --accent-foreground: 0 0% 10%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 43 45% 85%;
+
+    --border: 38 43% 64%;         /* Gold borders for luxury feel */
+    --input: 0 0% 16%;
+    --ring: 38 43% 64%;
+  }
+
+  body.theme-relojes {
+    background: #1A1A1A;
+    color: #E6D2B5;
+  }
+
+  /* Add gold borders to cards */
+  .theme-relojes .bg-card {
+    border: 1px solid hsla(38, 43%, 64%, 0.3) !important;
   }
 }

@@ -17,7 +17,11 @@ const iconMap: Record<string, any> = {
     "check-circle": CheckCircle,
 };
 
-export function PerfumeAbout() {
+export function PerfumeAbout({ config }: { config?: any }) {
+    const timelineData = config?.customPageChronology && config.customPageChronology.length > 0 
+        ? config.customPageChronology 
+        : about.story.timeline;
+
     return (
         <main className="min-h-screen bg-[#171310] text-[#f9f1d8] font-sans pb-40 relative overflow-hidden">
             {/* ── HERO ── */}
@@ -42,7 +46,7 @@ export function PerfumeAbout() {
                     </div>
                     <div className="relative max-w-5xl mx-auto">
                         <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#d4af37]/20 md:-ml-px" />
-                        {about.story.timeline.map((item: any, idx: number) => {
+                        {timelineData.map((item: any, idx: number) => {
                             const isEven = idx % 2 === 0;
                             return (
                                 <motion.div
@@ -62,7 +66,7 @@ export function PerfumeAbout() {
                                                 {item.title}
                                             </h3>
                                             <p className="text-white/50 text-sm leading-relaxed relative z-10 font-light">
-                                                {item.description}
+                                                {item.desc || item.description}
                                             </p>
                                         </div>
                                     </div>

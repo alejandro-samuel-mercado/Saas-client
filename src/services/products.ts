@@ -44,7 +44,9 @@ export const productService = {
 
   getProduct: async (slugOrId: string | number) => {
     try {
-      const response: any = await http(`/api/products/${slugOrId}`);
+      const response: any = await http(`/api/products/${slugOrId}`, {
+          headers: { "x-silence-toast": "true" }
+      });
       return response.data;
     } catch (error) {
       return null;
@@ -63,11 +65,10 @@ export const productService = {
     }
   },
 
-  getCategories: async () => {
+  getCategories: async (rubroSlug?: string) => {
     try {
-      const response = await http<{ success: boolean; data: string[] }>(
-        "/api/categories",
-      );
+      const url = rubroSlug ? `/api/categories?rubro=${rubroSlug}` : "/api/categories";
+      const response = await http<{ success: boolean; data: string[] }>(url);
       return response.data || [];
     } catch (error) {
       return [];

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { productService } from "@/services/products";
 import { useFavoritesStore } from "@/store/favorites";
 import { PerfumeFavorites } from "@/components/shared/rubro/PerfumeFavorites";
+import { WatchFavorites } from "@/components/shared/rubro/WatchFavorites";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 import { Heart } from "lucide-react";
@@ -21,6 +22,10 @@ export default function FavoritesPage() {
 
   if (config?.rubro?.slug === "perfumes") {
     return <PerfumeFavorites />;
+  }
+
+  if (config?.rubro?.slug === "relojes") {
+    return <WatchFavorites />;
   }
 
   return <FavoritesContent />;

@@ -69,10 +69,11 @@ export function RealEstateCatalog() {
 
   // Cargar datos de filtros al montar el componente
   useEffect(() => {
+    if (!config?.rubro?.slug) return;
     const fetchFilterData = async () => {
       try {
         const [cats, brnds] = await Promise.all([
-          productService.getCategories(),
+          productService.getCategories(config?.rubro?.slug),
           productService.getBrands(),
         ]);
         setCategories(cats as any);
@@ -80,7 +81,7 @@ export function RealEstateCatalog() {
       } catch (err) {}
     };
     fetchFilterData();
-  }, []);
+  }, [config?.rubro?.slug]);
 
 
   useEffect(() => {

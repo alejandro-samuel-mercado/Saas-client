@@ -9,6 +9,8 @@ import { Phone, MapPin, Facebook, Instagram, Twitter, Clock } from "lucide-react
 import Link from "next/link";
 import { RealEstateFooter } from "./RealEstateFooter";
 import { PerfumeFooter } from "./PerfumeFooter";
+import { WatchFooter } from "./WatchFooter";
+import { BarberFooter } from "./BarberFooter";
 
 const iconMap: Record<string, any> = {
     facebook: Facebook,
@@ -85,6 +87,14 @@ export function Footer() {
 
     if (config?.rubro?.slug === "perfumes") {
         return <PerfumeFooter />;
+    }
+
+    if (config?.rubro?.slug === "relojes") {
+        return <WatchFooter />;
+    }
+
+    if (config?.rubro?.slug === "barberias") {
+        return <BarberFooter />;
     }
 
     return (

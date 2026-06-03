@@ -35,6 +35,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { RealEstateCatalog } from "./RealEstateCatalog";
 import { PerfumeCatalog } from "./PerfumeCatalog";
+import { WatchCatalog } from "./WatchCatalog";
+import { BarberCatalog } from "@/components/shared/rubro/BarberCatalog";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -50,17 +52,27 @@ interface Filters {
 }
 
 export default function ProductsPage() {
-    const { data: config } = useQuery({
+    const { data: config, isLoading } = useQuery({
         queryKey: ["publicConfig"],
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60,
     });
 
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-stone-900">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e65c00]"></div>
+            </div>
+        );
+    }
+
     return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-stone-900"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e65c00]"></div></div>}>
             {config?.rubro?.slug === "inmuebles" ? <RealEstateCatalog /> :
-             config?.rubro?.slug === "perfumes" ? <PerfumeCatalog /> :
-             <ProductsContent />}
+                config?.rubro?.slug === "perfumes" ? <PerfumeCatalog /> :
+                    config?.rubro?.slug === "relojes" ? <WatchCatalog /> :
+                        config?.rubro?.slug === "barberias" ? <BarberCatalog /> :
+                            <ProductsContent />}
         </Suspense>
     );
 }
@@ -323,8 +335,8 @@ function ProductsContent() {
                             key={range.label}
                             onClick={() => handlePriceRangeChange(range.min, range.max)}
                             className={`block w-full text-left text-sm px-4 py-3 rounded-xl border-2 transition-all ${filters.minPrice === range.min && filters.maxPrice === range.max
-                                    ? "border-primary bg-primary/10 text-primary font-semibold"
-                                    : "border-primary/30 hover:border-primary/60 hover:bg-primary/5"
+                                ? "border-primary bg-primary/10 text-primary font-semibold"
+                                : "border-primary/30 hover:border-primary/60 hover:bg-primary/5"
                                 }`}
                         >
                             {range.label

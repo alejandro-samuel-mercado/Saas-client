@@ -6,12 +6,10 @@ import { formatPrice } from "@/lib/utils";
 import { useFavoritesStore } from "@/store/favorites";
 import { useCurrencyStore } from "@/store/currency";
 import { Product } from "@/types";
-import { Clock, Scissors, User, CalendarDays } from "lucide-react";
+import { Heart, Maximize2, Zap, Settings, Package } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { memo } from "react";
-import { configService } from "@/services/config";
-import { useQuery } from "@tanstack/react-query";
 
 interface BarberCardProps {
     product: Product;
@@ -28,129 +26,125 @@ function getCharValue(product: Product, ...keys: string[]): string | null {
 }
 
 export const BarberCard = memo(function BarberCard({ product }: BarberCardProps) {
+    const { isFavorite, toggleFavorite } = useFavoritesStore();
     const { currency } = useCurrencyStore();
-    const { data: config } = useQuery({
-        queryKey: ["publicConfig"],
-        queryFn: configService.getPublicConfig,
-        staleTime: 1000 * 60 * 60,
-    });
+    const isFav = isFavorite(product.id);
 
     const price = (product as any).discountedPrice || product.basePrice || 0;
     const currencyCode = (product as any).currencyCode || currency;
 
     // Extract barber-specific attributes
-    const duration = getCharValue(product, "duración", "duracion", "tiempo");
-    const professional = getCharValue(product, "especialista", "barbero", "profesional", "estilista");
+    const isService = (product as any).type?.toLowerCase() === "servicio";
+    const usage = getCharValue(product, "uso", "categoría");
+    const voltage = getCharValue(product, "voltaje/potencia", "voltaje");
+    const content = getCharValue(product, "contenido (ml/gr)", "contenido");
 
     const isAvailable = (product as any).skus?.some((s: any) => Number(s.stock) > 0) ?? true;
 
-    // Build WhatsApp URL for booking
-    const whatsappNumber = config?.contactPhone?.replace(/\D/g, "");
-    const whatsappUrl = whatsappNumber
-        ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola, quisiera consultar por un turno para el servicio: ${product.name}`)}`
-        : null;
-
     return (
-        <div className="group">
-            <div className={`relative bg-[#1e1c18] rounded-md border-2 border-[#8b6b4a]/20 overflow-hidden transition-all duration-300 hover:border-[#8b6b4a] shadow-[4px_4px_0_rgba(139,107,74,0.3)] hover:shadow-[6px_6px_0_rgba(139,107,74,0.5)] hover:-translate-y-1 ${!isAvailable ? "opacity-60" : ""}`}>
-                
+        <div className="group h-full">
+            <Link
+                href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                className={`block h-full relative bg-stone-800 rounded-sm border border-stone-700 hover:border-[#e65c00] overflow-hidden transition-all duration-300 ${!isAvailable ? "opacity-60" : ""}`}
+            >
                 {/* ── IMAGE SECTION ── */}
-                <Link href={`/products/detail?slug=${(product as any).slug || product.id}`}>
-                    <div className="relative h-48 w-full overflow-hidden bg-black/80 grayscale group-hover:grayscale-0 transition-all duration-500">
+                <div className="relative aspect-square w-full overflow-hidden bg-stone-900 p-4 flex items-center justify-center">
+                    <div className="relative w-full h-full">
                         <Image
                             src={product.images?.[0] || "/images/placeholder.png"}
                             alt={product.name}
                             fill
-                            className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                            className="object-contain group-hover:scale-105 transition-transform duration-500"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#1e1c18] to-transparent" />
-                        
-                        {/* Corner Badge */}
-                        <div className="absolute top-0 left-0 bg-[#8b6b4a] text-[#1e1c18] text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-br-lg shadow-md">
-                            Servicio
-                        </div>
+                        {/* Orange overlay effect */}
+                        <div className="absolute inset-0 bg-[#e65c00]/0 group-hover:bg-[#e65c00]/10 transition-colors duration-500 pointer-events-none" />
+                    </div>
 
+                    {/* Top Badges */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                         {!isAvailable && (
-                            <div className="absolute top-2 right-2 bg-red-900/90 text-white text-[10px] uppercase tracking-wider font-bold px-2 py-1 border border-red-500/50">
+                            <Badge className="bg-red-600 text-stone-100 text-[10px] uppercase tracking-wider rounded-sm font-bold shadow-sm">
                                 Agotado
-                            </div>
+                            </Badge>
                         )}
                     </div>
-                </Link>
+
+                    {/* Favorite Button */}
+                    <button
+                        className={`absolute top-3 right-3 p-2 rounded-sm transition-all duration-300 z-10 ${isFav ? "bg-[#e65c00] text-stone-100" : "bg-stone-900/40 text-stone-400 hover:bg-[#e65c00] hover:text-stone-100"}`}
+                        onClick={e => { e.preventDefault(); e.stopPropagation(); if (product?.id) toggleFavorite(product.id); }}
+                    >
+                        <Heart className={`h-4 w-4 ${isFav ? "fill-current" : ""}`} />
+                    </button>
+                    
+                    {/* Image count */}
+                    {product.images && product.images.length > 1 && (
+                        <div className="absolute bottom-3 right-3 bg-stone-900/60 text-stone-300 text-xs px-2 py-1 rounded-sm flex items-center gap-1 border border-stone-600/50 backdrop-blur-sm">
+                            <Maximize2 className="h-3 w-3" />
+                            {product.images.length}
+                        </div>
+                    )}
+                </div>
 
                 {/* ── DETAILS SECTION ── */}
-                <div className="p-5 flex flex-col justify-between">
+                <div className="p-5 flex flex-col justify-between flex-1 border-t border-stone-700 group-hover:border-[#e65c00]/50 transition-colors">
                     <div>
-                        {/* Name */}
-                        <Link href={`/products/detail?slug=${(product as any).slug || product.id}`}>
-                            <h3 className="text-xl font-bold text-[#e6d5b8] mb-2 uppercase tracking-wide flex items-center gap-2 group-hover:text-[#8b6b4a] transition-colors">
-                                <Scissors className="h-4 w-4 text-[#8b6b4a]" />
-                                {product.name}
-                            </h3>
-                        </Link>
-                        
-                        <p className="text-sm text-[#a69b85] line-clamp-2 mb-4 italic">
-                            {(product as any).description || "Servicio premium tradicional"}
+                        {/* Brand */}
+                        <p className="text-[10px] text-[#e65c00] font-bold tracking-[0.2em] uppercase mb-2">
+                            {product.brand && product.brand !== "-" ? product.brand : ((product as any).category?.name || "Barbería")}
                         </p>
+
+                        {/* Name / Model */}
+                        <h3 className="text-lg font-black text-stone-100 uppercase tracking-tight mb-2 group-hover:text-[#e65c00] transition-colors line-clamp-2">
+                            {product.name}
+                        </h3>
+                        {product.model && product.model !== "-" && (
+                            <p className="text-xs text-stone-400 mb-3 line-clamp-1 font-mono bg-stone-900 inline-block px-2 py-1 border border-stone-700 rounded-sm">
+                                MOD: {product.model}
+                            </p>
+                        )}
                         
-                        {/* Technical Specs / Tags */}
-                        <div className="flex flex-col gap-2 mb-4">
-                            {duration && (
-                                <div className="flex items-center gap-2 text-sm text-[#e6d5b8]">
-                                    <Clock className="h-4 w-4 text-[#8b6b4a]" />
-                                    <span><span className="text-[#a69b85] text-xs uppercase tracking-wider mr-1">Tiempo:</span> {duration}</span>
-                                </div>
+                        {/* Technical Specs */}
+                        <div className="flex flex-wrap gap-2 mb-4 mt-2">
+                            {usage && (
+                                <span className="text-[10px] flex items-center gap-1.5 text-stone-300 bg-stone-900 px-2 py-1 border border-stone-700 uppercase font-bold tracking-wider rounded-sm">
+                                    <Settings className="h-3 w-3 text-[#e65c00]" />
+                                    {usage}
+                                </span>
                             )}
-                            {professional && (
-                                <div className="flex items-center gap-2 text-sm text-[#e6d5b8]">
-                                    <User className="h-4 w-4 text-[#8b6b4a]" />
-                                    <span><span className="text-[#a69b85] text-xs uppercase tracking-wider mr-1">Staff:</span> {professional}</span>
-                                </div>
+                            {voltage && (
+                                <span className="text-[10px] flex items-center gap-1.5 text-stone-300 bg-stone-900 px-2 py-1 border border-stone-700 uppercase font-bold tracking-wider rounded-sm">
+                                    <Zap className="h-3 w-3 text-[#e65c00]" />
+                                    {voltage}
+                                </span>
+                            )}
+                            {content && (
+                                <span className="text-[10px] flex items-center gap-1.5 text-stone-300 bg-stone-900 px-2 py-1 border border-stone-700 uppercase font-bold tracking-wider rounded-sm">
+                                    <Package className="h-3 w-3 text-[#e65c00]" />
+                                    {content}
+                                </span>
                             )}
                         </div>
                     </div>
 
-                    {/* ── PRICE AND CTA ── */}
-                    <div className="pt-4 border-t border-[#8b6b4a]/20 mt-2">
-                        <div className="flex items-center justify-between mb-4">
-                            <div>
-                                <p className="text-[10px] text-[#a69b85] uppercase tracking-widest font-bold mb-0.5">Precio Base</p>
-                                <p className="text-2xl font-black text-[#e6d5b8]">
-                                    {formatPrice(Number(price), currencyCode)}
-                                </p>
-                            </div>
+                    {/* ── PRICE ── */}
+                    <div className="pt-4 border-t border-stone-700 mt-auto flex justify-between items-end group-hover:border-[#e65c00]/50 transition-colors">
+                        <div>
                             {product.basePrice > price && (
-                                <div className="bg-[#8b6b4a]/20 px-2 py-1 rounded text-xs text-[#8b6b4a] font-bold">
-                                    PROMO
-                                </div>
+                                <p className="text-xs text-stone-500 line-through mb-1">
+                                    {formatPrice(product.basePrice, currencyCode)}
+                                </p>
                             )}
+                            <p className="text-xl font-black text-stone-100 tracking-tight">
+                                {formatPrice(Number(price), currencyCode)}
+                            </p>
                         </div>
-                        
-                        {/* Action Buttons */}
-                        <div className="flex gap-2">
-                            {whatsappUrl ? (
-                                <a 
-                                    href={whatsappUrl} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="flex-1 flex items-center justify-center gap-2 bg-[#8b6b4a] hover:bg-[#6b5034] text-[#1e1c18] font-black uppercase tracking-wider py-3 rounded transition-colors"
-                                >
-                                    <CalendarDays className="h-4 w-4" />
-                                    Agendar
-                                </a>
-                            ) : (
-                                <Link 
-                                    href={`/products/detail?slug=${(product as any).slug || product.id}`}
-                                    className="flex-1 flex items-center justify-center gap-2 bg-[#8b6b4a] hover:bg-[#6b5034] text-[#1e1c18] font-black uppercase tracking-wider py-3 rounded transition-colors"
-                                >
-                                    <CalendarDays className="h-4 w-4" />
-                                    Ver Detalle
-                                </Link>
-                            )}
+                        <div className="h-10 w-10 bg-transparent border border-stone-700 group-hover:border-[#e65c00] group-hover:bg-[#e65c00] text-[#e65c00] group-hover:text-stone-100 flex items-center justify-center transition-all cursor-pointer rounded-sm shadow-sm">
+                            <span className="text-xl font-light leading-none">+</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         </div>
     );
 });

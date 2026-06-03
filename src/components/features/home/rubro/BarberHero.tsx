@@ -27,7 +27,7 @@ export function BarberHero() {
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60,
     });
-    
+
     const { carousel } = home.hero;
     const { user } = useAuth();
     const { toggleCart, toggleMobileMenu, isMobileMenuOpen } = useUIStore();
@@ -40,13 +40,13 @@ export function BarberHero() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const bannerImage = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0 
+    const bannerImage = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0
         ? config.bannerImage[0].url || config.bannerImage[0].image
         : (typeof config?.bannerImage === "string" ? config.bannerImage : "/images/placeholder.png");
 
     const whatsappNumber = config?.contactPhone?.replace(/\D/g, "");
-    const bookingUrl = whatsappNumber 
-        ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola, quisiera agendar un turno.")}` 
+    const bookingUrl = whatsappNumber
+        ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hola, quisiera agendar un turno.")}`
         : "/products";
 
     if (isConfigLoading) {
@@ -55,12 +55,12 @@ export function BarberHero() {
 
     return (
         <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-[#1e1c18] overflow-hidden font-sans border-b-[10px] border-[#8b6b4a]">
-            
+
             {/* ── OLD SCHOOL NAVBAR ── */}
             <div className={`fixed lg:top-0 z-50 transition-all duration-300 w-full left-0 right-0 ${scrolled ? "bg-[#1e1c18] border-b-2 border-[#8b6b4a] py-4 shadow-xl" : "bg-transparent py-6"}`}>
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="flex items-center justify-between">
-                        
+
                         {/* Logo */}
                         <Link href="/" className="flex items-center justify-center gap-3">
                             {config?.logoUrl ? (
@@ -95,7 +95,7 @@ export function BarberHero() {
                             <Button variant="ghost" size="icon" className="hidden sm:flex text-[#8b6b4a] hover:text-[#e6d5b8] hover:bg-transparent" onClick={() => router.push(user ? "/profile" : "/login")}>
                                 <User className="h-6 w-6" />
                             </Button>
-                            
+
                             <a href={bookingUrl} target="_blank" rel="noopener noreferrer" className="hidden md:flex items-center gap-2 bg-[#8b6b4a] hover:bg-[#6b5034] text-[#1e1c18] font-black uppercase tracking-wider px-6 py-2 border-2 border-[#8b6b4a] transition-all">
                                 <CalendarDays className="h-4 w-4" />
                                 Agendar
@@ -111,34 +111,32 @@ export function BarberHero() {
 
             {/* ── HERO POSTER CONTENT ── */}
             <div className="relative h-[90vh] min-h-[600px] w-full flex items-center justify-center">
-                
+
                 {/* Background Image (Grayscale + Tint) */}
                 <div className="absolute inset-0 bg-[#1e1c18]">
                     <Image src={bannerImage} alt="Barbershop Background" fill className="object-cover object-center opacity-40 mix-blend-luminosity grayscale contrast-125" priority />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#1e1c18]/80 via-transparent to-[#1e1c18]" />
                     <div className="absolute inset-0 bg-[#8b6b4a]/10 mix-blend-overlay" />
-                    
+
                     {/* Grunge/Noise texture overlay */}
                     <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
                 </div>
 
                 <div className="container mx-auto px-6 relative z-10 text-center flex flex-col items-center">
-                    
+
                     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }} className="border-4 border-[#8b6b4a] p-2 md:p-4 mb-8">
                         <div className="border-2 border-[#8b6b4a] p-8 md:p-16 bg-[#1e1c18]/80 backdrop-blur-sm">
                             <Scissors className="h-12 w-12 text-[#8b6b4a] mx-auto mb-6" />
-                            
-                            <h2 className="text-[#8b6b4a] font-bold tracking-[0.3em] uppercase text-sm md:text-base mb-4">
-                                Premium Grooming
-                            </h2>
-                            
+
+
+
                             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-[#e6d5b8] uppercase tracking-tighter leading-[0.85] mb-6 drop-shadow-lg">
                                 Estilo <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#8b6b4a] to-[#5a422a] stroke-2 stroke-[#e6d5b8]">
                                     Clásico
                                 </span>
                             </h1>
-                            
+
                             <div className="flex items-center justify-center gap-4 text-[#a69b85] font-bold tracking-widest uppercase text-xs md:text-sm mb-10">
                                 <span>Cortes</span>
                                 <span className="text-[#8b6b4a]">•</span>

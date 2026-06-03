@@ -4,7 +4,7 @@ export function generateStaticParams() {
   return [{ slug: "placeholder" }];
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export default function LegacyProductsPage({ params }: { params: { slug: string } }) {
   redirect(`/products/detail?slug=${params.slug}`);

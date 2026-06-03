@@ -13,6 +13,8 @@ import { useRubroConfig } from "@/hooks/useRubroConfig";
 import dynamic from "next/dynamic";
 import { RealEstateHome } from "@/components/features/home/rubro/RealEstateHome";
 import { PerfumeHome } from "@/components/features/home/rubro/PerfumeHome";
+import { WatchHome } from "@/components/features/home/rubro/WatchHome";
+import { BarberHome } from "@/components/features/home/rubro/BarberHome";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 
@@ -35,6 +37,14 @@ export default function HomePage() {
 
     if (config?.rubro?.slug === "perfumes") {
         return <PerfumeHome />;
+    }
+
+    if (config?.rubro?.slug === "relojes") {
+        return <WatchHome />;
+    }
+
+    if (config?.rubro?.slug === "barberias") {
+        return <BarberHome />;
     }
 
     return (

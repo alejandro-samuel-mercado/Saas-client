@@ -37,9 +37,10 @@ export function PerfumeCatalog() {
     const [brands, setBrands] = useState<string[]>([]);
 
     useEffect(() => {
-        productService.getCategories().then((cats) => setCategories(cats as any)).catch(() => {});
+        if (!config?.rubro?.slug) return;
+        productService.getCategories(config?.rubro?.slug).then((cats) => setCategories(cats as any)).catch(() => {});
         productService.getBrands().then(setBrands).catch(() => {});
-    }, []);
+    }, [config?.rubro?.slug]);
 
     useEffect(() => {
         const urlFilters: Record<string, any> = {};

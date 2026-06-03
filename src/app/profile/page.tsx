@@ -26,6 +26,7 @@ import { Suspense, useEffect, useState } from "react";
 import { guestOrderPersistence } from "@/lib/guest-persistence";
 
 import { PerfumeProfile } from "@/components/shared/rubro/PerfumeProfile";
+import { WatchProfile } from "@/components/shared/rubro/WatchProfile";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ProfilePage() {
@@ -45,6 +46,10 @@ function ProfileRouter() {
 
     if (config?.rubro?.slug === "perfumes") {
         return <PerfumeProfile />;
+    }
+
+    if (config?.rubro?.slug === "relojes") {
+        return <WatchProfile />;
     }
 
     return <ProfileContent />;

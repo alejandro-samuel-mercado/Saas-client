@@ -18,6 +18,8 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 import { PerfumeAbout } from "@/components/shared/rubro/PerfumeAbout";
+import { WatchAbout } from "@/components/shared/rubro/WatchAbout";
+import { BarberAbout } from "@/components/shared/rubro/BarberAbout";
 import Link from "next/link";
 
 const iconMap: Record<string, any> = {
@@ -38,7 +40,15 @@ export default function AboutPage() {
     });
 
     if (config?.rubro?.slug === "perfumes") {
-        return <PerfumeAbout />;
+        return <PerfumeAbout config={config} />;
+    }
+
+    if (config?.rubro?.slug === "relojes") {
+        return <WatchAbout config={config} />;
+    }
+
+    if (config?.rubro?.slug === "barberias") {
+        return <BarberAbout config={config} />;
     }
 
     return (
@@ -91,8 +101,8 @@ export default function AboutPage() {
                     <div className="relative max-w-5xl mx-auto  max-lg:pt-20">
                         <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-2 bg-gradient-to-b from-secondary to-indigo-500 md:-ml-1 rounded-full opacity-30"></div>
 
-                        {about.story.timeline.map((item, idx) => (
-                            <TimelineItem key={idx} item={item} index={idx} />
+                        {(config?.customPageChronology && config.customPageChronology.length > 0 ? config.customPageChronology : about.story.timeline).map((item: any, idx: number) => (
+                            <TimelineItem key={idx} item={{...item, description: item.desc || item.description}} index={idx} />
                         ))}
                     </div>
                 </div>

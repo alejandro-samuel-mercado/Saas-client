@@ -47,6 +47,7 @@ export interface PublicConfig {
   customPageTextsSubtitle?: string;
   customPageImagesSubtitle?: string;
   customPageVideosSubtitle?: string;
+  customPageChronology?: { year: string; title: string; desc: string }[];
   themeColors?: Record<string, string>;
   planInfo?: {
     enabledModules: string[];

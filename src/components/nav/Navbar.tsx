@@ -24,6 +24,8 @@ import { useEffect, useRef, useState } from "react";
 import { guestOrderPersistence } from "@/lib/guest-persistence";
 import { RealEstateNavbar } from "./RealEstateNavbar";
 import { PerfumeNavbar } from "./PerfumeNavbar";
+import { WatchNavbar } from "./WatchNavbar";
+import { BarberNavbar } from "./BarberNavbar";
 
 export function Navbar() {
   const { user } = useAuth();
@@ -171,6 +173,14 @@ export function Navbar() {
 
   if (config?.rubro?.slug === "perfumes") {
     return <PerfumeNavbar />;
+  }
+
+  if (config?.rubro?.slug === "relojes") {
+    return <WatchNavbar />;
+  }
+
+  if (config?.rubro?.slug === "barberias") {
+    return <BarberNavbar />;
   }
 
   return (

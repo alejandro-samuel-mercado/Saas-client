@@ -21,6 +21,8 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 import { PerfumeLogin } from "@/components/shared/rubro/PerfumeLogin";
+import { WatchLogin } from "@/components/shared/rubro/WatchLogin";
+import { BarberLogin } from "@/components/shared/rubro/BarberLogin";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 
@@ -33,6 +35,14 @@ export default function LoginPage() {
 
   if (config?.rubro?.slug === "perfumes") {
     return <PerfumeLogin />;
+  }
+
+  if (config?.rubro?.slug === "relojes") {
+    return <WatchLogin />;
+  }
+
+  if (config?.rubro?.slug === "barberias") {
+    return <BarberLogin />;
   }
 
   return (

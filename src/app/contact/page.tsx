@@ -54,6 +54,8 @@ function haversineDistance(
 
 import { RealEstateContact } from "@/components/shared/rubro/RealEstateContact";
 import { PerfumeContact } from "@/components/shared/rubro/PerfumeContact";
+import { WatchContact } from "@/components/shared/rubro/WatchContact";
+import { BarberContact } from "@/components/shared/rubro/BarberContact";
 import { configService } from "@/services/config";
 
 export default function ContactPage() {
@@ -69,6 +71,14 @@ export default function ContactPage() {
 
     if (config?.rubro?.slug === "inmuebles") {
         return <RealEstateContact />;
+    }
+
+    if (config?.rubro?.slug === "relojes") {
+        return <WatchContact />;
+    }
+
+    if (config?.rubro?.slug === "barberias") {
+        return <BarberContact />;
     }
 
     return <ContactContent config={config} />;
