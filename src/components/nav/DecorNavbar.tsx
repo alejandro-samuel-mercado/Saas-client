@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { useCartStore } from "@/store/cart";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -23,6 +24,13 @@ export function DecorNavbar() {
     const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
     const pathname = usePathname();
     const isHomePage = pathname === "/";
+    const [categoriesTree, setCategoriesTree] = useState<any[]>([]);
+    const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+
+
+    useEffect(() => {
+        productService.getCategoriesTree().then(setCategoriesTree);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {

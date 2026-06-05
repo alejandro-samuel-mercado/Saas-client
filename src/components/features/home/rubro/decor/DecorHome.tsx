@@ -38,7 +38,7 @@ export function DecorHome() {
 
     const { data: productsData } = useQuery({
         queryKey: ["products", "featured", "decoracion"],
-        queryFn: () => productService.getProducts({ page: 1, limit: 8 }),
+        queryFn: () => productService.getProducts({ page: 1, limit: 20 }),
         staleTime: 1000 * 60 * 5,
     });
 
@@ -240,7 +240,7 @@ export function DecorHome() {
                         </div>
 
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-                            {products.slice(0, 8).map((product: any, idx: number) => (
+                            {products.slice(0, 20).map((product: any, idx: number) => (
                                 <motion.div
                                     key={product.id}
                                     initial={{ opacity: 0, y: 40 }}
