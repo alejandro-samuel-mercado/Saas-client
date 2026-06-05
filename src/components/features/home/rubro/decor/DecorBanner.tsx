@@ -20,14 +20,14 @@ export function DecorBanner() {
                             Gift Ideas That Last Longer
                         </h2>
                         <p className="text-[#3A302A]/80 font-sans text-sm md:text-base leading-relaxed mb-10">
-                            Who doesn't love flowers? Whether you're giving or receiving flowers, the only downside is how short-lived the happiness with a fresh bouquet of cut bouquets. We are passionate about creating bouquets that not only look beautiful, but last longer. Our premium dried flower bouquets can last up to years. Ask our staff for more information for your perfect bouquet.
+                            Who doesn&apos;t love flowers? Whether you&apos;re giving or receiving flowers, the only downside is how short-lived the happiness with a fresh bouquet of cut bouquets. We are passionate about creating bouquets that not only look beautiful, but last longer. Our premium dried flower bouquets can last up to years. Ask our staff for more information for your perfect bouquet.
                         </p>
                         
                         <Link 
                             href="/products?category=gifts" 
                             className="inline-block bg-[#E1CDBF] text-[#3A302A] hover:bg-[#3A302A] hover:text-[#E1CDBF] transition-all duration-300 font-sans text-xs tracking-[0.2em] uppercase py-4 px-10"
                         >
-                            Let's Go
+                            Let&apos;s Go
                         </Link>
                     </div>
 

@@ -26,7 +26,7 @@ export function DecorFooterCTA() {
                     href="/contact"
                     className="inline-block bg-[#F0E5D8] text-[#3A302A] hover:bg-[#3A302A] hover:text-[#F0E5D8] transition-all duration-300 font-sans text-xs tracking-[0.2em] uppercase py-4 px-10"
                 >
-                    Let's Talk
+                    Let&apos;s Talk
                 </Link>
             </div>
 

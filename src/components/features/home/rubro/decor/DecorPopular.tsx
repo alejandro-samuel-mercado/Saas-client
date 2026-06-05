@@ -26,7 +26,7 @@ export function DecorPopular() {
                         Dried Flower Collection
                     </p>
                     <h2 className="text-4xl md:text-5xl font-serif text-[#3A302A]">
-                        See What's Popular
+                        See What&apos;s Popular
                     </h2>
                 </div>
 
