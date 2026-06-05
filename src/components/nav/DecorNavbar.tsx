@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
+import { productService } from "@/services/products";
 import Link from "next/link";
 import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useState, useEffect } from "react";
