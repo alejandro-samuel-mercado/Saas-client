@@ -27,6 +27,8 @@ import { guestOrderPersistence } from "@/lib/guest-persistence";
 
 import { PerfumeProfile } from "@/components/shared/rubro/PerfumeProfile";
 import { WatchProfile } from "@/components/shared/rubro/WatchProfile";
+import { PetProfile } from "@/components/shared/rubro/PetProfile";
+import { DecorProfile } from "@/components/features/home/rubro/decor/DecorProfile";
 import { useQuery } from "@tanstack/react-query";
 
 export default function ProfilePage() {
@@ -50,6 +52,14 @@ function ProfileRouter() {
 
     if (config?.rubro?.slug === "relojes") {
         return <WatchProfile />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetProfile />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorProfile />;
     }
 
     return <ProfileContent />;

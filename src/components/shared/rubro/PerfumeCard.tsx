@@ -47,7 +47,7 @@ export const PerfumeCard = memo(function PerfumeCard({ product }: PerfumeCardPro
     return (
         <div className="group h-full">
             <Link
-                href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                href={`/products/${product.id}`}
                 className={`block h-full relative bg-gradient-to-b from-[#1a1a1a] to-[#0a0a0a] rounded-2xl border border-white/10 shadow-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(212,175,55,0.15)] ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION ── */}

@@ -11,6 +11,8 @@ import { RealEstateFooter } from "./RealEstateFooter";
 import { PerfumeFooter } from "./PerfumeFooter";
 import { WatchFooter } from "./WatchFooter";
 import { BarberFooter } from "./BarberFooter";
+import { PetFooter } from "./PetFooter";
+import { DecorFooter } from "./DecorFooter";
 
 const iconMap: Record<string, any> = {
     facebook: Facebook,
@@ -95,6 +97,14 @@ export function Footer() {
 
     if (config?.rubro?.slug === "barberias") {
         return <BarberFooter />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetFooter />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorFooter />;
     }
 
     return (

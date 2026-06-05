@@ -15,6 +15,8 @@ import { RealEstateHome } from "@/components/features/home/rubro/RealEstateHome"
 import { PerfumeHome } from "@/components/features/home/rubro/PerfumeHome";
 import { WatchHome } from "@/components/features/home/rubro/WatchHome";
 import { BarberHome } from "@/components/features/home/rubro/BarberHome";
+import { PetHome } from "@/components/features/home/rubro/PetHome";
+import { DecorHome } from "@/components/features/home/rubro/decor/DecorHome";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 
@@ -45,6 +47,14 @@ export default function HomePage() {
 
     if (config?.rubro?.slug === "barberias") {
         return <BarberHome />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetHome />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorHome />;
     }
 
     return (

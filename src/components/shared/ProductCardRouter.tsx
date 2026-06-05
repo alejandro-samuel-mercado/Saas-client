@@ -10,7 +10,7 @@ import { PerfumeCard } from "@/components/shared/rubro/PerfumeCard";
 import { WatchCard } from "@/components/shared/rubro/WatchCard";
 import { BarberCard } from "@/components/shared/rubro/BarberCard";
 import { PetCard } from "@/components/shared/rubro/PetCard";
-import { EventCard } from "@/components/shared/rubro/EventCard";
+import { DecorProductCard } from "@/components/features/home/rubro/decor/DecorProductCard";
 
 interface ProductCardRouterProps {
     product: Product;
@@ -45,7 +45,7 @@ export function ProductCardRouter({ product }: ProductCardRouterProps) {
         case "mascotas":
             return <PetCard product={product} />;
         case "decoracion":
-            return <EventCard product={product} />;
+            return <DecorProductCard product={product} />;
         default:
             return <ProductCard product={product} />;
     }

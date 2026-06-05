@@ -44,7 +44,7 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
     return (
         <div className="group h-full">
             <Link
-                href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                href={`/products/${product.id}`}
                 className={`block h-full relative bg-gradient-to-br from-[#ffffff] to-[#f8f9fa] dark:from-[#1e2329] dark:to-[#161a1e] rounded-xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-blue-900/30 dark:hover:border-blue-400/30 ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION ── */}

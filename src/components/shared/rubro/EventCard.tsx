@@ -81,7 +81,7 @@ export const EventCard = memo(function EventCard({ product }: EventCardProps) {
     return (
         <div className="group h-full">
             <Link
-                href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                href={`/products/${product.id}`}
                 className={`block h-full relative bg-[#faf9f6] rounded-[2px] p-3 pb-8 shadow-sm hover:shadow-xl hover:-translate-y-2 hover:rotate-1 transition-all duration-500 ease-out border border-[#e8e4db] ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION (Polaroid Style) ── */}

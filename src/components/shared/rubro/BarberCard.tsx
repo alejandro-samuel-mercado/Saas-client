@@ -44,7 +44,7 @@ export const BarberCard = memo(function BarberCard({ product }: BarberCardProps)
     return (
         <div className="group h-full">
             <Link
-                href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                href={`/products/${product.id}`}
                 className={`block h-full relative bg-stone-800 rounded-sm border border-stone-700 hover:border-[#e65c00] overflow-hidden transition-all duration-300 ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION ── */}

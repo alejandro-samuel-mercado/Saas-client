@@ -47,6 +47,8 @@ import { RealEstateDetail } from "@/components/shared/rubro/RealEstateDetail";
 import { PerfumeDetail } from "@/components/shared/rubro/PerfumeDetail";
 import { WatchDetail } from "@/components/shared/rubro/WatchDetail";
 import { BarberDetail } from "@/components/shared/rubro/BarberDetail";
+import { PetDetail } from "@/components/shared/rubro/PetDetail";
+import { DecorProductDetail } from "@/components/features/home/rubro/decor/DecorProductDetail";
 
 interface ProductDetailClientProps {
     slug: string;
@@ -149,14 +151,14 @@ export function ProductDetailClient({
     }, []);
 
     const MOCK_PRODUCTS = [
-        { id: 1, name: "Wahl Magic Clip Cordless", basePrice: 150000, category: { name: "Máquinas" }, brand: "Wahl", images: ["https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=800"], skus: [{id: 1, stock: 100, price: 150000}] },
-        { id: 2, name: "Aceite para Barba Proraso", basePrice: 25000, category: { name: "Cuidado de Barba" }, brand: "Proraso", images: ["https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=800"], skus: [{id: 2, stock: 100, price: 25000}] },
-        { id: 3, name: "Pomada Reuzel Blue", basePrice: 18000, category: { name: "Pomadas" }, brand: "Reuzel", images: ["https://images.unsplash.com/photo-1593702295071-553ce11bb5cb?auto=format&fit=crop&q=80&w=800"], skus: [{id: 3, stock: 100, price: 18000}] },
-        { id: 4, name: "Navaja Clásica Feather", basePrice: 35000, category: { name: "Accesorios" }, brand: "Feather", images: ["https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=800"], skus: [{id: 4, stock: 100, price: 35000}] }
+        { id: 1, name: "Wahl Magic Clip Cordless", basePrice: 150000, category: { name: "Máquinas" }, brand: "Wahl", images: ["https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&q=80&w=800"], skus: [{ id: 1, stock: 100, price: 150000 }] },
+        { id: 2, name: "Aceite para Barba Proraso", basePrice: 25000, category: { name: "Cuidado de Barba" }, brand: "Proraso", images: ["https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=800"], skus: [{ id: 2, stock: 100, price: 25000 }] },
+        { id: 3, name: "Pomada Reuzel Blue", basePrice: 18000, category: { name: "Pomadas" }, brand: "Reuzel", images: ["https://images.unsplash.com/photo-1593702295071-553ce11bb5cb?auto=format&fit=crop&q=80&w=800"], skus: [{ id: 3, stock: 100, price: 18000 }] },
+        { id: 4, name: "Navaja Clásica Feather", basePrice: 35000, category: { name: "Accesorios" }, brand: "Feather", images: ["https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=800"], skus: [{ id: 4, stock: 100, price: 35000 }] }
     ];
 
     let resolvedProduct = product;
-    if (!resolvedProduct && !isLoading && ["1","2","3","4"].includes(slug)) {
+    if (!resolvedProduct && !isLoading && ["1", "2", "3", "4"].includes(slug)) {
         resolvedProduct = MOCK_PRODUCTS.find(p => p.id.toString() === slug);
     }
 
@@ -193,6 +195,14 @@ export function ProductDetailClient({
 
     if (config?.rubro?.slug === "barberias") {
         return <BarberDetail product={resolvedProduct} config={config} />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetDetail product={resolvedProduct} config={config} />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorProductDetail product={resolvedProduct} config={config} />;
     }
 
     const currentSku = product?.skus?.find((sku: SKU) => sku.id === selectedSku);

@@ -41,7 +41,7 @@ export const RealEstateCard = memo(function RealEstateCard({ product }: RealEsta
     return (
         <div className="group bg-white border border-[#1a1a1a]/20 hover:border-[#1a1a1a] overflow-hidden shadow-none transition-all duration-500 flex flex-col h-full">
             {/* ── IMAGE SECTION ── */}
-            <Link href={`/products/detail?slug=${(product as any).slug || product.id}`} className="relative h-64 w-full overflow-hidden block">
+            <Link href={`/products/${product.id}`} className="relative h-64 w-full overflow-hidden block">
                 <Image
                     src={product.images?.[0] || "/images/placeholder.png"}
                     alt={product.name}
@@ -95,7 +95,7 @@ export const RealEstateCard = memo(function RealEstateCard({ product }: RealEsta
                     <div className="flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">
                         {product.brand && product.brand !== "-" ? product.brand : "Ubicación Premium"}
                     </div>
-                    <Link href={`/products/detail?slug=${(product as any).slug || product.id}`}>
+                    <Link href={`/products/${product.id}`}>
                         <h3 className="text-lg font-black text-gray-900 mb-2 uppercase tracking-tight group-hover:text-[#7c5a43] transition-colors line-clamp-2">
                             {product.name}
                         </h3>
@@ -115,7 +115,7 @@ export const RealEstateCard = memo(function RealEstateCard({ product }: RealEsta
                     </div>
                     
                     <Link 
-                        href={`/products/detail?slug=${(product as any).slug || product.id}`}
+                        href={`/products/${product.id}`}
                         className="flex items-center justify-center w-10 h-10 bg-[#f4f4f4] hover:bg-[#1a1a1a] text-[#1a1a1a] hover:text-white rounded-none transition-colors"
                     >
                         <ArrowUpRight className="h-5 w-5" />

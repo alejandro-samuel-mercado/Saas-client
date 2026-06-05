@@ -7,7 +7,7 @@ import { configService } from "@/services/config";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import {
     Bone,
     Cat,
@@ -18,12 +18,15 @@ import {
     ShoppingCart,
     Smile,
     User,
-    X
+    X,
+    Home,
+    Sparkles,
+    Star
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 export function PetHero() {
     const { data: config, isLoading: isConfigLoading } = useQuery({
@@ -31,7 +34,7 @@ export function PetHero() {
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60,
     });
-    
+
     const { carousel } = home.hero;
     const { user } = useAuth();
     const { toggleCart, toggleMobileMenu, isMobileMenuOpen } = useUIStore();
@@ -44,6 +47,14 @@ export function PetHero() {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
+
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end start"]
+    });
+    const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+    const opacityHero = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
     useEffect(() => {
         setMounted(true);
@@ -79,156 +90,129 @@ export function PetHero() {
 
     useEffect(() => {
         if (!isAutoPlaying || bannerSlides.length <= 1) return;
-        const interval = setInterval(nextSlide, 5000);
+        const interval = setInterval(nextSlide, 6000);
         return () => clearInterval(interval);
     }, [isAutoPlaying, nextSlide, bannerSlides.length]);
 
     if (isConfigLoading) {
-        return <div className="h-screen w-full bg-orange-50 animate-pulse" />;
+        return <div className="h-screen w-full bg-[#EDE0CF] animate-pulse" />;
     }
 
     const currentSlideData = bannerSlides[currentSlide];
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] overflow-hidden rounded-b-[3rem] md:rounded-b-[5rem]">
-            
-            {/* ── FRIENDLY NAVBAR ── */}
-            <div className={`fixed lg:top-4 z-50 transition-all duration-300 w-full lg:w-[90%] left-1/2 -translate-x-1/2 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-lg py-2 rounded-full border-4 border-orange-100" : "bg-white/80 py-4 lg:rounded-full border-b-4 lg:border-4 border-orange-500 shadow-sm"}`}>
-                <div className="container mx-auto px-6">
-                    <div className="flex items-center justify-between">
-                        
-                        {/* Logo */}
-                        <Link href="/" className="flex items-center gap-2 group">
-                            {config?.logoUrl ? (
-                                <img src={config.logoUrl} alt={config.storeName || "Logo"} className="h-10 md:h-12 w-auto transition-transform group-hover:rotate-12" />
-                            ) : (
-                                <span className="font-black text-2xl tracking-tight text-orange-500 drop-shadow-sm flex items-center gap-2">
-                                    <PawPrintIcon className="h-6 w-6 text-orange-400 -rotate-12" />
-                                    {config?.storeName || "PetShop"}
-                                </span>
-                            )}
-                        </Link>
+        <section ref={containerRef} className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden min-h-screen bg-[#EDE0CF]">
 
-                        {/* Desktop Nav */}
-                        <nav className="hidden lg:flex items-center gap-8">
-                            {[
-                                { name: "Alimentos", href: "/products", icon: Bone },
-                                { name: "Perros", href: "/products?categoria=perros", icon: Dog },
-                                { name: "Gatos", href: "/products?categoria=gatos", icon: Cat }
-                            ].map((item) => {
-                                const Icon = item.icon;
-                                return (
-                                    <Link key={item.name} href={item.href} className="flex items-center gap-1.5 text-gray-700 hover:text-orange-500 font-bold text-sm transition-colors">
-                                        <Icon className="h-4 w-4" />
-                                        {item.name}
-                                    </Link>
-                                )
-                            })}
-                        </nav>
 
-                        {/* Icons */}
-                        <div className="flex items-center gap-1 md:gap-2">
-                            <AnimatePresence>
-                                {isMobileSearchExpanded && (
-                                    <motion.form initial={{ width: 0, opacity: 0 }} animate={{ width: "200px", opacity: 1 }} exit={{ width: 0, opacity: 0 }} onSubmit={handleSearchSubmit} className="hidden lg:flex items-center relative mr-2">
-                                        <input type="text" placeholder="Buscar..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} autoFocus className="w-full bg-orange-50 border-2 border-orange-200 text-gray-700 placeholder:text-gray-400 px-4 py-1.5 rounded-full focus:outline-none focus:border-orange-400 font-bold text-sm" />
-                                    </motion.form>
-                                )}
-                            </AnimatePresence>
-                            
-                            <Button variant="ghost" size="icon" className="text-gray-600 hover:text-orange-500 hover:bg-orange-100 rounded-full" onClick={() => setIsMobileSearchExpanded(!isMobileSearchExpanded)}>
-                                {isMobileSearchExpanded ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
-                            </Button>
+            {/* ── HERO CONTENT WITH PARALLAX ── */}
+            <motion.div style={{ y: yHero, opacity: opacityHero }} className="relative min-h-[90vh] w-full flex items-center" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
 
-                            <Button variant="ghost" size="icon" className="hidden sm:flex text-gray-600 hover:text-orange-500 hover:bg-orange-100 rounded-full" onClick={() => router.push(user ? "/profile" : "/login")}>
-                                <User className="h-5 w-5" />
-                            </Button>
-                            
-                            <Button variant="ghost" size="icon" className="hidden sm:flex text-gray-600 hover:text-orange-500 hover:bg-orange-100 rounded-full" onClick={() => router.push("/favorites")}>
-                                <Heart className="h-5 w-5" />
-                            </Button>
-
-                            <Button variant="ghost" className="relative px-3 py-2 text-white bg-orange-500 hover:bg-orange-600 hover:text-white rounded-full shadow-md hover:shadow-lg transition-all" onClick={toggleCart}>
-                                <ShoppingCart className="h-5 w-5 mr-1" />
-                                <span className="font-black">
-                                    {mounted ? getTotalItems() : 0}
-                                </span>
-                            </Button>
-
-                            <Button variant="ghost" size="icon" className="lg:hidden text-gray-600 hover:bg-orange-100 rounded-full" onClick={toggleMobileMenu}>
-                                <Menu className="h-6 w-6" />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* ── HERO CONTENT ── */}
-            <div className="relative h-[80vh] min-h-[600px] w-full bg-orange-50" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
-                
                 {/* Background Images */}
                 <AnimatePresence mode="wait">
-                    <motion.div key={currentSlide} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} className="absolute inset-0">
-                        <Image src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"} alt="Pet" fill className="object-cover object-center mix-blend-multiply opacity-80" priority />
+                    <motion.div key={currentSlide} initial={{ scale: 1.1, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.05, opacity: 0 }} transition={{ duration: 1.5, ease: "easeInOut" }} className="absolute inset-0">
+                        <Image src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"} alt="Pet" fill className="object-cover object-center mix-blend-multiply opacity-60" priority />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#EDE0CF] via-[#EDE0CF]/80 to-transparent" />
                     </motion.div>
                 </AnimatePresence>
 
-                {/* Friendly Organic Blobs overlay */}
-                <div className="absolute top-0 right-0 w-full md:w-1/2 h-full bg-gradient-to-l from-orange-100/80 to-transparent pointer-events-none" />
-                <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-green-200/40 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute top-20 right-20 w-72 h-72 bg-yellow-200/40 rounded-full blur-3xl pointer-events-none" />
+                {/* Abstract Organic Shapes */}
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 150, repeat: Infinity, ease: "linear" }} className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-gradient-to-br from-[#E8963C]/20 to-[#8B5E3C]/20 rounded-full blur-3xl pointer-events-none" />
+                <motion.div animate={{ rotate: -360 }} transition={{ duration: 120, repeat: Infinity, ease: "linear" }} className="absolute -bottom-[20%] left-[10%] w-[600px] h-[600px] bg-[#D4B896]/30 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] blur-3xl pointer-events-none" />
 
-                <div className="container mx-auto px-6 h-full flex flex-col justify-center relative z-10 pt-20">
-                    <div className="max-w-2xl bg-white/60 backdrop-blur-sm p-8 md:p-12 rounded-[3rem] border-4 border-white shadow-xl">
-                        <AnimatePresence mode="wait">
-                            <motion.div key={currentSlide} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, ease: "easeOut" }}>
-                                
-                                <div className="flex items-center gap-2 mb-4 bg-orange-100 w-max px-4 py-1.5 rounded-full border-2 border-orange-200">
-                                    <Smile className="h-4 w-4 text-orange-500" />
-                                    <span className="text-orange-600 font-bold text-xs uppercase tracking-wider">
-                                        ¡Lo mejor para ellos!
-                                    </span>
-                                </div>
-
-                                <h1 className="text-5xl md:text-6xl font-black text-gray-800 leading-tight mb-4 tracking-tight drop-shadow-sm">
-                                    {currentSlideData?.title || "Amor y Cuidados."}
-                                    {currentSlideData?.titleLine2 && (
-                                        <>
-                                            <br />
-                                            <span className="text-orange-500">
-                                                {currentSlideData.titleLine2}
-                                            </span>
-                                        </>
-                                    )}
-                                </h1>
-                                
-                                <p className="text-base md:text-lg text-gray-600 font-bold max-w-xl mb-8 leading-relaxed">
-                                    {currentSlideData?.subtitle || "Encuentra alimentos premium, juguetes divertidos y accesorios súper cómodos."}
-                                </p>
-
-                                <div className="flex flex-wrap items-center gap-4">
-                                    <Button asChild className="bg-orange-500 hover:bg-orange-600 text-white rounded-full font-black text-lg px-8 py-6 shadow-lg hover:shadow-orange-500/30 transition-all hover:-translate-y-1">
-                                        <Link href="/products">Ver Productos 🐶</Link>
-                                    </Button>
-                                    <Button asChild variant="outline" className="border-4 border-white bg-white/50 text-orange-600 hover:bg-white rounded-full font-black text-base px-8 py-6 backdrop-blur-sm shadow-sm transition-all hover:-translate-y-1">
-                                        <Link href="/products?isTrending=true">Destacados</Link>
-                                    </Button>
-                                </div>
-
+                <div className="container mx-auto px-6 h-full flex flex-col justify-center relative z-10 pt-32 pb-20">
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <div className="max-w-2xl relative z-30">
+                            {/* Floating elements */}
+                            <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="absolute -top-12 -left-12 hidden md:flex h-24 w-24 bg-[#D4B896]/50 backdrop-blur-2xl rounded-[2rem] rotate-12 items-center justify-center shadow-2xl border border-[#D4B896]/40 z-30">
+                                <Star className="h-10 w-10 text-[#E8963C] fill-[#E8963C]" />
                             </motion.div>
-                        </AnimatePresence>
+
+                            <AnimatePresence mode="wait">
+                                <motion.div key={currentSlide} initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 50 }} transition={{ duration: 0.7, ease: "easeOut" }} className="relative z-10">
+
+                                    <div className="flex items-center gap-3 mb-6 bg-[#D4B896]/40 backdrop-blur-xl w-max px-5 py-2.5 rounded-full border border-[#D4B896]/30 shadow-lg">
+                                        <Sparkles className="h-5 w-5 text-[#E8963C]" />
+                                        <span className="text-[#5C3D2E] font-black text-xs uppercase tracking-[0.2em]">
+                                            ¡Lo mejor para ellos!
+                                        </span>
+                                    </div>
+
+                                    <h1 className="text-6xl md:text-8xl font-black text-[#5C3D2E] leading-[0.9] mb-8 tracking-tighter drop-shadow-xl">
+                                        {currentSlideData?.title || "Amor Incondicional."}
+                                        {currentSlideData?.titleLine2 && (
+                                            <>
+                                                <br />
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E8963C] to-[#8B5E3C] inline-block mt-2">
+                                                    {currentSlideData.titleLine2}
+                                                </span>
+                                            </>
+                                        )}
+                                    </h1>
+
+                                    <p className="text-lg md:text-2xl text-[#8B5E3C] font-medium max-w-xl mb-10 leading-relaxed backdrop-blur-sm bg-[#EDE0CF]/30 p-4 rounded-3xl border border-[#D4B896]/20">
+                                        {currentSlideData?.subtitle || "Encuentra alimentos premium, juguetes divertidos y accesorios súper cómodos."}
+                                    </p>
+
+                                    <div className="flex flex-col sm:flex-row items-center gap-5">
+                                        <Link href="/products" className="group relative overflow-hidden bg-[#E8963C] text-[#EDE0CF] rounded-full font-black text-lg px-10 py-5 shadow-[0_20px_50px_rgba(232,150,60,0.3)] transition-all hover:scale-105 w-full sm:w-auto text-center">
+                                            <span className="relative z-10 flex items-center justify-center gap-2">
+                                                Explorar Tienda <PawPrintIcon className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                                            </span>
+                                            <div className="absolute inset-0 bg-gradient-to-r from-[#D4763B] to-[#E8963C] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        </Link>
+                                        <Link href="/products?isTrending=true" className="group bg-[#D4B896]/40 backdrop-blur-xl border-2 border-[#D4B896] text-[#5C3D2E] hover:bg-[#D4B896]/60 rounded-full font-black text-lg px-10 py-4.5 shadow-xl transition-all hover:scale-105 w-full sm:w-auto text-center flex items-center justify-center">
+                                            Destacados
+                                        </Link>
+                                    </div>
+
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Interactive Hero Image/Card Side */}
+                        <div className="hidden lg:block relative h-[600px] w-full z-20">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentSlide}
+                                    initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                                    exit={{ opacity: 0, scale: 1.2, rotate: 10 }}
+                                    transition={{ duration: 0.8, type: "spring" }}
+                                    className="absolute inset-0 rounded-[4rem] overflow-hidden border-8 border-[#D4B896]/30 shadow-[0_40px_80px_rgba(92,61,46,0.2)] rotate-3"
+                                >
+                                    <Image src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"} alt="Featured" fill className="object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#5C3D2E]/80 to-transparent flex items-end p-10 mb-20">
+                                        <div className="bg-[#D4B896]/40 backdrop-blur-xl border border-[#D4B896]/50 p-6 rounded-3xl text-[#EDE0CF] w-full">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <Smile className="text-[#E8963C] w-6 h-6" />
+                                                <span className="font-bold text-sm uppercase tracking-widest text-[#E8963C]">Elección Experta</span>
+                                            </div>
+                                            <h3 className="text-2xl font-black">{currentSlideData?.title || "Colección Premium"}</h3>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </div>
 
                 {/* Friendly Slider Controls (Paws) */}
-                <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-3 z-20">
+                <div className="absolute bottom-[20%] lg:bottom-[15%] left-0 right-0 flex justify-center gap-4 z-40">
                     {bannerSlides.map((_, idx) => (
-                        <button key={idx} onClick={() => setCurrentSlide(idx)} className={`transition-all duration-300 flex items-center justify-center ${currentSlide === idx ? "text-orange-500 scale-125" : "text-gray-400 hover:text-orange-300"}`}>
-                            <PawPrintIcon className="h-6 w-6" />
+                        <button key={idx} onClick={() => setCurrentSlide(idx)} className={`transition-all duration-500 flex items-center justify-center rounded-full p-2 ${currentSlide === idx ? "bg-[#E8963C] text-[#EDE0CF] scale-125 shadow-lg" : "bg-[#D4B896]/40 backdrop-blur-md text-[#8B5E3C] hover:bg-[#D4B896]/60 hover:scale-110"}`}>
+                            <PawPrintIcon className="h-5 w-5" />
                         </button>
                     ))}
                 </div>
 
+            </motion.div>
+
+            {/* PREMIUM SVG WAVE SEPARATOR */}
+            <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20 transform translate-y-[2px] pointer-events-none">
+                <svg className="relative block w-full h-[120px] md:h-[200px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,123.1,192.51,110.8,236.43,102.13,279.4,78.89,321.39,56.44Z" fill="#EDE0CF"></path>
+                    <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="#D4B896" fillOpacity="0.3"></path>
+                </svg>
             </div>
         </section>
     );

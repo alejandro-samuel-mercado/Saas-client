@@ -26,6 +26,8 @@ import { RealEstateNavbar } from "./RealEstateNavbar";
 import { PerfumeNavbar } from "./PerfumeNavbar";
 import { WatchNavbar } from "./WatchNavbar";
 import { BarberNavbar } from "./BarberNavbar";
+import { PetNavbar } from "./PetNavbar";
+import { DecorNavbar } from "./DecorNavbar";
 
 export function Navbar() {
   const { user } = useAuth();
@@ -181,6 +183,14 @@ export function Navbar() {
 
   if (config?.rubro?.slug === "barberias") {
     return <BarberNavbar />;
+  }
+
+  if (config?.rubro?.slug === "mascotas") {
+    return <PetNavbar />;
+  }
+
+  if (config?.rubro?.slug === "decoracion") {
+    return <DecorNavbar />;
   }
 
   return (

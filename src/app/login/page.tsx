@@ -23,6 +23,8 @@ type LoginForm = z.infer<typeof loginSchema>;
 import { PerfumeLogin } from "@/components/shared/rubro/PerfumeLogin";
 import { WatchLogin } from "@/components/shared/rubro/WatchLogin";
 import { BarberLogin } from "@/components/shared/rubro/BarberLogin";
+import { PetLogin } from "@/components/shared/rubro/PetLogin";
+import { DecorLogin } from "@/components/features/home/rubro/decor/DecorLogin";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 
@@ -43,6 +45,14 @@ export default function LoginPage() {
 
   if (config?.rubro?.slug === "barberias") {
     return <BarberLogin />;
+  }
+
+  if (config?.rubro?.slug === "mascotas") {
+    return <PetLogin />;
+  }
+
+  if (config?.rubro?.slug === "decoracion") {
+    return <DecorLogin />;
   }
 
   return (

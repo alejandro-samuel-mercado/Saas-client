@@ -80,24 +80,24 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
     return (
         <div className="group h-full">
             <Link
-                href={`/products/detail?slug=${(product as any).slug || product.id}`}
-                className={`block h-full relative bg-white rounded-[2rem] border-2 border-orange-100 shadow-sm hover:shadow-xl hover:border-orange-300 overflow-hidden transition-all duration-300 hover:-translate-y-1 ${!isAvailable ? "opacity-60" : ""}`}
+                href={`/products/${(product as any).slug || product.id}`}
+                className={`block h-full relative bg-[#D4B896]/40 backdrop-blur-xl rounded-[2rem] border-2 border-[#EDE0CF] shadow-lg hover:shadow-xl hover:border-[#C9A882] overflow-hidden transition-all duration-300 hover:-translate-y-1 ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION ── */}
-                <div className="relative aspect-square w-full bg-gradient-to-b from-orange-50 to-white overflow-hidden p-6 rounded-t-[2rem]">
+                <div className="relative aspect-square w-full bg-gradient-to-b from-[#EDE0CF] to-[#D4B896]/40 overflow-hidden p-6 rounded-t-[2rem]">
                     <div className="relative w-full h-full">
                         <Image
                             src={product.images?.[0] || "/images/placeholder.png"}
                             alt={product.name}
                             fill
-                            className="object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-500 ease-out"
+                            className="object-contain drop-shadow-lg group-hover:scale-110 transition-transform duration-500 ease-out"
                         />
                     </div>
 
                     {/* Top Badges */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2">
                         {hasDiscount && (
-                            <Badge className="bg-green-500 hover:bg-green-600 text-white font-bold px-3 py-1 text-xs rounded-full shadow-md transform -rotate-6">
+                            <Badge className="bg-[#E8963C] hover:bg-[#D4763B] text-white font-bold px-3 py-1 text-xs rounded-full shadow-lg transform -rotate-6">
                                 ¡Oferta!
                             </Badge>
                         )}
@@ -110,7 +110,7 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
 
                     {/* Favorite Button */}
                     <button
-                        className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md transition-all duration-300 z-10 shadow-sm ${isFav ? "bg-red-50 text-red-500" : "bg-white/80 text-gray-400 hover:bg-red-50 hover:text-red-500"}`}
+                        className={`absolute top-4 right-4 p-2.5 rounded-full backdrop-blur-md transition-all duration-300 z-10 shadow-lg ${isFav ? "bg-red-50 text-red-500" : "bg-[#D4B896]/50 backdrop-blur-xl text-gray-400 hover:bg-red-50 hover:text-red-500"}`}
                         onClick={e => { e.preventDefault(); e.stopPropagation(); if (product?.id) toggleFavorite(product.id); }}
                     >
                         <Heart className={`h-5 w-5 ${isFav ? "fill-current" : ""}`} />
@@ -118,7 +118,7 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
                     
                     {/* Floating Weight Bubble */}
                     {weight && (
-                        <div className="absolute bottom-4 left-4 bg-orange-400 text-white font-black text-xs px-3 py-1.5 rounded-full shadow-md transform rotate-3">
+                        <div className="absolute bottom-4 left-4 bg-[#8B5E3C] text-white font-black text-xs px-3 py-1.5 rounded-full shadow-lg transform rotate-3">
                             {weight}
                         </div>
                     )}
@@ -130,13 +130,13 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
                         {/* Tags */}
                         <div className="flex flex-wrap gap-1.5 mb-3">
                             {age && (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#8B5E3C] bg-[#EDE0CF] px-2 py-0.5 rounded-full uppercase tracking-wider">
                                     <PawPrint className="h-3 w-3" />
                                     {age}
                                 </span>
                             )}
                             {size && (
-                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-[#A0714F] bg-[#EDE0CF] px-2 py-0.5 rounded-full uppercase tracking-wider">
                                     <Bone className="h-3 w-3" />
                                     {size}
                                 </span>
@@ -144,10 +144,10 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
                         </div>
 
                         {/* Name */}
-                        <h3 className="text-base font-bold text-gray-800 mb-1 group-hover:text-orange-500 transition-colors line-clamp-2 leading-tight">
+                        <h3 className="text-base font-bold text-[#5C3D2E] mb-1 group-hover:text-[#8B5E3C] transition-colors line-clamp-2 leading-tight">
                             {product.name}
                         </h3>
-                        <p className="text-xs text-gray-500 line-clamp-1 mb-4">
+                        <p className="text-xs text-[#A0714F] line-clamp-1 mb-4">
                             {product.brand || (product as any).category?.name || "Mascotas"}
                         </p>
                     </div>
@@ -160,7 +160,7 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
                                     {formatPrice(product.basePrice, currencyCode)}
                                 </p>
                             )}
-                            <p className="text-xl font-black text-gray-900 tracking-tight">
+                            <p className="text-xl font-black text-[#5C3D2E] tracking-tight">
                                 {formatPrice(Number(price), currencyCode)}
                             </p>
                         </div>
@@ -168,7 +168,7 @@ export const PetCard = memo(function PetCard({ product }: PetCardProps) {
                         <Button 
                             onClick={handleAddToCart}
                             disabled={!isAvailable}
-                            className={`h-11 w-11 p-0 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 ${isAvailable ? "bg-orange-500 hover:bg-orange-600 text-white" : "bg-gray-200 text-gray-400"}`}
+                            className={`h-11 w-11 p-0 rounded-full shadow-lg transition-transform hover:scale-110 active:scale-95 ${isAvailable ? "bg-[#8B5E3C] hover:bg-[#5C3D2E] text-white" : "bg-gray-200 text-gray-400"}`}
                         >
                             <ShoppingCart className="h-5 w-5" />
                         </Button>

@@ -20,6 +20,8 @@ import { configService } from "@/services/config";
 import { PerfumeAbout } from "@/components/shared/rubro/PerfumeAbout";
 import { WatchAbout } from "@/components/shared/rubro/WatchAbout";
 import { BarberAbout } from "@/components/shared/rubro/BarberAbout";
+import { PetAbout } from "@/components/shared/rubro/PetAbout";
+import { DecorAbout } from "@/components/features/home/rubro/decor/DecorAbout";
 import Link from "next/link";
 
 const iconMap: Record<string, any> = {
@@ -49,6 +51,14 @@ export default function AboutPage() {
 
     if (config?.rubro?.slug === "barberias") {
         return <BarberAbout config={config} />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetAbout config={config} />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorAbout />;
     }
 
     return (

@@ -37,6 +37,8 @@ import { RealEstateCatalog } from "./RealEstateCatalog";
 import { PerfumeCatalog } from "./PerfumeCatalog";
 import { WatchCatalog } from "./WatchCatalog";
 import { BarberCatalog } from "@/components/shared/rubro/BarberCatalog";
+import { PetCatalog } from "@/components/shared/rubro/PetCatalog";
+import { DecorCatalog } from "@/components/shared/rubro/DecorCatalog";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -72,7 +74,9 @@ export default function ProductsPage() {
                 config?.rubro?.slug === "perfumes" ? <PerfumeCatalog /> :
                     config?.rubro?.slug === "relojes" ? <WatchCatalog /> :
                         config?.rubro?.slug === "barberias" ? <BarberCatalog /> :
-                            <ProductsContent />}
+                            config?.rubro?.slug === "mascotas" ? <PetCatalog /> :
+                                config?.rubro?.slug === "decoracion" ? <DecorCatalog /> :
+                                    <ProductsContent />}
         </Suspense>
     );
 }

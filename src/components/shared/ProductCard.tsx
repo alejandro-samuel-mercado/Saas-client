@@ -105,7 +105,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
 
   return (
     <Link
-      href={isOutOfStock ? "#" : `/products/detail?slug=${product.slug || product.id}`}
+      href={isOutOfStock ? "#" : `/products/${product.id}`}
       className={`group block bg-card/30 max-sm:bg-card/80 sm:border-none shadow-2xl rounded-2xl p-2 max-sm:p-6 border-b border-primary pb-6 ${isOutOfStock ? "opacity-75 cursor-not-allowed" : ""}`}
       onClick={handleCardClick}
     >
@@ -181,7 +181,7 @@ export const ProductCard = memo(function ProductCard({ product }: ProductCardPro
               )}
             </Button>
           ) : (
-            <Link href={`/products/detail?slug=${product.slug || product.id}`}>
+            <Link href={`/products/${product.id}`}>
               <Button
                 size="sm"
                 className="w-full rounded-lg bg-primary hover:bg-secondary text-white shadow-lg"

@@ -47,7 +47,7 @@ export function WatchFavorites() {
                                 const currencyCode = product.currencyCode || currency;
                                 return (
                                     <div key={product.id} className="group border border-[#8a9ab5]/10 hover:border-[#8a9ab5]/30 transition-colors bg-[#080b0f] relative">
-                                        <Link href={`/products/detail?slug=${product.slug || product.id}`}>
+                                        <Link href={`/products/${product.id}`}>
                                             <div className="relative aspect-square overflow-hidden bg-[#0a0d11]">
                                                 {product.images?.[0] ? (
                                                     <Image src={product.images[0]} alt={product.name} fill

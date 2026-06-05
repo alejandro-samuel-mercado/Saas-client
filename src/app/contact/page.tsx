@@ -56,6 +56,8 @@ import { RealEstateContact } from "@/components/shared/rubro/RealEstateContact";
 import { PerfumeContact } from "@/components/shared/rubro/PerfumeContact";
 import { WatchContact } from "@/components/shared/rubro/WatchContact";
 import { BarberContact } from "@/components/shared/rubro/BarberContact";
+import { PetContact } from "@/components/shared/rubro/PetContact";
+import { DecorContact } from "@/components/features/home/rubro/decor/DecorContact";
 import { configService } from "@/services/config";
 
 export default function ContactPage() {
@@ -79,6 +81,14 @@ export default function ContactPage() {
 
     if (config?.rubro?.slug === "barberias") {
         return <BarberContact />;
+    }
+
+    if (config?.rubro?.slug === "mascotas") {
+        return <PetContact />;
+    }
+
+    if (config?.rubro?.slug === "decoracion") {
+        return <DecorContact />;
     }
 
     return <ContactContent config={config} />;
