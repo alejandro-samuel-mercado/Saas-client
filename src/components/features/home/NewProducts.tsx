@@ -19,15 +19,18 @@ export function NewProducts() {
     });
 
     const { data, isLoading } = useQuery({
-        queryKey: ["products", "new"],
+        queryKey: ["products", "new", config?.rubro?.id],
         queryFn: async () => {
             const result = await productService.getProducts({
                 limit: 10,
                 isNew: "true",
                 sort: "newest",
+                // Filtrar por rubro del tenant para evitar mostrar productos de otros rubros
+                ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
             });
             return result;
         },
+        enabled: config !== undefined,
     });
 
     if (!rubroConfig.showNewProducts) return null;

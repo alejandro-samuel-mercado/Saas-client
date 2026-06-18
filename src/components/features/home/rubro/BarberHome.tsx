@@ -23,9 +23,13 @@ export function BarberHome() {
     });
 
     const { data: productsData } = useQuery({
-        queryKey: ["products", "featured", "barberias"],
-        queryFn: () => productService.getProducts({ limit: 8 }),
+        queryKey: ["products", "featured", "barberias", config?.rubro?.id],
+        queryFn: () => productService.getProducts({
+            limit: 8,
+            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
+        }),
         staleTime: 1000 * 60 * 5,
+        enabled: config !== undefined,
     });
 
     const { data: categoriesData } = useQuery({

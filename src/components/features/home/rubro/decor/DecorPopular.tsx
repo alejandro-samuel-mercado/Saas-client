@@ -2,16 +2,27 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "@/services/products";
+import { configService } from "@/services/config";
 import { DecorProductCard } from "./DecorProductCard";
 import Link from "next/link";
 import { Product } from "@/types";
 
 export function DecorPopular() {
-    // Fetch products
+    const { data: config } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+        staleTime: 1000 * 60 * 60,
+    });
+
     const { data } = useQuery({
-        queryKey: ["products", "popular"],
-        queryFn: () => productService.getProducts({ page: 1, limit: 4 }),
+        queryKey: ["products", "popular", config?.rubro?.id],
+        queryFn: () => productService.getProducts({
+            page: 1,
+            limit: 4,
+            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
+        }),
         staleTime: 1000 * 60 * 5,
+        enabled: config !== undefined,
     });
 
     const products: Product[] = data?.data || [];

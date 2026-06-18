@@ -20,14 +20,17 @@ export function TrendingProducts() {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: ["products", "trending"],
+    queryKey: ["products", "trending", config?.rubro?.id],
     queryFn: async () => {
       const result = await productService.getProducts({
         limit: home.trending.limit,
         isTrending: "true",
+        // Filtrar por rubro del tenant para evitar mostrar productos de otros rubros
+        ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
       });
       return result;
     },
+    enabled: config !== undefined,
   });
 
   if (!rubroConfig.showTrending) return null;

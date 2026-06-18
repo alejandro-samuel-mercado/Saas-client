@@ -37,9 +37,14 @@ export function DecorHome() {
     });
 
     const { data: productsData } = useQuery({
-        queryKey: ["products", "featured", "decoracion"],
-        queryFn: () => productService.getProducts({ page: 1, limit: 20 }),
+        queryKey: ["products", "featured", "decoracion", config?.rubro?.id],
+        queryFn: () => productService.getProducts({
+            page: 1,
+            limit: 20,
+            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
+        }),
         staleTime: 1000 * 60 * 5,
+        enabled: config !== undefined,
     });
 
     const { data: categoriesData } = useQuery({

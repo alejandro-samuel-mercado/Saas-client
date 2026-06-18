@@ -23,19 +23,29 @@ const FEATURES = [
 ];
 
 export function WatchHome() {
-    const { data: trendingProducts } = useQuery({
-        queryKey: ["products", "trending", "relojes"],
-        queryFn: () => productService.getProducts({ limit: 4, isTrending: "true" }),
-    });
-
-    const { data: newProducts } = useQuery({
-        queryKey: ["products", "new", "relojes"],
-        queryFn: () => productService.getProducts({ limit: 4, isNew: "true" }),
-    });
-
     const { data: config } = useQuery({
         queryKey: ["publicConfig"],
         queryFn: configService.getPublicConfig,
+    });
+
+    const { data: trendingProducts } = useQuery({
+        queryKey: ["products", "trending", "relojes", config?.rubro?.id],
+        queryFn: () => productService.getProducts({
+            limit: 4,
+            isTrending: "true",
+            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
+        }),
+        enabled: config !== undefined,
+    });
+
+    const { data: newProducts } = useQuery({
+        queryKey: ["products", "new", "relojes", config?.rubro?.id],
+        queryFn: () => productService.getProducts({
+            limit: 4,
+            isNew: "true",
+            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
+        }),
+        enabled: config !== undefined,
     });
 
     return (
