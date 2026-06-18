@@ -13,7 +13,7 @@ export function useMaintenance() {
       const timeoutId = setTimeout(() => controller.abort(), 5000);
 
       try {
-        const tenantHeader = typeof window !== "undefined" ? window.location.hostname : "";
+        const tenantHeader = process.env.NEXT_PUBLIC_TENANT_ID || "default";
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/categories?limit=1`,
           {
