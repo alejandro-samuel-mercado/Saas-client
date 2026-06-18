@@ -185,6 +185,7 @@ function ProductsContent() {
             }),
     });
 
+
     const updateURL = (newFilters: Record<string, any>) => {
         const params = new URLSearchParams();
         Object.entries(newFilters).forEach(([key, value]) => {

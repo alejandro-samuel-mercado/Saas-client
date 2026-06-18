@@ -38,7 +38,7 @@ export function DecorCatalog() {
 
     useEffect(() => {
         if (!config?.rubro?.slug) return;
-        productService.getCategories(config.rubro.slug).then((cats) => setCategories(cats as any)).catch(() => {});
+        productService.getCategories().then((cats) => setCategories(cats as any)).catch(() => {});
     }, [config?.rubro?.slug]);
 
     useEffect(() => {

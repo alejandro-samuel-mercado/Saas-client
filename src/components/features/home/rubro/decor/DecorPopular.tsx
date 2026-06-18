@@ -15,14 +15,9 @@ export function DecorPopular() {
     });
 
     const { data } = useQuery({
-        queryKey: ["products", "popular", config?.rubro?.id],
-        queryFn: () => productService.getProducts({
-            page: 1,
-            limit: 4,
-            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
-        }),
+        queryKey: ["products", "popular"],
+        queryFn: () => productService.getProducts({ page: 1, limit: 4 }),
         staleTime: 1000 * 60 * 5,
-        enabled: config !== undefined,
     });
 
     const products: Product[] = data?.data || [];

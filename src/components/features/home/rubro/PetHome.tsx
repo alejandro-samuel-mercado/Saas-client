@@ -25,23 +25,13 @@ export function PetHome() {
     });
 
     const { data: trendingProducts } = useQuery({
-        queryKey: ["products", "trending", "mascotas", config?.rubro?.id],
-        queryFn: () => productService.getProducts({
-            isTrending: "true",
-            limit: 4,
-            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
-        }),
-        enabled: config !== undefined,
+        queryKey: ["products", "trending", "mascotas"],
+        queryFn: () => productService.getProducts({ isTrending: "true", limit: 4 }),
     });
 
     const { data: newProducts } = useQuery({
-        queryKey: ["products", "new", "mascotas", config?.rubro?.id],
-        queryFn: () => productService.getProducts({
-            isNew: "true",
-            limit: 4,
-            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
-        }),
-        enabled: config !== undefined,
+        queryKey: ["products", "new", "mascotas"],
+        queryFn: () => productService.getProducts({ isNew: "true", limit: 4 }),
     });
 
     const services = [

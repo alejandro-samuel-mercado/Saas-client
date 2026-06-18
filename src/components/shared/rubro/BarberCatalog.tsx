@@ -34,7 +34,7 @@ export function BarberCatalog() {
 
     useEffect(() => {
         if (!config?.rubro?.slug) return;
-        productService.getCategories(config?.rubro?.slug).then((cats) => setCategories(cats as any)).catch(() => { });
+        productService.getCategories().then((cats) => setCategories(cats as any)).catch(() => { });
         productService.getBrands().then(setBrands).catch(() => { });
     }, [config?.rubro?.slug]);
 

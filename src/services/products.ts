@@ -5,10 +5,9 @@ export const productService = {
   /**
    * Obtener árbol de categorías
    */
-  getCategoriesTree: async (rubroSlug?: string): Promise<any[]> => {
+  getCategoriesTree: async (): Promise<any[]> => {
     try {
-      const url = rubroSlug ? `/api/categories/tree?rubro=${rubroSlug}` : "/api/categories/tree";
-      const response = await http<{ success: boolean; data: any[] }>(url);
+      const response = await http<{ success: boolean; data: any[] }>("/api/categories/tree");
       return response.data;
     } catch (error) {
       return [];
@@ -64,10 +63,9 @@ export const productService = {
     }
   },
 
-  getCategories: async (rubroSlug?: string) => {
+  getCategories: async () => {
     try {
-      const url = rubroSlug ? `/api/categories?rubro=${rubroSlug}` : "/api/categories";
-      const response = await http<{ success: boolean; data: string[] }>(url);
+      const response = await http<{ success: boolean; data: string[] }>("/api/categories");
       return response.data || [];
     } catch (error) {
       return [];

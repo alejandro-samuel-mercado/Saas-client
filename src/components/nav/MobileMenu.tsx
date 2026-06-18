@@ -23,6 +23,7 @@ const {user}= useAuth()
     productService.getCategoriesTree().then(setCategories);
   }, []);
 
+
   return (
     <AnimatePresence>
       {isMobileMenuOpen && (

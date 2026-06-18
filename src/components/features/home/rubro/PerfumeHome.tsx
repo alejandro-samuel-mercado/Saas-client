@@ -59,23 +59,13 @@ export function PerfumeHome() {
     });
 
     const { data: trendingProducts, isLoading: isLoadingTrending } = useQuery({
-        queryKey: ["products", "trending", "perfumes", config?.rubro?.id],
-        queryFn: () => productService.getProducts({
-            limit: 4,
-            isTrending: "true",
-            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
-        }),
-        enabled: config !== undefined,
+        queryKey: ["products", "trending", "perfumes"],
+        queryFn: () => productService.getProducts({ limit: 4, isTrending: "true" }),
     });
 
     const { data: newProducts, isLoading: isLoadingNew } = useQuery({
-        queryKey: ["products", "new", "perfumes", config?.rubro?.id],
-        queryFn: () => productService.getProducts({
-            limit: 4,
-            isNew: "true",
-            ...(config?.rubro?.id ? { rubroId: config.rubro.id } : {}),
-        }),
-        enabled: config !== undefined,
+        queryKey: ["products", "new", "perfumes"],
+        queryFn: () => productService.getProducts({ limit: 4, isNew: "true" }),
     });
 
     return (

@@ -20,7 +20,7 @@ export function Categories() {
   });
 
   useEffect(() => {
-    productService.getCategoriesTree(config?.rubro?.slug).then((data) => {
+    productService.getCategoriesTree().then((data) => {
       const filteredAndSorted = data
         .filter((cat: any) => cat._count?.products > 0)
         .sort((a: any, b: any) => (b._count?.products || 0) - (a._count?.products || 0))
