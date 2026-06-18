@@ -15,6 +15,7 @@ import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect } from "react";
 import "./globals.css";
+import { hexToHsl } from "@/lib/utils";
 
 import { Providers } from "@/components/providers/Providers";
 
@@ -64,8 +65,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             
             if (config.rubro?.slug === "perfumes") {
                 document.body.classList.add("theme-perfumes");
-            } else {
+                document.body.classList.remove("theme-general");
+            } else if (config.rubro?.slug === "general") {
+                document.body.classList.add("theme-general");
                 document.body.classList.remove("theme-perfumes");
+            } else {
+                document.body.classList.remove("theme-perfumes", "theme-general");
             }
         }
     }, [config]);
@@ -89,12 +94,18 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                     __html: `:root, .theme-perfumes {
                         ${Object.entries(config.themeColors)
                             .filter(([key]) => !key.endsWith('-hex'))
-                            .map(([key, value]) => `--${key}: ${value} !important;`)
+                            .map(([key, value]) => {
+                                let val = value as string;
+                                if (val.startsWith('#')) {
+                                    val = hexToHsl(val);
+                                }
+                                return `--${key}: ${val};`;
+                            })
                             .join('\n')}
                     }
                     ${config.themeColors.background ? `
                     body.theme-perfumes {
-                        background: hsl(${config.themeColors.background}) !important;
+                        background: hsl(${config.themeColors.background});
                     }
                     ` : ''}`
                 }} />

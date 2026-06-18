@@ -5,196 +5,221 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    
-    --background: 270 40% 97%; 
-    --foreground: 320 35% 25%; 
-    --texto-principal: 320 35% 25%;
-    
-    --card: 270 20% 97%;
-    --card-foreground: 320 35% 25%;
-    
-    --popover: 60 100% 98%;
-    --popover-foreground: 320 35% 25%;
-    
-    --primary: 324 39% 51%; 
-    --primary-foreground: 0 0% 100%;
-    --texto-primario: 0 0% 100%;
-    
-    --secondary:  270 91% 65%; 
-    --secondary-foreground: 0 0% 100%;
-    --texto-secundario: 0 0% 100%;
-    
-    --muted: 48 81% 76%; 
-    --muted-foreground: 320 20% 40%;
-    
-    --accent: 32 91% 76%; 
-    --accent-foreground: 320 35% 25%;
-    
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 220 14% 84%;
-    --input: 48 60% 90%;
-    --ring: 324 39% 51%;
-    
-    --radius: 1rem;
-  }
+    :root {
 
-  .dark {
-    --background: 320 30% 12%;
-    --foreground: 60 100% 95%;
-    --texto-principal: 60 100% 95%;
-    
-    --card: 320 25% 15%;
-    --card-foreground: 60 100% 95%;
-    
-    --popover: 320 25% 15%;
-    --popover-foreground: 60 100% 95%;
-    
-    --primary: 324 39% 51%;
-    --primary-foreground: 0 0% 100%;
-    --texto-primario: 0 0% 100%;
-    
-    --secondary:#a855f7;
-    --secondary-foreground: 0 0% 100%;
-    --texto-secundario: 0 0% 100%;
-    
-    --muted: 320 20% 22%;
-    --muted-foreground: 48 40% 70%;
-    
-    --accent: 32 70% 50%;
-    --accent-foreground: 60 100% 95%;
-    
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 60 100% 95%;
-    
-    --border: 320 20% 22%;
-    --input: 320 20% 22%;
-    --ring: 324 39% 51%;
-  }
+        --background: 270 40% 97%;
+        --foreground: 320 35% 25%;
+        --texto-principal: 320 35% 25%;
+
+        --card: 270 20% 97%;
+        --card-foreground: 320 35% 25%;
+
+        --popover: 60 100% 98%;
+        --popover-foreground: 320 35% 25%;
+
+        --primary: 324 39% 51%;
+        --primary-foreground: 0 0% 100%;
+        --texto-primario: 0 0% 100%;
+
+        --secondary: 270 91% 65%;
+        --secondary-foreground: 0 0% 100%;
+        --texto-secundario: 0 0% 100%;
+
+        --muted: 48 81% 76%;
+        --muted-foreground: 320 20% 40%;
+
+        --accent: 32 91% 76%;
+        --accent-foreground: 320 35% 25%;
+
+        --destructive: 0 70% 55%;
+        --destructive-foreground: 0 0% 100%;
+
+        --border: 220 14% 84%;
+        --input: 48 60% 90%;
+        --ring: 324 39% 51%;
+
+        --radius: 1rem;
+    }
+
+    .dark {
+        --background: 320 30% 12%;
+        --foreground: 60 100% 95%;
+        --texto-principal: 60 100% 95%;
+
+        --card: 320 25% 15%;
+        --card-foreground: 60 100% 95%;
+
+        --popover: 320 25% 15%;
+        --popover-foreground: 60 100% 95%;
+
+        --primary: 324 39% 51%;
+        --primary-foreground: 0 0% 100%;
+        --texto-primario: 0 0% 100%;
+
+        --secondary: #a855f7;
+        --secondary-foreground: 0 0% 100%;
+        --texto-secundario: 0 0% 100%;
+
+        --muted: 320 20% 22%;
+        --muted-foreground: 48 40% 70%;
+
+        --accent: 32 70% 50%;
+        --accent-foreground: 60 100% 95%;
+
+        --destructive: 0 62% 45%;
+        --destructive-foreground: 60 100% 95%;
+
+        --border: 320 20% 22%;
+        --input: 320 20% 22%;
+        --ring: 324 39% 51%;
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply text-foreground bg-background;
-    min-height: 100vh;
-  }
-  html {
-    scroll-behavior: smooth;
-  }
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply text-foreground bg-background;
+        min-height: 100vh;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
 }
 
 @layer utilities {
-  .soft-shadow {
-    box-shadow: 0 4px 20px hsla(324, 39%, 51%, 0.08), 0 1px 4px hsla(0, 0%, 0%, 0.05);
-  }
+    .soft-shadow {
+        box-shadow: 0 4px 20px hsla(324, 39%, 51%, 0.08), 0 1px 4px hsla(0, 0%, 0%, 0.05);
+    }
 
-  @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
+    @keyframes shimmer {
+        0% {
+            transform: translateX(-100%);
+        }
 
-  .animate-shimmer {
-    animation: shimmer 2s infinite linear;
-  }
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .animate-shimmer {
+        animation: shimmer 2s infinite linear;
+    }
 }
 
 @layer base {
-  .theme-perfumes {
-    --background: 26 18% 8%;
-    --foreground: 45 66% 91%;
-    --texto-principal: 45 66% 91%;
-    
-    --card: 32 18% 11%;
-    --card-foreground: 45 66% 91%;
-    
-    --popover: 32 18% 11%;
-    --popover-foreground: 45 66% 91%;
-    
-    --primary: 46 65% 52%;
-    --primary-foreground: 26 18% 8%;
-    --texto-primario: 26 18% 8%;
-    
-    --secondary: 45 66% 91%;
-    --secondary-foreground: 26 18% 8%;
-    --texto-secundario: 26 18% 8%;
-    
-    --muted: 32 18% 15%;
-    --muted-foreground: 45 30% 60%;
-    
-    --accent: 46 65% 52%;
-    --accent-foreground: 26 18% 8%;
-    
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 45 66% 91%;
-    
-    --border: 46 65% 52% / 20%;
-    --input: 46 65% 52% / 20%;
-    --ring: 46 65% 52%;
-  }
+    .theme-perfumes {
+        --background: 26 18% 8%;
+        --foreground: 45 66% 91%;
+        --texto-principal: 45 66% 91%;
 
-  body.theme-perfumes {
-    background: #171310;
-    color: #f9f1d8;
-  }
+        --card: 32 18% 11%;
+        --card-foreground: 45 66% 91%;
 
-  /* Forzar bordes rectos y colores premium en componentes compartidos */
-  .theme-perfumes .rounded-\[2\.5rem\], 
-  .theme-perfumes .rounded-2xl, 
-  .theme-perfumes .rounded-xl, 
-  .theme-perfumes .rounded-full {
-    border-radius: 0 !important;
-  }
-  
-  .theme-perfumes .bg-card {
-    border: 1px solid hsla(46, 65%, 52%, 0.2) !important; /* Borde dorado sutil */
-  }
+        --popover: 32 18% 11%;
+        --popover-foreground: 45 66% 91%;
 
-  /* ── RELOJES Y ACCESORIOS THEME ── */
-  .theme-relojes {
-    --background: 0 0% 10%;        /* #1A1A1A Charcoal */
-    --foreground: 43 45% 85%;      /* #E6D2B5 Soft Gold */
-    --texto-principal: 43 45% 85%;
+        --primary: 46 65% 52%;
+        --primary-foreground: 26 18% 8%;
+        --texto-primario: 26 18% 8%;
 
-    --card: 0 0% 14%;             /* #242424 Surface */
-    --card-foreground: 43 45% 85%;
+        --secondary: 45 66% 91%;
+        --secondary-foreground: 26 18% 8%;
+        --texto-secundario: 26 18% 8%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 43 45% 85%;
+        --muted: 32 18% 15%;
+        --muted-foreground: 45 30% 60%;
 
-    --primary: 38 43% 64%;         /* #C8A97E Gold Accent */
-    --primary-foreground: 0 0% 10%;
-    --texto-primario: 0 0% 10%;
+        --accent: 46 65% 52%;
+        --accent-foreground: 26 18% 8%;
 
-    --secondary: 0 0% 18%;        /* #2E2E2E Light Charcoal */
-    --secondary-foreground: 43 45% 85%;
-    --texto-secundario: 43 45% 85%;
+        --destructive: 0 62% 45%;
+        --destructive-foreground: 45 66% 91%;
 
-    --muted: 0 0% 16%;
-    --muted-foreground: 43 20% 65%;
+        --border: 46 65% 52% / 20%;
+        --input: 46 65% 52% / 20%;
+        --ring: 46 65% 52%;
+    }
 
-    --accent: 38 43% 64%;
-    --accent-foreground: 0 0% 10%;
+    body.theme-perfumes {
+        background: #171310;
+        color: #f9f1d8;
+    }
 
-    --destructive: 0 62% 45%;
-    --destructive-foreground: 43 45% 85%;
+    /* ── GENERAL THEME (Force original pinkish-red) ── */
+    .theme-general {
+        --primary: 324 39% 51%;
+        --primary-foreground: 0 0% 100%;
+        --texto-primario: 0 0% 100%;
 
-    --border: 38 43% 64%;         /* Gold borders for luxury feel */
-    --input: 0 0% 16%;
-    --ring: 38 43% 64%;
-  }
+        --secondary: 270 91% 65%;
+        --secondary-foreground: 0 0% 100%;
+        --texto-secundario: 0 0% 100%;
+    }
 
-  body.theme-relojes {
-    background: #1A1A1A;
-    color: #E6D2B5;
-  }
+    /* Forzar bordes rectos y colores premium en componentes compartidos */
+    .theme-perfumes .rounded-\[2\.5rem\],
+    .theme-perfumes .rounded-2xl,
+    .theme-perfumes .rounded-xl,
+    .theme-perfumes .rounded-full {
+        border-radius: 0 !important;
+    }
 
-  /* Add gold borders to cards */
-  .theme-relojes .bg-card {
-    border: 1px solid hsla(38, 43%, 64%, 0.3) !important;
-  }
+    .theme-perfumes .bg-card {
+        border: 1px solid hsla(46, 65%, 52%, 0.2) !important;
+        /* Borde dorado sutil */
+    }
+
+    /* ── RELOJES Y ACCESORIOS THEME ── */
+    .theme-relojes {
+        --background: 0 0% 10%;
+        /* #1A1A1A Charcoal */
+        --foreground: 43 45% 85%;
+        /* #E6D2B5 Soft Gold */
+        --texto-principal: 43 45% 85%;
+
+        --card: 0 0% 14%;
+        /* #242424 Surface */
+        --card-foreground: 43 45% 85%;
+
+        --popover: 0 0% 12%;
+        --popover-foreground: 43 45% 85%;
+
+        --primary: 38 43% 64%;
+        /* #C8A97E Gold Accent */
+        --primary-foreground: 0 0% 10%;
+        --texto-primario: 0 0% 10%;
+
+        --secondary: 0 0% 18%;
+        /* #2E2E2E Light Charcoal */
+        --secondary-foreground: 43 45% 85%;
+        --texto-secundario: 43 45% 85%;
+
+        --muted: 0 0% 16%;
+        --muted-foreground: 43 20% 65%;
+
+        --accent: 38 43% 64%;
+        --accent-foreground: 0 0% 10%;
+
+        --destructive: 0 62% 45%;
+        --destructive-foreground: 43 45% 85%;
+
+        --border: 38 43% 64%;
+        /* Gold borders for luxury feel */
+        --input: 0 0% 16%;
+        --ring: 38 43% 64%;
+    }
+
+    body.theme-relojes {
+        background: #1A1A1A;
+        color: #E6D2B5;
+    }
+
+    /* Add gold borders to cards */
+    .theme-relojes .bg-card {
+        border: 1px solid hsla(38, 43%, 64%, 0.3) !important;
+    }
 }

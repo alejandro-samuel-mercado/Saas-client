@@ -1,6 +1,5 @@
 "use client";
 
-import { contact } from "@/../content/contact";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -59,9 +58,8 @@ import { BarberContact } from "@/components/shared/rubro/BarberContact";
 import { PetContact } from "@/components/shared/rubro/PetContact";
 import { DecorContact } from "@/components/features/home/rubro/decor/DecorContact";
 import { configService } from "@/services/config";
-import { GeneralContact } from "./GeneralContact";
 
-export default function ContactPage() {
+export function GeneralContact() {
     const { data: config } = useQuery({
         queryKey: ["publicConfig"],
         queryFn: configService.getPublicConfig,
@@ -92,14 +90,28 @@ export default function ContactPage() {
         return <DecorContact />;
     }
 
-    if (config?.rubro?.slug === "general") {
-        return <GeneralContact />;
-    }
-
     return <ContactContent config={config} />;
 }
 
 function ContactContent({ config }: { config: any }) {
+    const contact = {
+        hero: {
+            title: "Contacto",
+            subtitle: "Estamos aquí para ayudarte. Contáctanos por cualquiera de nuestros medios.",
+        },
+        branches: [] as any[],
+        map: {
+            findNearestButton: "Encontrar sucursal más cercana",
+        },
+        form: {
+            title: "Envíanos un mensaje",
+            submitButton: "Enviar Mensaje",
+            submittingButton: "Enviando...",
+            successMessage: "Mensaje enviado correctamente",
+            errorMessage: "Hubo un error al enviar el mensaje",
+        },
+    };
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [nearestBranchId, setNearestBranchId] = useState<number | null>(null);
 

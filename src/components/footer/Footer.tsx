@@ -26,6 +26,8 @@ export function Footer() {
         queryFn: configService.getPublicConfig,
         staleTime: 0,
     });
+    
+    console.log("FOOTER CONFIG THEME COLORS:", config?.themeColors);
 
     const { data: branches } = useQuery({
         queryKey: ["branches"],

@@ -17,6 +17,7 @@ import { WatchHome } from "@/components/features/home/rubro/WatchHome";
 import { BarberHome } from "@/components/features/home/rubro/BarberHome";
 import { PetHome } from "@/components/features/home/rubro/PetHome";
 import { DecorHome } from "@/components/features/home/rubro/decor/DecorHome";
+import { GeneralHome } from "@/components/features/home/rubro/general/GeneralHome";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 
@@ -55,6 +56,10 @@ export default function HomePage() {
 
     if (config?.rubro?.slug === "decoracion") {
         return <DecorHome />;
+    }
+
+    if (config?.rubro?.slug === "general") {
+        return <GeneralHome />;
     }
 
     return (

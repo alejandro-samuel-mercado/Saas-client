@@ -18,7 +18,7 @@ export function Marquee() {
 
     if (isLoading) {
         return (
-            <div className="w-screen relative left-1/2 -translate-x-1/2 h-16 bg-gradient-to-r from-secondary/70 via-secondary/70 to-secondary/90 animate-pulse" />
+            <div className="w-screen relative left-1/2 -translate-x-1/2 h-16 bg-gradient-to-r from-secondary via-secondary to-secondary animate-pulse" />
         );
     }
 
@@ -48,7 +48,7 @@ export function Marquee() {
     const repeatedItems = [...items, ...items, ...items, ...items];
 
     return (
-        <div className="w-screen relative left-1/2 -translate-x-1/2 overflow-hidden bg-gradient-to-r from-secondary/70 to-primary/70 pointer-events-none">
+        <div className="w-screen relative left-1/2 -translate-x-1/2 overflow-hidden bg-gradient-to-r from-secondary to-primary pointer-events-none">
 
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />

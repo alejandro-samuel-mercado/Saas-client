@@ -1,6 +1,5 @@
 "use client";
 
-import { navbar } from "@/../content/navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
@@ -22,15 +21,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { guestOrderPersistence } from "@/lib/guest-persistence";
-import { RealEstateNavbar } from "./RealEstateNavbar";
-import { PerfumeNavbar } from "./PerfumeNavbar";
-import { WatchNavbar } from "./WatchNavbar";
-import { BarberNavbar } from "./BarberNavbar";
-import { PetNavbar } from "./PetNavbar";
-import { DecorNavbar } from "./DecorNavbar";
-import { GeneralNavbar } from "./GeneralNavbar";
 
-export function Navbar() {
+export function GeneralNavbar() {
   const { user } = useAuth();
   const { toggleCart, toggleMobileMenu, toggleNotifications, isMobileMenuOpen } = useUIStore();
   const unreadCount = useNotificationStore((state) => state.unreadCount);
@@ -145,7 +137,7 @@ export function Navbar() {
       productService
         .searchProducts(debouncedSearch as unknown as string)
         .then((res) => {
-          setSearchResults(res.data.slice(0, navbar.search.sitewideLimit));
+          setSearchResults(res.data.slice(0, 5));
           setShowSearchResults(true);
         })
         .catch(() => setSearchResults([]))
@@ -170,55 +162,35 @@ export function Navbar() {
     }
   };
 
-  if (config?.rubro?.slug === "inmuebles") {
-    return <RealEstateNavbar />;
-  }
 
-  if (config?.rubro?.slug === "perfumes") {
-    return <PerfumeNavbar />;
-  }
 
-  if (config?.rubro?.slug === "relojes") {
-    return <WatchNavbar />;
-  }
-
-  if (config?.rubro?.slug === "barberias") {
-    return <BarberNavbar />;
-  }
-
-  if (config?.rubro?.slug === "mascotas") {
-    return <PetNavbar />;
-  }
-
-  if (config?.rubro?.slug === "decoracion") {
-    return <DecorNavbar />;
-  }
-
-  if (config?.rubro?.slug === "general") {
-    return <GeneralNavbar />;
-  }
+  const isHomePage = pathname === "/";
 
   return (
     <motion.header
       initial={{ y: 0 }}
       animate={{
-        backgroundColor: scrolled ? "" : "rgba(255, 255, 255, 0.95)",
+        backgroundColor: scrolled || isHomePage ? "" : "rgba(255, 255, 255, 0.95)",
       }}
       transition={{ duration: 0.3 }}
       className={`fixed z-50 transition-all duration-300 w-full lg:w-auto ${
-        scrolled
-          ? "top-2 lg:top-5 bg-secondary/60 backdrop-blur-md py-2 max-sm:py-1 w-[95%] max-sm:w-[90%] max-sm:-ml-[45%] lg:w-[80%] left-1/2 right-1/2 -ml-[47.5%] lg:-ml-[40%] -mr-[47.5%] lg:-mr-[40%] rounded-[1.5rem] lg:rounded-full shadow-2xl shadow-primary/20"
-          : "top-0 left-0 right-0  border-2 border-b-primary/20"
+        isHomePage 
+          ? scrolled
+            ? "flex max-sm:max-w-[90%] max-sm:left-0 max-sm:right-0 max-sm:mx-auto bg-primary backdrop-blur-md shadow-sm py-3 max-md:py-2 max-sm:py-1 w-[95%] lg:w-[80%] left-1/2 right-1/2 -ml-[47.5%] lg:-ml-[40%] -mr-[47.5%] lg:-mr-[40%] rounded-[1.5rem] lg:rounded-full top-2 max-sm:top-6 lg:top-5"
+            : "max-lg:py-3 max-sm:py-2 max-lg:px-4 max-sm:px-1 py-4 max-lg:bg-gradient-to-r from-secondary to-primary lg:left-1/2 lg:right-1/2 lg:-ml-[40%] lg:-mr-[40%] lg:w-[80%] w-full left-0 right-0 shadow-md lg:shadow-none top-0 lg:top-5"
+          : scrolled
+            ? "top-2 lg:top-5 bg-primary backdrop-blur-md py-2 max-sm:py-1 w-[95%] max-sm:w-[90%] max-sm:-ml-[45%] lg:w-[80%] left-1/2 right-1/2 -ml-[47.5%] lg:-ml-[40%] -mr-[47.5%] lg:-mr-[40%] rounded-[1.5rem] lg:rounded-full shadow-2xl shadow-primary/20"
+            : "top-0 left-0 right-0 border-2 border-b-primary/20"
       }`}
       onKeyDown={handleKeyDown}
     >
-      <div className=" mx-auto px-4 lg:px-16 w-full ">
+      <div className={`mx-auto w-full ${isHomePage ? "px-4 lg:px-6" : "px-4 lg:px-16"}`}>
         <div
           className={`flex items-center justify-between transition-all ${scrolled ? "h-12" : "h-16 lg:h-20"}`}
         >
           <Link
             href="/"
-            className={`flex items-center gap-2 font-bold text-2xl transition-colors ${scrolled ? "text-white" : "text-primary"}`}
+            className={`flex items-center gap-2 font-bold text-2xl transition-colors ${scrolled || (!isHomePage && !scrolled) ? "text-primary" : "text-white"}`}
           >
             {isLoading ? (
               <div
@@ -226,21 +198,21 @@ export function Navbar() {
               />
             ) : config?.logoUrl ? (
               <img
-                src={config.logoUrl}
-                alt={config.storeName || navbar.logo.alt}
+                src={config?.logoUrl}
+                alt={config?.storeName || "Electro Store"}
                 className={scrolled ? "h-8 w-auto" : "h-7 md:h-8 w-auto max-lg:h-10 max-sm:h-8 "}
               />
             ) : (
-              navbar.logo.text
+              config?.storeName || "Electro Store"
             )}
           </Link>
 
           <nav
-            className={`hidden lg:flex items-center gap-2 transition-all ${scrolled ? "" : "bg-white/40 backdrop-blur-sm rounded-full px-3 py-2"}`}
+            className={`hidden lg:flex items-center gap-2 transition-all duration-300 ${scrolled || (!isHomePage && !scrolled) ? "" : "bg-white/40 backdrop-blur-sm rounded-full px-3 py-2"}`}
           >
             <Link
               href="/"
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all  ${scrolled ? "text-white hover:bg-white hover:text-gray-700" : "text-foreground hover:bg-secondary/60 hover:text-white"}`}
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${scrolled || (!isHomePage && !scrolled) ? "text-foreground hover:bg-secondary/60 hover:text-white" : "text-black hover:bg-white bg-white/80"}`}
             >
               Inicio
             </Link>
@@ -252,7 +224,7 @@ export function Navbar() {
               onMouseLeave={() => setActiveMegaMenu(null)}
             >
               <button
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${scrolled ? "text-white hover:bg-white hover:text-gray-700" : "text-foreground hover:bg-secondary/60 hover:text-white"} flex items-center gap-1`}
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${scrolled || (!isHomePage && !scrolled) ? "text-foreground hover:bg-secondary/60 hover:text-white" : "text-white hover:text-black hover:bg-white"} flex items-center gap-1`}
                 onClick={() =>
                   setActiveMegaMenu(
                     activeMegaMenu === "categories" ? null : "categories",
@@ -308,7 +280,7 @@ export function Navbar() {
                 href="/custom"
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${scrolled ? "text-white hover:bg-white hover:text-gray-700" : "text-foreground hover:bg-secondary/60 hover:text-white"}`}
               >
-                {config.navItemName}
+                {config?.navItemName}
               </Link>
             )}
             {rubroConfig.navNewLabel && (

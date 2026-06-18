@@ -6,20 +6,28 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { configService } from "@/services/config";
 
 export function Categories() {
   const [categories, setCategories] = useState<any[]>([]);
   const rubroConfig = useRubroConfig();
 
+  const { data: config } = useQuery({
+    queryKey: ["publicConfig"],
+    queryFn: configService.getPublicConfig,
+    staleTime: 1000 * 60 * 60,
+  });
+
   useEffect(() => {
-    productService.getCategoriesTree().then((data) => {
+    productService.getCategoriesTree(config?.rubro?.slug).then((data) => {
       const filteredAndSorted = data
         .filter((cat: any) => cat._count?.products > 0)
         .sort((a: any, b: any) => (b._count?.products || 0) - (a._count?.products || 0))
         .slice(0, 8);
       setCategories(filteredAndSorted);
     });
-  }, []);
+  }, [config?.rubro?.slug]);
 
   const ctaLabel = rubroConfig.categoryLabel === "Categoría"
     ? "Ver Todas las Categorías"

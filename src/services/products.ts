@@ -5,11 +5,10 @@ export const productService = {
   /**
    * Obtener árbol de categorías
    */
-  getCategoriesTree: async (): Promise<any[]> => {
+  getCategoriesTree: async (rubroSlug?: string): Promise<any[]> => {
     try {
-      const response = await http<{ success: boolean; data: any[] }>(
-        "/api/categories/tree",
-      );
+      const url = rubroSlug ? `/api/categories/tree?rubro=${rubroSlug}` : "/api/categories/tree";
+      const response = await http<{ success: boolean; data: any[] }>(url);
       return response.data;
     } catch (error) {
       return [];

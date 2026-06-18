@@ -1,6 +1,5 @@
 "use client";
 
-import { about } from "@/../content/about";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
@@ -15,14 +14,6 @@ import {
     Users,
 } from "lucide-react";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
-import { configService } from "@/services/config";
-import { PerfumeAbout } from "@/components/shared/rubro/PerfumeAbout";
-import { WatchAbout } from "@/components/shared/rubro/WatchAbout";
-import { BarberAbout } from "@/components/shared/rubro/BarberAbout";
-import { PetAbout } from "@/components/shared/rubro/PetAbout";
-import { DecorAbout } from "@/components/features/home/rubro/decor/DecorAbout";
-import { GeneralAbout } from "./GeneralAbout";
 import Link from "next/link";
 
 const iconMap: Record<string, any> = {
@@ -35,36 +26,45 @@ const iconMap: Record<string, any> = {
     "check-circle": CheckCircle,
 };
 
-export default function AboutPage() {
-    const { data: config } = useQuery({
-        queryKey: ["publicConfig"],
-        queryFn: configService.getPublicConfig,
-        staleTime: 0,
-    });
-
-    if (config?.rubro?.slug === "perfumes") {
-        return <PerfumeAbout config={config} />;
-    }
-
-    if (config?.rubro?.slug === "relojes") {
-        return <WatchAbout config={config} />;
-    }
-
-    if (config?.rubro?.slug === "barberias") {
-        return <BarberAbout config={config} />;
-    }
-
-    if (config?.rubro?.slug === "mascotas") {
-        return <PetAbout config={config} />;
-    }
-
-    if (config?.rubro?.slug === "decoracion") {
-        return <DecorAbout />;
-    }
-
-    if (config?.rubro?.slug === "general") {
-        return <GeneralAbout config={config} />;
-    }
+export function GeneralAbout({ config }: { config: any }) {
+    const about = {
+        hero: {
+            title: "Nuestra Historia",
+            subtitle: "Conectando tecnología y comodidad para tu hogar.",
+        },
+        story: {
+            timeline: [
+                {
+                    year: "2020",
+                    title: "El Inicio",
+                    desc: "Fundamos nuestra empresa con la visión de modernizar el hogar.",
+                },
+                {
+                    year: "Hoy",
+                    title: "Líderes en Electro",
+                    desc: "Ofrecemos los mejores productos con garantía de confianza.",
+                },
+            ],
+        },
+        mission: {
+            title: "Nuestra Misión",
+            description: "Hacer tu vida más fácil con la mejor tecnología.",
+        },
+        values: [
+            { icon: "shield-check", title: "Garantía", description: "Productos 100% garantizados." },
+            { icon: "users", title: "Confianza", description: "Miles de clientes satisfechos." },
+        ],
+        team: {
+            title: "Nuestro Equipo",
+            members: [] as any[],
+        },
+        cta: {
+            title: "¿Listo para equipar tu hogar?",
+            subtitle: "Explora nuestro catálogo y encuentra lo que necesitas.",
+            primaryButton: "Ver Productos",
+            secondaryButton: "Contáctanos",
+        },
+    };
 
     return (
         <main className="min-h-screen pb-40  relative overflow-hidden">

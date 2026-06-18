@@ -41,6 +41,7 @@ export interface RubroUIConfig {
     icon: string;
     title: string;
     description: string;
+    color?: string;
   }[];
   /** Título de la sección de tendencias */
   trendingTitle: string;
@@ -297,6 +298,41 @@ const RUBRO_CONFIGS: Record<string, Partial<RubroUIConfig>> = {
     viewAllLabel: "Ver Toda la Colección",
     navProductsLabel: "Colección",
     navTrendingLabel: "Tendencias",
+    navNewLabel: "Novedades",
+  },
+
+  general: {
+    productLabel: "Producto",
+    productLabelPlural: "Productos",
+    categoryLabel: "Categoría",
+    showCart: true,
+    showTrending: true,
+    showNewProducts: true,
+    showCartAnimation: true,
+    showBrandFilter: true,
+    showShippingFilter: true,
+    searchPlaceholder: "Buscar electrodomésticos, tecnología...",
+    categorySectionTitle: "Explora por Categoría",
+    marqueeItems: [
+      "Envío gratis en pedidos superiores a {0}",
+      "Electrodomésticos y tecnología al mejor precio",
+      "Garantía oficial en todos los productos",
+      "Cuotas sin interés disponibles",
+      "Soporte técnico especializado",
+    ],
+    benefitItems: [
+      { icon: "shield-check", title: "Garantía Oficial", description: "Todos los productos con garantía de fábrica", color: "#3b82f6" },
+      { icon: "truck", title: "Envío Seguro", description: "Embalaje especial para tus equipos", color: "#8b5cf6" },
+      { icon: "refresh-cw", title: "Devoluciones Fáciles", description: "30 días para cambiar de opinión", color: "#10b981" },
+      { icon: "headphones", title: "Soporte Técnico", description: "Asesoramiento especializado en tecnología", color: "#f59e0b" },
+    ],
+    trendingTitle: "Más Vendidos",
+    trendingSubtitle: "Los productos más elegidos de la semana",
+    newProductsTitle: "Novedades",
+    newProductsSubtitle: "Las últimas incorporaciones en tecnología y electrodomésticos",
+    viewAllLabel: "Ver Todos los Productos",
+    navProductsLabel: "Productos",
+    navTrendingLabel: "Más Vendidos",
     navNewLabel: "Novedades",
   },
 };
