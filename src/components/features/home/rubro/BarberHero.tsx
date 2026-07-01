@@ -40,9 +40,19 @@ export function BarberHero() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const bannerImage = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0
-        ? config.bannerImage[0].url || config.bannerImage[0].image
-        : (typeof config?.bannerImage === "string" ? config.bannerImage : "/images/placeholder.png");
+    const bannerData = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0
+        ? config.bannerImage[0]
+        : null;
+
+    const bannerImage = bannerData?.url || bannerData?.image || (typeof config?.bannerImage === "string" ? config.bannerImage : "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1920");
+    const heroTitle = bannerData?.title || "Estilo";
+    const heroTitleLine2 = bannerData?.titleLine2 || "Clásico";
+    const heroSubtitle = bannerData?.subtitle || config?.customPageTextsSubtitle || "";
+
+    // Badges below hero: dynamic from config or fallback
+    const heroBadges = heroSubtitle
+        ? heroSubtitle.split(',').map((s: string) => s.trim()).filter(Boolean)
+        : ["Cortes Precisos", "Afeitado Tradicional", "Tratamientos Capilares"];
 
     const whatsappNumber = config?.contactPhone?.replace(/\D/g, "");
     const bookingUrl = whatsappNumber
@@ -131,18 +141,19 @@ export function BarberHero() {
 
 
                             <h1 className="text-6xl md:text-8xl lg:text-9xl font-black text-[#e6d5b8] uppercase tracking-tighter leading-[0.85] mb-6 drop-shadow-lg">
-                                Estilo <br />
+                                {heroTitle} <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#8b6b4a] to-[#5a422a] stroke-2 stroke-[#e6d5b8]">
-                                    Clásico
+                                    {heroTitleLine2}
                                 </span>
                             </h1>
 
                             <div className="flex items-center justify-center gap-4 text-[#a69b85] font-bold tracking-widest uppercase text-xs md:text-sm mb-10">
-                                <span>Cortes</span>
-                                <span className="text-[#8b6b4a]">•</span>
-                                <span>Afeitados</span>
-                                <span className="text-[#8b6b4a]">•</span>
-                                <span>Tratamientos</span>
+                                {heroBadges.slice(0, 3).map((badge: string, i: number) => (
+                                    <>
+                                        {i > 0 && <span key={`sep-${i}`} className="text-[#8b6b4a]">•</span>}
+                                        <span key={i}>{badge}</span>
+                                    </>
+                                ))}
                             </div>
 
                             <a href={bookingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-3 bg-[#e6d5b8] hover:bg-white text-[#1e1c18] font-black uppercase tracking-widest px-10 py-5 text-lg md:text-xl border-4 border-[#8b6b4a] shadow-[8px_8px_0_rgba(139,107,74,1)] hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all">
@@ -160,18 +171,15 @@ export function BarberHero() {
             <div className="bg-[#151310] border-t-2 border-b-2 border-[#8b6b4a]/50 py-10">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24">
-                        {[
-                            { icon: Scissors, text: "Cortes Precisos" },
-                            { icon: Coffee, text: "Bebida de Cortesía" },
-                            { icon: CalendarDays, text: "Turnos Exactos" }
-                        ].map((badge, idx) => {
-                            const Icon = badge.icon;
+                        {heroBadges.slice(0, 3).map((text: string, idx: number) => {
+                            const icons = [Scissors, Coffee, CalendarDays];
+                            const Icon = icons[idx % icons.length];
                             return (
                                 <div key={idx} className="flex flex-col items-center gap-3 text-center">
                                     <div className="bg-[#8b6b4a]/10 p-4 rounded-full border border-[#8b6b4a]/30">
                                         <Icon className="h-8 w-8 text-[#8b6b4a]" />
                                     </div>
-                                    <span className="text-sm font-bold tracking-widest text-[#e6d5b8] uppercase">{badge.text}</span>
+                                    <span className="text-sm font-bold tracking-widest text-[#e6d5b8] uppercase">{text}</span>
                                 </div>
                             )
                         })}

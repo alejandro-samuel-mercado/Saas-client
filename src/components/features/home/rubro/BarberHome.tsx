@@ -57,7 +57,7 @@ export function BarberHome() {
                 <div className="absolute inset-0 z-0">
                     <div className="absolute inset-0 bg-gradient-to-r from-[#111] via-[#111]/80 to-transparent z-10" />
                     <img
-                        src={config?.adImage || "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&q=80"}
+                        src={(config?.bannerImage as any)?.[0]?.url || config?.adImage || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1920"}
                         alt={config?.storeName || "Barbería"}
                         className="w-full h-full object-cover object-right opacity-40 grayscale"
                     />
@@ -121,10 +121,10 @@ export function BarberHome() {
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
                         <div>
                             <h2 className="text-[#e65c00] text-sm font-bold tracking-[0.2em] uppercase mb-3">
-                                {config?.customPageTextsSubtitle || "Servicios Exclusivos"}
+                                {config?.customPageTextsSubtitle || "Lo que hacemos"}
                             </h2>
                             <p className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white">
-                                {config?.customPageTitle || "Grooming Masculino"}
+                                {config?.customPageTitle || "Nuestros Servicios"}
                             </p>
                         </div>
                     </div>

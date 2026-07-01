@@ -1,13 +1,14 @@
 "use client";
 
-import { about } from "@/../content/about";
 import { Button } from "@/components/ui/button";
+import { configService } from "@/services/config";
+import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Award, CheckCircle, Leaf, Lightbulb, Linkedin, Lock, ShieldCheck, Twitter, Users } from "lucide-react";
+import { Award, CheckCircle, Leaf, Lightbulb, Lock, ShieldCheck, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const iconMap: Record<string, any> = {
+const ICON_MAP: Record<string, any> = {
     award: Award,
     users: Users,
     lightbulb: Lightbulb,
@@ -17,36 +18,93 @@ const iconMap: Record<string, any> = {
     "check-circle": CheckCircle,
 };
 
-export function PerfumeAbout({ config }: { config?: any }) {
-    const timelineData = config?.customPageChronology && config.customPageChronology.length > 0 
-        ? config.customPageChronology 
-        : about.story.timeline;
+export function PerfumeAbout() {
+    const { data: config, isLoading } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+        staleTime: 1000 * 60 * 5,
+    });
+
+    // ── CRONOLOGÍA ──
+    // Editable desde panel → Contenido → Página (Menú) → Cronología
+    const timeline = config?.customPageChronology?.length
+        ? config.customPageChronology
+        : [
+            { year: "1920", title: "Los Orígenes", desc: "Las primeras maisons de perfumería fundan los estándares del lujo olfativo." },
+            { year: "1980", title: "La Revolución", desc: "Nuevas técnicas de síntesis permiten capturar aromas hasta entonces imposibles." },
+            { year: "2000", title: "La Globalización", desc: "Las fragancias de nicho llegan al mundo entero gracias a la era digital." },
+            { year: "2024", title: "Nuestra Tienda", desc: "Selección curada de las mejores fragancias del mundo, accesibles para vos." },
+        ];
+
+    // ── HERO ──
+    // Título desde config.bannerImage[0].title o customPageTitle
+    const heroTitle = config?.customPageTitle || "Maison des Parfums";
+    const heroSubtitle = config?.customPageDescription || "La historia de nuestra pasión por el arte olfativo.";
+
+    // ── FILOSOFÍA / VALORES ──
+    // Editable desde panel → Contenido → Página (Menú) → Textos Extras
+    // Formato esperado: línea 0 = título sección, líneas 1+ = "Título|Descripción" para cada valor
+    // Textos de filosofía/valores: Panel → Página (Menú) → Textos Extra
+    // customPageTexts es string[] — cada ítem es un textarea en el panel
+    // Formato: ítem 0 = título sección, ítems 1+ = "TítuloValor|Descripción"
+    const rawTexts: string[] = (config?.customPageTexts ?? []).filter(Boolean);
+    const philosophyTitle = rawTexts[0] ?? "Nuestra Filosofía";
+    const values = rawTexts.slice(1).map((line, i) => {
+        const pipeIdx = line.indexOf("|");
+        const title = pipeIdx >= 0 ? line.slice(0, pipeIdx).trim() : line.trim();
+        const description = pipeIdx >= 0 ? line.slice(pipeIdx + 1).trim() : "";
+        const iconKeys = Object.keys(ICON_MAP);
+        return { title: title || `Valor ${i + 1}`, description, icon: iconKeys[i % iconKeys.length] };
+    });
+
+    const defaultValues = [
+        { title: "Autenticidad", description: "Cada fragancia es 100% original, directamente importada de las maisons de origen.", icon: "shield-check" },
+        { title: "Experiencia", description: "Asesores expertos para guiarte hacia la fragancia que mejor expresa tu personalidad.", icon: "users" },
+        { title: "Exclusividad", description: "Acceso a ediciones limitadas y colecciones que no se encuentran en cualquier lugar.", icon: "award" },
+        { title: "Sustentabilidad", description: "Comprometidos con prácticas de comercio justo y packaging responsable.", icon: "leaf" },
+    ];
+
+    const displayValues = values.length > 0 ? values : defaultValues;
+
+    // ── IMAGEN ABOUT ──
+    const aboutImage = config?.customPageImage || "https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&q=80&w=1920";
+
+    if (isLoading) return <div className="min-h-screen bg-background animate-pulse" />;
 
     return (
-        <main className="min-h-screen bg-[#171310] text-[#f9f1d8] font-sans pb-40 relative overflow-hidden">
+        <main className="min-h-screen bg-background text-foreground font-sans pb-40 relative overflow-hidden">
+
             {/* ── HERO ── */}
-            <section className="relative pt-40 pb-48 flex items-center justify-center overflow-hidden bg-[#1e1a14] border-b border-[#d4af37]/10">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&q=80&w=1920')] bg-cover bg-center opacity-5" />
+            {/* Título desde panel → Contenido → Página (Menú) → Título Principal */}
+            {/* Subtítulo desde panel → Contenido → Página (Menú) → Descripción */}
+            <section className="relative pt-40 pb-48 flex items-center justify-center overflow-hidden bg-card border-b border-primary/10">
+                <div
+                    className="absolute inset-0 bg-cover bg-center opacity-5"
+                    style={{ backgroundImage: `url(${aboutImage})` }}
+                />
                 <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">
-                    <span className="text-[#d4af37] font-bold tracking-[0.4em] uppercase text-[10px] block mb-6">Nuestra Historia</span>
-                    <h1 className="text-6xl md:text-8xl font-serif mb-8 text-[#f9f1d8]">
-                        {about.hero.title}
+                    <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] block mb-6">
+                        {config?.navItemName || "Nuestra Historia"}
+                    </span>
+                    <h1 className="text-6xl md:text-8xl font-serif mb-8 text-foreground">
+                        {heroTitle}
                     </h1>
-                    <p className="text-xl text-white/50 max-w-2xl mx-auto font-light leading-relaxed">
-                        {about.hero.subtitle}
+                    <p className="text-xl text-foreground/50 max-w-2xl mx-auto font-light leading-relaxed">
+                        {heroSubtitle}
                     </p>
                 </div>
             </section>
 
-            {/* ── HISTORIA / TIMELINE ── */}
+            {/* ── CRONOLOGÍA ── */}
+            {/* Editable desde panel → Contenido → Página (Menú) → Cronología */}
             <section className="py-32">
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-5xl font-serif text-[#d4af37]">El Legado</h2>
+                        <h2 className="text-4xl md:text-5xl font-serif text-primary">El Legado</h2>
                     </div>
                     <div className="relative max-w-5xl mx-auto">
-                        <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-[#d4af37]/20 md:-ml-px" />
-                        {timelineData.map((item: any, idx: number) => {
+                        <div className="absolute left-[20px] md:left-1/2 top-0 bottom-0 w-px bg-primary/20 md:-ml-px" />
+                        {timeline.map((item: any, idx: number) => {
                             const isEven = idx % 2 === 0;
                             return (
                                 <motion.div
@@ -58,19 +116,19 @@ export function PerfumeAbout({ config }: { config?: any }) {
                                     className={`flex flex-col md:flex-row gap-10 mb-20 relative ${isEven ? "md:flex-row-reverse" : ""}`}
                                 >
                                     <div className={`flex-1 ${isEven ? "md:text-right" : "text-left"}`}>
-                                        <div className="bg-[#1e1a14] p-10 border border-[#d4af37]/20 hover:border-[#d4af37]/50 transition-colors relative overflow-hidden group">
-                                            <span className="text-5xl font-serif text-[#d4af37] block mb-4 relative z-10 opacity-80 group-hover:opacity-100 transition-opacity">
+                                        <div className="bg-card p-10 border border-primary/20 hover:border-primary/50 transition-colors relative overflow-hidden group">
+                                            <span className="text-5xl font-serif text-primary block mb-4 relative z-10 opacity-80 group-hover:opacity-100 transition-opacity">
                                                 {item.year}
                                             </span>
-                                            <h3 className="text-2xl font-bold mb-4 text-[#f9f1d8] relative z-10">
+                                            <h3 className="text-2xl font-bold mb-4 text-foreground relative z-10">
                                                 {item.title}
                                             </h3>
-                                            <p className="text-white/50 text-sm leading-relaxed relative z-10 font-light">
+                                            <p className="text-foreground/50 text-sm leading-relaxed relative z-10 font-light">
                                                 {item.desc || item.description}
                                             </p>
                                         </div>
                                     </div>
-                                    <div className="absolute left-[20px] md:left-1/2 top-10 w-4 h-4 rounded-full bg-[#171310] border-2 border-[#d4af37] z-10 md:-ml-2 transform -translate-x-1/2 md:translate-x-0 shadow-[0_0_15px_rgba(212,175,55,0.4)]" />
+                                    <div className="absolute left-[20px] md:left-1/2 top-10 w-4 h-4 rounded-full bg-background border-2 border-primary z-10 md:-ml-2 transform -translate-x-1/2 md:translate-x-0 shadow-[0_0_15px_rgba(212,175,55,0.4)]" />
                                     <div className="flex-1 hidden md:block" />
                                 </motion.div>
                             );
@@ -79,22 +137,21 @@ export function PerfumeAbout({ config }: { config?: any }) {
                 </div>
             </section>
 
-            {/* ── VALORES ── */}
-            <section className="py-32 bg-[#1e1a14] border-y border-[#d4af37]/10">
+            {/* ── FILOSOFÍA Y VALORES ── */}
+            {/* Editable desde panel → Contenido → Página (Menú) → Textos Extras */}
+            {/* Formato: línea 1 = Título sección, líneas 2+ = "TítuloValor|Descripción" */}
+            <section className="py-32 bg-card border-y border-primary/10">
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="max-w-3xl mx-auto text-center mb-24">
-                        <span className="text-[#d4af37] font-bold tracking-[0.4em] uppercase text-[10px] block mb-6">Filosofía</span>
-                        <h2 className="text-4xl md:text-6xl font-serif mb-6 text-[#f9f1d8]">
-                            {about.mission.title}
+                        <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] block mb-6">Filosofía</span>
+                        <h2 className="text-4xl md:text-6xl font-serif mb-6 text-foreground">
+                            {philosophyTitle}
                         </h2>
-                        <p className="text-white/50 font-light leading-relaxed">
-                            {about.mission.description}
-                        </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {about.values.map((value: any, idx: number) => {
-                            const Icon = iconMap[value.icon];
+                        {displayValues.map((value: any, idx: number) => {
+                            const Icon = ICON_MAP[value.icon] || Award;
                             return (
                                 <motion.div
                                     key={idx}
@@ -102,15 +159,15 @@ export function PerfumeAbout({ config }: { config?: any }) {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: idx * 0.1, duration: 0.4 }}
-                                    className="bg-[#171310] p-10 border border-[#d4af37]/10 hover:border-[#d4af37]/40 transition-colors text-center group"
+                                    className="bg-background p-10 border border-primary/10 hover:border-primary/40 transition-colors text-center group"
                                 >
-                                    <div className="w-16 h-16 mx-auto mb-8 flex items-center justify-center border border-[#d4af37]/30 rounded-full group-hover:bg-[#d4af37]/10 transition-colors">
-                                        <Icon className="w-6 h-6 text-[#d4af37]" />
+                                    <div className="w-16 h-16 mx-auto mb-8 flex items-center justify-center border border-primary/30 rounded-full group-hover:bg-primary/10 transition-colors">
+                                        <Icon className="w-6 h-6 text-primary" />
                                     </div>
-                                    <h3 className="text-lg font-bold mb-4 text-[#f9f1d8]">
+                                    <h3 className="text-lg font-bold mb-4 text-foreground">
                                         {value.title}
                                     </h3>
-                                    <p className="text-white/40 text-sm font-light leading-relaxed">
+                                    <p className="text-foreground/40 text-sm font-light leading-relaxed">
                                         {value.description}
                                     </p>
                                 </motion.div>
@@ -120,74 +177,27 @@ export function PerfumeAbout({ config }: { config?: any }) {
                 </div>
             </section>
 
-            {/* ── EQUIPO ── */}
-            <section className="py-32">
-                <div className="container mx-auto px-6 lg:px-12">
-                    <div className="text-center mb-24">
-                        <span className="text-[#d4af37] font-bold tracking-[0.4em] uppercase text-[10px] block mb-6">Artesanos</span>
-                        <h2 className="text-4xl md:text-5xl font-serif text-[#f9f1d8]">
-                            {about.team.title}
-                        </h2>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {about.team.members.map((member: any, idx: number) => (
-                            <div key={idx} className="group relative">
-                                <div className="relative aspect-[3/4] overflow-hidden border border-[#d4af37]/20 bg-[#1e1a14]">
-                                    {member.image ? (
-                                        <Image
-                                            src={member.image}
-                                            alt={member.name}
-                                            fill
-                                            className="object-cover opacity-80 group-hover:scale-105 group-hover:opacity-100 transition-all duration-700 grayscale group-hover:grayscale-0"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-white/10">
-                                            <span className="text-6xl font-serif">M</span>
-                                        </div>
-                                    )}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#171310] via-transparent to-transparent opacity-80" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-8">
-                                        <h3 className="text-xl font-bold mb-1 text-[#f9f1d8]">{member.name}</h3>
-                                        <p className="text-[#d4af37] text-[10px] tracking-[0.2em] uppercase font-bold mb-4">
-                                            {member.role}
-                                        </p>
-                                        <div className="flex gap-4">
-                                            {member.social.linkedin && (
-                                                <Linkedin onClick={() => window.open(member.social.linkedin, "_blank")}
-                                                    className="w-4 h-4 text-white/50 hover:text-[#d4af37] cursor-pointer transition-colors" />
-                                            )}
-                                            {member.social.twitter && (
-                                                <Twitter onClick={() => window.open(member.social.twitter, "_blank")}
-                                                    className="w-4 h-4 text-white/50 hover:text-[#d4af37] cursor-pointer transition-colors" />
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
             {/* ── CTA ── */}
             <section className="py-24">
                 <div className="container mx-auto px-6 text-center">
-                    <div className="bg-[#1e1a14] border border-[#d4af37]/20 p-16 max-w-4xl mx-auto relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=900')] bg-cover bg-center opacity-5" />
+                    <div className="bg-card border border-primary/20 p-16 max-w-4xl mx-auto relative overflow-hidden">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center opacity-5"
+                            style={{ backgroundImage: `url(${aboutImage})` }}
+                        />
                         <div className="relative z-10">
-                            <h2 className="text-3xl md:text-5xl font-serif mb-6 text-[#f9f1d8]">
-                                {about.cta.title}
+                            <h2 className="text-3xl md:text-5xl font-serif mb-6 text-foreground">
+                                Descubrí nuestra colección
                             </h2>
-                            <p className="text-white/50 font-light mb-12">
-                                {about.cta.subtitle}
+                            <p className="text-foreground/50 font-light mb-12">
+                                Fragancias únicas para momentos únicos. Cada aroma cuenta una historia.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                                <Button size="lg" className="bg-[#d4af37] hover:bg-white text-black font-bold tracking-widest uppercase text-[10px] h-14 px-10 transition-colors rounded-none" asChild>
-                                    <Link href="/products">{about.cta.primaryButton}</Link>
+                                <Button size="lg" className="bg-primary hover:bg-foreground text-black font-bold tracking-widest uppercase text-[10px] h-14 px-10 transition-colors rounded-none" asChild>
+                                    <Link href="/products">Ver Colección</Link>
                                 </Button>
-                                <Button size="lg" variant="outline" className="border-[#d4af37]/50 text-[#d4af37] hover:bg-[#d4af37]/10 font-bold tracking-widest uppercase text-[10px] h-14 px-10 transition-colors rounded-none bg-transparent" asChild>
-                                    <Link href="/contact">{about.cta.secondaryButton}</Link>
+                                <Button size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 font-bold tracking-widest uppercase text-[10px] h-14 px-10 transition-colors rounded-none bg-transparent" asChild>
+                                    <Link href="/contact">Contactarnos</Link>
                                 </Button>
                             </div>
                         </div>

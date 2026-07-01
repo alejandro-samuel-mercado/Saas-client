@@ -22,6 +22,7 @@ import { WatchAbout } from "@/components/shared/rubro/WatchAbout";
 import { BarberAbout } from "@/components/shared/rubro/BarberAbout";
 import { PetAbout } from "@/components/shared/rubro/PetAbout";
 import { DecorAbout } from "@/components/features/home/rubro/decor/DecorAbout";
+import { RealEstateAbout } from "@/components/shared/rubro/RealEstateAbout";
 import { GeneralAbout } from "./GeneralAbout";
 import Link from "next/link";
 
@@ -43,8 +44,9 @@ export default function AboutPage() {
     });
 
     if (config?.rubro?.slug === "perfumes") {
-        return <PerfumeAbout config={config} />;
+        return <PerfumeAbout />;
     }
+
 
     if (config?.rubro?.slug === "relojes") {
         return <WatchAbout config={config} />;
@@ -60,6 +62,10 @@ export default function AboutPage() {
 
     if (config?.rubro?.slug === "decoracion") {
         return <DecorAbout />;
+    }
+
+    if (config?.rubro?.slug === "inmuebles") {
+        return <RealEstateAbout config={config} />;
     }
 
     if (config?.rubro?.slug === "general") {

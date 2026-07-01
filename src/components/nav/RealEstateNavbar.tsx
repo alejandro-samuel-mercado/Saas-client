@@ -59,7 +59,7 @@ export function RealEstateNavbar() {
                             { name: "Alquileres", href: "/products?saleMode=ALQUILER" },
                             { name: "Inmuebles", href: "/products" },
                             { name: "Terrenos y Lotes", href: "/products?search=lote" },
-                            { name: "Nosotros", href: "/#nosotros" },
+                            { name: "Nosotros", href: "/about" },
 
                         ].map((item) => (
                             <Link key={item.name} href={item.href} className="text-white/90 hover:text-white text-[11px] font-bold tracking-[0.2em] uppercase transition-all hover:scale-105">

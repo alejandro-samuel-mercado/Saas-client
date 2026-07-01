@@ -1,6 +1,5 @@
 "use client";
 
-import { products as productsContent } from "@/../content/products";
 import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
 import { ProductSkeleton } from "@/components/shared/ProductSkeleton";
 import { Badge } from "@/components/ui/badge";
@@ -144,7 +143,7 @@ export function RealEstateCatalog() {
     queryFn: () =>
       productService.getProducts({
         page,
-        limit: productsContent.listing.itemsPerPage,
+        limit: 12,
         ...filters,
       }),
   });
@@ -211,7 +210,12 @@ export function RealEstateCatalog() {
             <SelectValue placeholder="Seleccionar" />
           </SelectTrigger>
           <SelectContent>
-            {productsContent.listing.sortOptions.map((option) => (
+            {[
+              { label: "Más Relevantes", value: "relevant" },
+              { label: "Menor Precio", value: "price_asc" },
+              { label: "Mayor Precio", value: "price_desc" },
+              { label: "Novedades", value: "newest" }
+            ].map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
               </SelectItem>
@@ -311,7 +315,11 @@ export function RealEstateCatalog() {
       <div>
         <h3 className="font-bold mb-4 text-[#1a1a1a] uppercase tracking-widest text-xs">Rango de Precio</h3>
         <div className="space-y-2">
-          {productsContent.listing.filters.priceRanges.map((range) => (
+          {[
+            { label: "Hasta {1}", min: 0, max: 100000 },
+            { label: "{0} a {1}", min: 100000, max: 500000 },
+            { label: "Más de {0}", min: 500000, max: 99999999 }
+          ].map((range) => (
             <button
               key={range.label}
               onClick={() => handlePriceRangeChange(range.min, range.max)}
@@ -323,12 +331,7 @@ export function RealEstateCatalog() {
             >
               {range.label
                 .replace("{0}", formatPrice(range.min, currency))
-                .replace("{1}", formatPrice(range.min, currency))
-                .replace(/{(\d+)}/g, (match, number) => {
-                  const val =
-                    number === "0" ? range.min : number === "1" ? range.max : 0;
-                  return formatPrice(val, currency);
-                })}
+                .replace("{1}", formatPrice(range.max, currency))}
             </button>
           ))}
         </div>
@@ -353,7 +356,7 @@ export function RealEstateCatalog() {
                 htmlFor="free-shipping"
                 className="cursor-pointer font-medium"
               >
-                {productsContent.listing.filters.shipping.label}
+                Envío Gratis
               </Label>
             </div>
           )}
@@ -368,7 +371,7 @@ export function RealEstateCatalog() {
               className="border-[#1a1a1a] rounded-none data-[state=checked]:bg-black data-[state=checked]:border-black"
             />
             <Label htmlFor="in-stock" className="cursor-pointer font-medium">
-              {productsContent.listing.filters.availability.label}
+              Solo en Stock
             </Label>
           </div>
         </div>
@@ -395,7 +398,7 @@ export function RealEstateCatalog() {
             </SheetTrigger>
             <SheetContent side="left" className="max-sm:overflow-y-scroll">
               <SheetHeader>
-                <SheetTitle>{productsContent.listing.filters.title}</SheetTitle>
+                <SheetTitle>Filtros</SheetTitle>
               </SheetHeader>
               <div className="mt-6 ">
                 <FilterSidebar />
@@ -437,7 +440,12 @@ export function RealEstateCatalog() {
 
                 let label = `${key}: ${value}`;
                 if (key === "sort")
-                  label = `Ordenar: ${productsContent.listing.sortOptions.find((o) => o.value === value)?.label || value}`;
+                  label = `Ordenar: ${[
+                    { label: "Más Relevantes", value: "relevant" },
+                    { label: "Menor Precio", value: "price_asc" },
+                    { label: "Mayor Precio", value: "price_desc" },
+                    { label: "Novedades", value: "newest" }
+                  ].find((o) => o.value === value)?.label || value}`;
                 if (key === "minPrice")
                   label = `Precio Mín: ${formatPrice(Number(value), currency)}`;
                 if (key === "maxPrice")
@@ -474,7 +482,7 @@ export function RealEstateCatalog() {
                 onClick={clearAllFilters}
                 className="px-6 py-3 border border-[#1a1a1a] bg-white text-[#1a1a1a] text-[10px] tracking-widest uppercase font-bold hover:bg-gray-100 hover:border-[#1a1a1a] rounded-none transition-colors"
               >
-                {productsContent.listing.filters.clearAll}
+                Limpiar Filtros
               </Button>
             </div>
           )}
@@ -488,7 +496,7 @@ export function RealEstateCatalog() {
               <div className="bg-[#f8f8f8] border border-[#1a1a1a] p-8 shadow-sm">
                 <div className="mb-8">
                   <h2 className="text-xl font-black uppercase tracking-widest text-[#1a1a1a] mb-2">
-                    {productsContent.listing.filters.title}
+                    Filtros
                   </h2>
                   <div className="h-[2px] w-12 bg-[#f5ab1c]"></div>
                 </div>
@@ -516,7 +524,7 @@ export function RealEstateCatalog() {
             ) : !data || data.data.length === 0 ? (
               <div className="text-center py-2">
                 <p className="text-muted-foreground">
-                  {productsContent.listing.noResults}
+                  No se encontraron resultados. Intenta con otros filtros.
                 </p>
                 <Button className="mt-4" onClick={clearAllFilters}>
                   Limpiar Filtros

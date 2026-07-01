@@ -18,6 +18,12 @@ export function WatchNavbar() {
         staleTime: 1000 * 60 * 5,
     });
 
+    const { data: categories = [] } = useQuery({
+        queryKey: ["categories"],
+        queryFn: () => import("@/services/products").then(m => m.productService.getCategoriesTree()),
+        staleTime: 1000 * 60 * 60,
+    });
+
     const { user } = useAuth();
     const { toggleMobileMenu, toggleCart } = useUIStore();
     const { getTotalItems } = useCartStore();
@@ -45,12 +51,23 @@ export function WatchNavbar() {
         }
     };
 
+    const dynamicLinks = (categories || [])
+        .filter((c: any) => c._count?.products > 0)
+        .slice(0, 3)
+        .map((cat: any) => ({
+            name: cat.name,
+            href: cat.slug ? `/products?categoria=${cat.slug}` : `/products?category=${cat.slug}`
+        }));
+
     const navLinks = [
-        { name: "Colección", href: "/products" },
-        { name: "Lujo", href: "/products?category=relojes-lujo" },
-        { name: "Smartwatch", href: "/products?category=smartwatch" },
-        { name: "Accesorios", href: "/products?category=accesorios-reloj" },
+        { name: "Inicio", href: "/" },
+        { name: "Todos", href: "/products" },
+        ...dynamicLinks,
     ];
+
+    if (config?.navItemName) {
+        navLinks.push({ name: config.navItemName, href: "/about" });
+    }
 
     const totalItems = mounted ? getTotalItems() : 0;
 
@@ -58,19 +75,19 @@ export function WatchNavbar() {
         <>
             {/* Search overlay */}
             {searchOpen && (
-                <div className="fixed inset-0 z-[200] bg-[#1A1A1A]/95 backdrop-blur-md flex items-center justify-center px-6">
+                <div className="fixed inset-0 z-[200] bg-background/95 backdrop-blur-md flex items-center justify-center px-6">
                     <form onSubmit={handleSearch} className="w-full max-w-2xl">
-                        <div className="flex items-center border-b border-[#C8A97E]/50 pb-4">
-                            <Search className="h-5 w-5 text-[#C8A97E] mr-4 flex-shrink-0" />
+                        <div className="flex items-center border-b border-primary/50 pb-4">
+                            <Search className="h-5 w-5 text-primary mr-4 flex-shrink-0" />
                             <input
                                 autoFocus
                                 type="text"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Buscar colección..."
-                                className="flex-1 bg-transparent text-[#E6D2B5] text-xl font-serif placeholder:text-[#C8A97E]/40 outline-none"
+                                className="flex-1 bg-transparent text-foreground text-xl font-serif placeholder:text-primary/40 outline-none"
                             />
-                            <button type="button" onClick={() => setSearchOpen(false)} className="ml-4 text-[#C8A97E]/50 hover:text-[#E6D2B5] transition-colors">
+                            <button type="button" onClick={() => setSearchOpen(false)} className="ml-4 text-primary/50 hover:text-foreground transition-colors">
                                 <X className="h-6 w-6" />
                             </button>
                         </div>
@@ -79,10 +96,9 @@ export function WatchNavbar() {
             )}
 
             <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 pt-6 px-4 lg:px-8`}>
-                <div className={`mx-auto max-w-7xl rounded-full transition-all duration-500 px-6 py-4 flex items-center justify-between ${
-                    scrolled ? "bg-[#1A1A1A]/90 backdrop-blur-md shadow-lg border border-[#C8A97E]/20" : "bg-transparent"
-                }`}>
-                    
+                <div className={`mx-auto max-w-7xl rounded-full transition-all duration-500 px-6 py-4 flex items-center justify-between ${scrolled ? "bg-background/90 backdrop-blur-md shadow-lg border border-primary/20" : "bg-transparent"
+                    }`}>
+
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group shrink-0">
                         {config?.logoUrl ? (
@@ -90,8 +106,8 @@ export function WatchNavbar() {
                         ) : (
                             <div className="flex items-center gap-2">
                                 {/* Intertwined H monogram mockup */}
-                                <div className="text-[#C8A97E] font-serif text-2xl leading-none italic font-bold">H</div>
-                                <span className="hidden md:block text-[#E6D2B5] font-serif text-xl leading-none group-hover:text-white transition-colors">
+                                <div className="text-primary font-serif text-2xl leading-none italic font-bold">H</div>
+                                <span className="hidden md:block text-foreground font-serif text-xl leading-none group-hover:text-white transition-colors">
                                     {config?.storeName || "HORLOGER"}
                                 </span>
                             </div>
@@ -104,14 +120,13 @@ export function WatchNavbar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className={`text-sm font-sans tracking-wide transition-all relative group ${
-                                    pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href.split("?")[0]))
-                                        ? "text-[#E6D2B5]"
-                                        : "text-[#E6D2B5]/70 hover:text-[#E6D2B5]"
-                                }`}
+                                className={`text-sm font-sans tracking-wide transition-all relative group ${pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href.split("?")[0]))
+                                    ? "text-foreground"
+                                    : "text-foreground/70 hover:text-foreground"
+                                    }`}
                             >
                                 {link.name}
-                                <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#C8A97E] group-hover:w-full transition-all duration-300" />
+                                <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
                             </Link>
                         ))}
                     </nav>
@@ -119,31 +134,31 @@ export function WatchNavbar() {
                     {/* Right Area */}
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
-                            <button onClick={() => setSearchOpen(true)} className="flex items-center justify-center w-8 h-8 rounded-full bg-[#242424] text-[#E6D2B5]/70 hover:text-[#E6D2B5] border border-[#C8A97E]/20 hover:border-[#C8A97E]/50 transition-all">
+                            <button onClick={() => setSearchOpen(true)} className="flex items-center justify-center w-8 h-8 rounded-full bg-card text-foreground/70 hover:text-foreground border border-primary/20 hover:border-primary/50 transition-all">
                                 <Search className="h-3.5 w-3.5" />
                             </button>
 
-                            <button onClick={() => router.push(user ? "/profile" : "/login")} className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-[#242424] text-[#E6D2B5]/70 hover:text-[#E6D2B5] border border-[#C8A97E]/20 hover:border-[#C8A97E]/50 transition-all">
+                            <button onClick={() => router.push(user ? "/profile" : "/login")} className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-card text-foreground/70 hover:text-foreground border border-primary/20 hover:border-primary/50 transition-all">
                                 <User className="h-3.5 w-3.5" />
                             </button>
 
-                            <button onClick={toggleCart} className="relative flex items-center justify-center w-8 h-8 rounded-full bg-[#242424] text-[#E6D2B5]/70 hover:text-[#E6D2B5] border border-[#C8A97E]/20 hover:border-[#C8A97E]/50 transition-all">
+                            <button onClick={toggleCart} className="relative flex items-center justify-center w-8 h-8 rounded-full bg-card text-foreground/70 hover:text-foreground border border-primary/20 hover:border-primary/50 transition-all">
                                 <ShoppingCart className="h-3.5 w-3.5" />
                                 {mounted && totalItems > 0 && (
-                                    <span className="absolute -top-1 -right-1 bg-[#C8A97E] text-[#1A1A1A] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                                    <span className="absolute -top-1 -right-1 bg-primary text-background text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                                         {totalItems}
                                     </span>
                                 )}
                             </button>
                         </div>
-                        
-                        <div className="w-px h-6 bg-[#C8A97E]/20 hidden lg:block mx-2" />
 
-                        <Link href="/contact" className="hidden lg:flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-[#1A1A1A] font-medium text-sm hover:bg-[#E6D2B5] transition-colors">
+                        <div className="w-px h-6 bg-primary/20 hidden lg:block mx-2" />
+
+                        <Link href="/contact" className="hidden lg:flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-background font-medium text-sm hover:bg-foreground transition-colors">
                             Contacto
                         </Link>
 
-                        <button onClick={toggleMobileMenu} className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full bg-[#242424] text-[#E6D2B5]/70 border border-[#C8A97E]/20">
+                        <button onClick={toggleMobileMenu} className="lg:hidden flex items-center justify-center w-8 h-8 rounded-full bg-card text-foreground/70 border border-primary/20">
                             <Menu className="h-4 w-4" />
                         </button>
                     </div>

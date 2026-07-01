@@ -16,6 +16,15 @@ export function DecorHero() {
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 500], [0, 100]);
 
+    const bannerData = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0
+        ? config.bannerImage[0]
+        : null;
+
+    const heroImage = bannerData?.url || bannerData?.image || config?.adImage || "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800";
+    const heroTitle = bannerData?.title || "Decoración";
+    const heroTitleLine2 = bannerData?.titleLine2 || "Exclusiva";
+    const heroSubtitle = bannerData?.subtitle || config?.adText || "Envíos gratis en órdenes superiores a $50000";
+
     return (
         <section className="relative min-h-[95vh] w-full bg-[#F0E5D8] overflow-hidden flex items-center justify-center pt-24 pb-12">
             
@@ -32,7 +41,7 @@ export function DecorHero() {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-[#3A302A] leading-[1.1] tracking-tight mb-6"
                     >
-                        Custom Dried Flower Bouquets
+                        {heroTitle} <br /> {heroTitleLine2}
                     </motion.h1>
                     
                     <motion.p 
@@ -41,7 +50,7 @@ export function DecorHero() {
                         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
                         className="text-lg md:text-xl text-[#3A302A]/80 font-sans tracking-wide mb-10 max-w-xl mx-auto lg:mx-0"
                     >
-                        {config?.adText || "Free delivery on orders over $79"}
+                        {heroSubtitle}
                     </motion.p>
                     
                     <motion.div
@@ -65,7 +74,7 @@ export function DecorHero() {
                         className="relative w-full max-w-[450px] aspect-[4/5] rounded-t-full rounded-b-xl overflow-hidden shadow-sm"
                     >
                         <Image 
-                            src={config?.adImage || "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&q=80&w=800"} 
+                            src={heroImage} 
                             alt="Hero Image" 
                             fill 
                             className="object-cover"
@@ -75,7 +84,7 @@ export function DecorHero() {
                     
                     {/* Small accent text near image */}
                     <div className="absolute bottom-10 right-0 hidden lg:flex items-center gap-4 text-[#3A302A] tracking-[0.2em] text-xs font-sans uppercase rotate-90 origin-bottom-right">
-                        <span>DRIED PAMPAS COLLECTION</span>
+                        <span>{config?.storeName || "NUEVA COLECCIÓN"}</span>
                         <div className="w-10 h-[1px] bg-[#3A302A]"></div>
                     </div>
                 </div>

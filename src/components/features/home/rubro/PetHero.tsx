@@ -1,6 +1,5 @@
 "use client";
 
-import { home } from "@/../content/home";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { configService } from "@/services/config";
@@ -9,9 +8,6 @@ import { useUIStore } from "@/store/ui";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import {
-    Bone,
-    Cat,
-    Dog,
     Heart,
     Menu,
     Search,
@@ -19,7 +15,6 @@ import {
     Smile,
     User,
     X,
-    Home,
     Sparkles,
     Star
 } from "lucide-react";
@@ -28,6 +23,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useRef } from "react";
 
+const DEFAULT_SLIDES = [
+    {
+        url: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&q=80&w=1920",
+        title: "Amor Incondicional.",
+        titleLine2: "Nutrición Perfecta.",
+        subtitle: "Encuentra alimentos premium, juguetes y accesorios para hacer feliz a tu mascota.",
+    },
+    {
+        url: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=1920",
+        title: "Tu mascota",
+        titleLine2: "lo merece todo.",
+        subtitle: "Productos 100% seleccionados por veterinarios y amantes de los animales.",
+    },
+];
+
 export function PetHero() {
     const { data: config, isLoading: isConfigLoading } = useQuery({
         queryKey: ["publicConfig"],
@@ -35,18 +45,14 @@ export function PetHero() {
         staleTime: 1000 * 60 * 60,
     });
 
-    const { carousel } = home.hero;
     const { user } = useAuth();
-    const { toggleCart, toggleMobileMenu, isMobileMenuOpen } = useUIStore();
+    const { toggleCart, toggleMobileMenu } = useUIStore();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-    const [scrolled, setScrolled] = useState(false);
-    const [mounted, setMounted] = useState(false);
     const router = useRouter();
     const { getTotalItems } = useCartStore();
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
 
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
@@ -56,30 +62,30 @@ export function PetHero() {
     const yHero = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
     const opacityHero = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-    useEffect(() => {
-        setMounted(true);
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         router.push(`/products?search=${encodeURIComponent(searchQuery)}`);
     };
 
+    // Build slides from config (supports array of objects or single string)
     const getBannerSlides = () => {
-        if (!config?.bannerImage) return carousel.slides;
-        if (Array.isArray(config.bannerImage) && config.bannerImage.length > 0) return config.bannerImage;
-        const legacyBanner = config.bannerImage as any;
-        if (typeof legacyBanner === "string" && legacyBanner.trim()) {
+        if (!config?.bannerImage) return DEFAULT_SLIDES;
+        if (Array.isArray(config.bannerImage) && config.bannerImage.length > 0) {
+            return (config.bannerImage as any[]).map((b: any) =>
+                typeof b === "string"
+                    ? { url: b, title: config.storeName || "Tu Petshop", subtitle: (config as any).description || "" }
+                    : b
+            );
+        }
+        if (typeof config.bannerImage === "string" && (config.bannerImage as string).trim()) {
             return [{
-                image: legacyBanner,
+                url: config.bannerImage as string,
                 title: config.storeName || "Todo para tu Mascota",
-                subtitle: "Nutrición, juegos y amor infinito.",
+                titleLine2: "",
+                subtitle: (config as any).description || "Nutrición, juegos y amor infinito.",
             }];
         }
-        return carousel.slides;
+        return DEFAULT_SLIDES;
     };
 
     const bannerSlides = getBannerSlides();
@@ -98,11 +104,10 @@ export function PetHero() {
         return <div className="h-screen w-full bg-[#EDE0CF] animate-pulse" />;
     }
 
-    const currentSlideData = bannerSlides[currentSlide];
+    const currentSlideData = bannerSlides[currentSlide] as any;
 
     return (
         <section ref={containerRef} className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden min-h-screen bg-[#EDE0CF]">
-
 
             {/* ── HERO CONTENT WITH PARALLAX ── */}
             <motion.div style={{ y: yHero, opacity: opacityHero }} className="relative min-h-[90vh] w-full flex items-center" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>
@@ -110,7 +115,13 @@ export function PetHero() {
                 {/* Background Images */}
                 <AnimatePresence mode="wait">
                     <motion.div key={currentSlide} initial={{ scale: 1.1, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 1.05, opacity: 0 }} transition={{ duration: 1.5, ease: "easeInOut" }} className="absolute inset-0">
-                        <Image src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"} alt="Pet" fill className="object-cover object-center mix-blend-multiply opacity-60" priority />
+                        <Image
+                            src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"}
+                            alt={currentSlideData?.title || "Mascota"}
+                            fill
+                            className="object-cover object-center mix-blend-multiply opacity-60"
+                            priority
+                        />
                         <div className="absolute inset-0 bg-gradient-to-r from-[#EDE0CF] via-[#EDE0CF]/80 to-transparent" />
                     </motion.div>
                 </AnimatePresence>
@@ -160,8 +171,8 @@ export function PetHero() {
                                             </span>
                                             <div className="absolute inset-0 bg-gradient-to-r from-[#D4763B] to-[#E8963C] opacity-0 group-hover:opacity-100 transition-opacity" />
                                         </Link>
-                                        <Link href="/products?isTrending=true" className="group bg-[#D4B896]/40 backdrop-blur-xl border-2 border-[#D4B896] text-[#5C3D2E] hover:bg-[#D4B896]/60 rounded-full font-black text-lg px-10 py-4.5 shadow-xl transition-all hover:scale-105 w-full sm:w-auto text-center flex items-center justify-center">
-                                            Destacados
+                                        <Link href="/products?isTrending=true" className="group bg-[#D4B896]/40 backdrop-blur-xl border-2 border-[#D4B896] text-[#5C3D2E] hover:bg-[#D4B896]/60 rounded-full font-black text-lg px-10 py-5 shadow-xl transition-all hover:scale-105 w-full sm:w-auto text-center flex items-center justify-center">
+                                            Lo Más Elegido
                                         </Link>
                                     </div>
 
@@ -197,13 +208,15 @@ export function PetHero() {
                 </div>
 
                 {/* Friendly Slider Controls (Paws) */}
-                <div className="absolute bottom-[20%] lg:bottom-[15%] left-0 right-0 flex justify-center gap-4 z-40">
-                    {bannerSlides.map((_, idx) => (
-                        <button key={idx} onClick={() => setCurrentSlide(idx)} className={`transition-all duration-500 flex items-center justify-center rounded-full p-2 ${currentSlide === idx ? "bg-[#E8963C] text-[#EDE0CF] scale-125 shadow-lg" : "bg-[#D4B896]/40 backdrop-blur-md text-[#8B5E3C] hover:bg-[#D4B896]/60 hover:scale-110"}`}>
-                            <PawPrintIcon className="h-5 w-5" />
-                        </button>
-                    ))}
-                </div>
+                {bannerSlides.length > 1 && (
+                    <div className="absolute bottom-[20%] lg:bottom-[15%] left-0 right-0 flex justify-center gap-4 z-40">
+                        {bannerSlides.map((_, idx) => (
+                            <button key={idx} onClick={() => setCurrentSlide(idx)} className={`transition-all duration-500 flex items-center justify-center rounded-full p-2 ${currentSlide === idx ? "bg-[#E8963C] text-[#EDE0CF] scale-125 shadow-lg" : "bg-[#D4B896]/40 backdrop-blur-md text-[#8B5E3C] hover:bg-[#D4B896]/60 hover:scale-110"}`}>
+                                <PawPrintIcon className="h-5 w-5" />
+                            </button>
+                        ))}
+                    </div>
+                )}
 
             </motion.div>
 

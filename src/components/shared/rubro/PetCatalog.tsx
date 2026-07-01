@@ -19,17 +19,6 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
     accesorios: Fish,
 };
 
-const MOCK_PET_PRODUCTS = [
-    { id: 1, name: "Royal Canin Medium Adult", basePrice: 8500, category: { name: "Alimentos" }, brand: "Royal Canin", images: ["https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?auto=format&fit=crop&q=80&w=800"] },
-    { id: 2, name: "Collar Ajustable Premium", basePrice: 2200, category: { name: "Accesorios" }, brand: "PetLife", images: ["https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800"] },
-    { id: 3, name: "Cama Ortopédica XL", basePrice: 12000, category: { name: "Descanso" }, brand: "Comforpet", images: ["https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&q=80&w=800"] },
-    { id: 4, name: "Shampoo Natural Perros", basePrice: 1800, category: { name: "Higiene" }, brand: "PetGreen", images: ["https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800"] },
-    { id: 5, name: "Arena para Gatos Premium", basePrice: 3500, category: { name: "Gatos" }, brand: "CatMaster", images: ["https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&q=80&w=800"] },
-    { id: 6, name: "Snacks Dentales Perros", basePrice: 950, category: { name: "Snacks" }, brand: "Pedigree", images: ["https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?auto=format&fit=crop&q=80&w=800"] },
-    { id: 7, name: "Juguete Interactivo Gato", basePrice: 2900, category: { name: "Juguetes" }, brand: "PlayPet", images: ["https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?auto=format&fit=crop&q=80&w=800"] },
-    { id: 8, name: "Correa Retráctil 5m", basePrice: 3200, category: { name: "Paseo" }, brand: "FleXi", images: ["https://images.unsplash.com/photo-1601758174493-62aa7f5c3ce0?auto=format&fit=crop&q=80&w=800"] },
-];
-
 const SORT_OPTIONS = [
     { value: "", label: "Relevancia" },
     { value: "price_asc", label: "Menor precio" },
@@ -37,11 +26,12 @@ const SORT_OPTIONS = [
     { value: "newest", label: "Novedades" },
 ];
 
+// Quick category pills — slugs match the seeded categories for mascotas
 const QUICK_CATS = [
-    { label: "Perros", slug: "perros", icon: Dog, color: "bg-[#E8963C]" },
-    { label: "Gatos", slug: "gatos", icon: Cat, color: "bg-[#8B5E3C]" },
-    { label: "Alimentos", slug: "alimentos", icon: Bone, color: "bg-[#A0714F]" },
-    { label: "Accesorios", slug: "accesorios", icon: Fish, color: "bg-[#5C3D2E]" },
+    { label: "Perros", slug: "alimentos-perros", icon: Dog, color: "bg-[#E8963C]" },
+    { label: "Gatos", slug: "alimentos-gatos", icon: Cat, color: "bg-[#8B5E3C]" },
+    { label: "Juguetes", slug: "juguetes-mascotas", icon: Bone, color: "bg-[#A0714F]" },
+    { label: "Accesorios", slug: "accesorios-mascotas", icon: Fish, color: "bg-[#5C3D2E]" },
 ];
 
 export function PetCatalog() {
@@ -101,7 +91,7 @@ export function PetCatalog() {
         queryFn: () => productService.getProducts({ ...filters, page, limit: 16, currency }),
     });
 
-    const products = (data as any)?.data ?? MOCK_PET_PRODUCTS;
+    const products = (data as any)?.data ?? [];
     const totalPages = (data as any)?.totalPages || 1;
     const activeFilterCount = Object.keys(filters).filter(k => !["page", "limit"].includes(k) && filters[k]).length;
 

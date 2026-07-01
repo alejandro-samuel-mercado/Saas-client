@@ -4,18 +4,35 @@ import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 import { productService } from "@/services/products";
 import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
-import { Heart, Bone, ShieldCheck, Truck, ArrowRight, PawPrint, Sparkles } from "lucide-react";
+import { Heart, Bone, ShieldCheck, Truck, ArrowRight, PawPrint, Sparkles, Stethoscope } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { PetHero } from "./PetHero";
 
-const PET_CATEGORIES = [
-    { name: "Alimentos", subtitle: "Nutrición Premium", href: "/products?category=alimentos", image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&q=80&w=800" },
-    { name: "Juguetes", subtitle: "Diversión Segura", href: "/products?category=juguetes", image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=800" },
-    { name: "Accesorios", subtitle: "Paseo & Estilo", href: "/products?category=accesorios", image: "https://images.unsplash.com/photo-1601758174114-e711c0cbaa69?auto=format&fit=crop&q=80&w=800" },
-    { name: "Cuidado", subtitle: "Higiene y Salud", href: "/products?category=cuidado", image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=800" },
+// Icon map for config-driven service cards
+const ICON_MAP: Record<string, React.ElementType> = {
+    heart: Heart,
+    truck: Truck,
+    shield: ShieldCheck,
+    bone: Bone,
+    stethoscope: Stethoscope,
+    sparkles: Sparkles,
+};
+
+const DEFAULT_SERVICES = [
+    { title: "Amor Animal", icon: "heart", desc: "Productos pensados para el bienestar real de tu familia." },
+    { title: "Envío Rápido", icon: "truck", desc: "Tu pedido llega sin demoras a la puerta de tu casa." },
+    { title: "Calidad Premium", icon: "shield", desc: "Solo productos certificados y aprobados por veterinarios." },
+    { title: "Asesoría Vet", icon: "bone", desc: "Nuestro equipo de especialistas responde tus dudas." },
+];
+
+const DEFAULT_CATEGORIES = [
+    { name: "Alimentos", subtitle: "Nutrición Premium", href: "/products?category=alimentos-perros", image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?auto=format&fit=crop&q=80&w=800" },
+    { name: "Juguetes", subtitle: "Diversión Segura", href: "/products?category=juguetes-mascotas", image: "https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=800" },
+    { name: "Accesorios", subtitle: "Paseo & Estilo", href: "/products?category=accesorios-mascotas", image: "https://images.unsplash.com/photo-1601758174114-e711c0cbaa69?auto=format&fit=crop&q=80&w=800" },
+    { name: "Cuidado", subtitle: "Higiene y Salud", href: "/products?category=higiene-mascotas", image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=800" },
 ];
 
 export function PetHome() {
@@ -34,12 +51,29 @@ export function PetHome() {
         queryFn: () => productService.getProducts({ isNew: "true", limit: 4 }),
     });
 
-    const services = [
-        { title: "Amor Animal", icon: <Heart className="w-10 h-10" />, desc: "Productos pensados para el bienestar de tu familia." },
-        { title: "Envío Rápido", icon: <Truck className="w-10 h-10" />, desc: "Tu pedido llega sin demoras a la puerta de tu casa." },
-        { title: "Calidad Premium", icon: <ShieldCheck className="w-10 h-10" />, desc: "Productos seguros y 100% certificados." },
-        { title: "Asesoría Vet", icon: <Bone className="w-10 h-10" />, desc: "Consultoría especializada para dudas." }
-    ];
+    // Parse services from customPageTexts (format: "Título|Descripción")
+    const rawTexts: string[] = (config as any)?.customPageTexts || [];
+    const services = rawTexts.length > 0
+        ? rawTexts.slice(0, 4).map((text, i) => {
+            const parts = text.split("|");
+            return {
+                title: parts[0] || DEFAULT_SERVICES[i]?.title,
+                icon: DEFAULT_SERVICES[i]?.icon || "heart",
+                desc: parts[1] || DEFAULT_SERVICES[i]?.desc,
+            };
+        })
+        : DEFAULT_SERVICES;
+
+    // Parse categories from config or fallback
+    const configCats: any[] = (config as any)?.customPageImages || [];
+    const categories = configCats.length >= 4
+        ? configCats.slice(0, 4).map((c: any, i) => ({
+            name: typeof c === "object" ? (c.title || DEFAULT_CATEGORIES[i].name) : DEFAULT_CATEGORIES[i].name,
+            subtitle: typeof c === "object" ? (c.subtitle || DEFAULT_CATEGORIES[i].subtitle) : DEFAULT_CATEGORIES[i].subtitle,
+            href: typeof c === "object" ? (c.href || DEFAULT_CATEGORIES[i].href) : DEFAULT_CATEGORIES[i].href,
+            image: typeof c === "object" ? (c.url || c.image || DEFAULT_CATEGORIES[i].image) : (typeof c === "string" ? c : DEFAULT_CATEGORIES[i].image),
+        }))
+        : DEFAULT_CATEGORIES;
 
     const ref = useRef(null);
     const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -48,13 +82,12 @@ export function PetHome() {
     return (
         <div ref={ref} className="bg-[#EDE0CF] text-[#5C3D2E] font-sans selection:bg-[#E8963C] selection:text-[#EDE0CF] pb-20 overflow-x-hidden">
 
-            {/* PREVIOUSLY THE HERO WAS A SIMPLE BANNER. WE NOW DELEGATE TO THE PREMIUM PET HERO COMPONENT */}
             <PetHero />
 
-            {/* SERVICES / FEATURES WITH ASYMMETRICAL OVERLAP */}
+            {/* SERVICES / FEATURES */}
             <section className="relative z-30 px-4 lg:px-8 -mt-24 mb-32">
                 <div className="max-w-7xl mx-auto">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
@@ -63,48 +96,52 @@ export function PetHome() {
                     >
                         <div className="absolute top-0 right-0 w-64 h-64 bg-[#E8963C]/20 rounded-full blur-3xl" />
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#8B5E3C]/10 rounded-full blur-3xl" />
-                        
+
                         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
                             <div>
                                 <h2 className="text-[#E8963C] text-sm font-black tracking-[0.2em] uppercase mb-4 flex items-center gap-3">
                                     <PawPrint className="h-5 w-5" /> Por qué elegirnos
                                 </h2>
                                 <p className="text-4xl md:text-6xl font-black uppercase tracking-tight text-[#5C3D2E] leading-none">
-                                    Calidad <br className="hidden md:block" /> Garantizada
+                                    {(config as any)?.customPageDescription?.split("|")[0] || "Calidad"}{" "}
+                                    <br className="hidden md:block" />
+                                    {(config as any)?.customPageDescription?.split("|")[1] || "Garantizada"}
                                 </p>
                             </div>
                         </div>
 
                         <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {services.map((service, idx) => (
-                                <motion.div 
-                                    key={idx} 
-                                    whileHover={{ y: -10, scale: 1.02 }}
-                                    className="bg-[#EDE0CF]/80 backdrop-blur-md p-8 rounded-3xl group hover:bg-gradient-to-br hover:from-[#E8963C] hover:to-[#D4763B] transition-all duration-500 shadow-xl border border-[#D4B896]/50"
-                                >
-                                    <div className="text-[#8B5E3C] group-hover:text-[#EDE0CF] transition-colors mb-6 drop-shadow-md">
-                                        {service.icon}
-                                    </div>
-                                    <h3 className="text-2xl font-black tracking-tight text-[#5C3D2E] group-hover:text-[#EDE0CF] mb-4">
-                                        {service.title}
-                                    </h3>
-                                    <p className="text-[#8B5E3C] font-semibold group-hover:text-[#EDE0CF]/90 transition-colors leading-relaxed">
-                                        {service.desc}
-                                    </p>
-                                </motion.div>
-                            ))}
+                            {services.map((service, idx) => {
+                                const Icon = ICON_MAP[service.icon] || Heart;
+                                return (
+                                    <motion.div
+                                        key={idx}
+                                        whileHover={{ y: -10, scale: 1.02 }}
+                                        className="bg-[#EDE0CF]/80 backdrop-blur-md p-8 rounded-3xl group hover:bg-gradient-to-br hover:from-[#E8963C] hover:to-[#D4763B] transition-all duration-500 shadow-xl border border-[#D4B896]/50"
+                                    >
+                                        <div className="text-[#8B5E3C] group-hover:text-[#EDE0CF] transition-colors mb-6 drop-shadow-md">
+                                            <Icon className="w-10 h-10" />
+                                        </div>
+                                        <h3 className="text-2xl font-black tracking-tight text-[#5C3D2E] group-hover:text-[#EDE0CF] mb-4">
+                                            {service.title}
+                                        </h3>
+                                        <p className="text-[#8B5E3C] font-semibold group-hover:text-[#EDE0CF]/90 transition-colors leading-relaxed">
+                                            {service.desc}
+                                        </p>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </motion.div>
                 </div>
             </section>
 
-            {/* CATEGORIES SECTION WITH PARALLAX */}
+            {/* CATEGORIES SECTION */}
             <section className="py-24 px-4 lg:px-8 relative z-10 overflow-hidden">
-                {/* Organic background shapes */}
                 <motion.div style={{ y: yParallax }} className="absolute -right-64 top-0 w-[800px] h-[800px] bg-[#D4B896]/30 rounded-full blur-[100px] -z-10" />
 
                 <div className="max-w-7xl mx-auto">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
@@ -117,7 +154,7 @@ export function PetHome() {
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {PET_CATEGORIES.map((cat, i) => (
+                        {categories.map((cat, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 50 }}
@@ -139,16 +176,14 @@ export function PetHome() {
                 </div>
             </section>
 
-            {/* TRENDING PRODUCTS WITH WAVES */}
+            {/* TRENDING PRODUCTS */}
             {(trendingProducts as any)?.data?.length > 0 && (
                 <section className="relative pt-32 pb-40 z-10">
-                    {/* Top Wave */}
                     <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
-                        <svg className="relative block w-full h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <svg className="relative block w-full h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,123.1,192.51,110.8,236.43,102.13,279.4,78.89,321.39,56.44Z" fill="#D4B896" fillOpacity="0.3"></path>
                         </svg>
                     </div>
-
                     <div className="absolute inset-0 bg-[#D4B896]/30 -z-10" />
 
                     <div className="max-w-7xl mx-auto px-4 lg:px-8">
@@ -173,18 +208,44 @@ export function PetHome() {
                         </div>
                     </div>
 
-                    {/* Bottom Wave */}
                     <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0]">
-                        <svg className="relative block w-full h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <svg className="relative block w-full h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
                             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.08,130.83,123.1,192.51,110.8,236.43,102.13,279.4,78.89,321.39,56.44Z" fill="#EDE0CF"></path>
                         </svg>
                     </div>
                 </section>
             )}
 
+            {/* NUEVOS PRODUCTOS */}
+            {(newProducts as any)?.data?.length > 0 && (
+                <section className="py-24 px-4 lg:px-8 relative z-10">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                            <div>
+                                <p className="text-[#E8963C] text-sm font-black tracking-[0.2em] uppercase mb-4 flex items-center gap-3">
+                                    <Sparkles className="h-6 w-6" /> Recién Llegados
+                                </p>
+                                <h2 className="text-5xl md:text-6xl font-black tracking-tighter text-[#5C3D2E]">Novedades</h2>
+                            </div>
+                            <Link href="/products?isNew=true" className="group flex items-center gap-3 bg-[#5C3D2E] text-[#EDE0CF] px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#8B5E3C] shadow-lg transition-all hover:scale-105">
+                                Ver Todas <ArrowRight className="h-5 w-5 group-hover:translate-x-2 transition-transform" />
+                            </Link>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {((newProducts as any)?.data || []).map((product: any, idx: number) => (
+                                <motion.div key={product.id} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="h-full">
+                                    <ProductCardRouter product={product} />
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* CTA SECTION */}
             <section className="py-32 px-4 lg:px-8 relative z-10 mt-10">
-                <motion.div 
+                <motion.div
                     initial={{ scale: 0.95, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     viewport={{ once: true }}
@@ -193,16 +254,17 @@ export function PetHome() {
                 >
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 100, repeat: Infinity, ease: "linear" }} className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#E8963C]/40 blur-[80px]" />
                     <motion.div animate={{ rotate: -360 }} transition={{ duration: 100, repeat: Infinity, ease: "linear" }} className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-[#D4B896]/20 blur-[80px]" />
-                    
+
                     <div className="relative z-20 flex flex-col items-center text-center">
                         <motion.div whileHover={{ rotate: 15, scale: 1.2 }} className="bg-[#E8963C] p-6 rounded-3xl shadow-2xl mb-10 rotate-6 border-4 border-[#EDE0CF]/20">
                             <PawPrint className="h-16 w-16 text-[#EDE0CF]" />
                         </motion.div>
                         <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-[#EDE0CF] mb-8">
-                            Amor Incondicional. <br className="hidden md:block"/> Nutrición Perfecta.
+                            {(config as any)?.customPageTitle || "Amor Incondicional."} <br className="hidden md:block" />
+                            {(config as any)?.customPageImagesSubtitle || "Nutrición Perfecta."}
                         </h2>
                         <p className="text-[#D4B896] text-xl md:text-2xl font-medium mb-12 max-w-2xl leading-relaxed">
-                            Únete a nuestra comunidad de dueños responsables y dales la vida que merecen.
+                            {(config as any)?.customPageDescription?.split("|")[2] || "Únete a nuestra comunidad de dueños responsables y dales la vida que merecen."}
                         </p>
                         <Link href="/products" className="group relative overflow-hidden bg-[#E8963C] text-[#EDE0CF] px-12 py-6 rounded-full font-black text-xl uppercase tracking-widest shadow-[0_20px_50px_rgba(232,150,60,0.4)] transition-all hover:scale-110">
                             <span className="relative z-10 flex items-center gap-3">

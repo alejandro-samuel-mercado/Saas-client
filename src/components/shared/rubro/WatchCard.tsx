@@ -45,10 +45,10 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
         <div className="group h-full">
             <Link
                 href={`/products/${product.id}`}
-                className={`block h-full relative bg-gradient-to-br from-[#ffffff] to-[#f8f9fa] dark:from-[#1e2329] dark:to-[#161a1e] rounded-xl border border-gray-200 dark:border-white/5 shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-blue-900/30 dark:hover:border-blue-400/30 ${!isAvailable ? "opacity-60" : ""}`}
+                className={`block h-full relative bg-card text-card-foreground rounded-xl border border-border shadow-sm overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/50 ${!isAvailable ? "opacity-60" : ""}`}
             >
                 {/* ── IMAGE SECTION ── */}
-                <div className="relative aspect-square w-full overflow-hidden bg-[#f0f2f5] dark:bg-[#0d1115] p-6 flex items-center justify-center">
+                <div className="relative aspect-square w-full overflow-hidden bg-muted/30 p-6 flex items-center justify-center">
                     <div className="relative w-full h-full">
                         <Image
                             src={product.images?.[0] || "/images/placeholder.png"}
@@ -61,7 +61,7 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
                     {/* Top Badges */}
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                         {condition && condition !== "NEW" && (
-                            <Badge className="bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900 text-[10px] uppercase tracking-wider border-none rounded-sm">
+                            <Badge className="bg-secondary text-secondary-foreground text-[10px] uppercase tracking-wider border-none rounded-sm">
                                 {condition === "USED" ? "Usado" : condition}
                             </Badge>
                         )}
@@ -74,7 +74,7 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
 
                     {/* Warranty Badge */}
                     {warranty && (
-                        <div className="absolute bottom-3 left-3 flex items-center gap-1 text-[#0f172a] dark:text-[#cbd5e1] text-[10px] font-semibold bg-white/80 dark:bg-black/60 backdrop-blur-md px-2 py-1 rounded-sm border border-gray-200 dark:border-white/10 shadow-sm">
+                        <div className="absolute bottom-3 left-3 flex items-center gap-1 text-foreground text-[10px] font-semibold bg-background/80 backdrop-blur-md px-2 py-1 rounded-sm border border-border shadow-sm">
                             <ShieldCheck className="h-3 w-3 text-emerald-600 dark:text-emerald-400" />
                             {warranty}
                         </div>
@@ -82,7 +82,7 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
 
                     {/* Favorite Button */}
                     <button
-                        className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all duration-300 z-10 ${isFav ? "bg-red-50 text-red-500 dark:bg-red-500/20 dark:text-red-400" : "bg-white/60 text-gray-400 dark:bg-black/40 dark:text-white/50 hover:bg-white hover:text-gray-900 dark:hover:bg-black/60 dark:hover:text-white"}`}
+                        className={`absolute top-3 right-3 p-2 rounded-full backdrop-blur-md transition-all duration-300 z-10 ${isFav ? "bg-destructive/10 text-destructive" : "bg-background/60 text-muted-foreground hover:bg-background hover:text-foreground"}`}
                         onClick={e => { e.preventDefault(); e.stopPropagation(); if (product?.id) toggleFavorite(product.id); }}
                     >
                         <Heart className={`h-4 w-4 ${isFav ? "fill-current" : ""}`} />
@@ -90,7 +90,7 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
                     
                     {/* Image count */}
                     {product.images && product.images.length > 1 && (
-                        <div className="absolute bottom-3 right-3 bg-white/80 dark:bg-black/60 text-gray-700 dark:text-gray-300 text-xs px-2 py-1 rounded-sm backdrop-blur-md flex items-center gap-1 shadow-sm border border-gray-200 dark:border-white/10">
+                        <div className="absolute bottom-3 right-3 bg-background/80 text-foreground text-xs px-2 py-1 rounded-sm backdrop-blur-md flex items-center gap-1 shadow-sm border border-border">
                             <Maximize2 className="h-3 w-3" />
                             {product.images.length}
                         </div>
@@ -98,20 +98,20 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
                 </div>
 
                 {/* ── DETAILS SECTION ── */}
-                <div className="p-4 flex flex-col justify-between flex-1 border-t border-gray-100 dark:border-white/5">
+                <div className="p-4 flex flex-col justify-between flex-1 border-t border-border">
                     <div>
                         {/* Brand */}
-                        <p className="text-xs text-[#0f172a] dark:text-[#94a3b8] font-bold tracking-widest uppercase mb-1 flex items-center gap-1.5">
+                        <p className="text-xs text-primary font-bold tracking-widest uppercase mb-1 flex items-center gap-1.5">
                             <Watch className="h-3 w-3" />
                             {product.brand || (product as any).category?.name || "Relojería"}
                         </p>
 
                         {/* Name / Model */}
-                        <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-1 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
+                        <h3 className="text-sm font-semibold text-card-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">
                             {product.name}
                         </h3>
                         {product.model && product.model !== "-" && (
-                            <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-1 font-mono bg-gray-100 dark:bg-[#0d1115] inline-block px-1.5 py-0.5 rounded-sm">
+                            <p className="text-xs text-muted-foreground mb-3 line-clamp-1 font-mono bg-muted/50 inline-block px-1.5 py-0.5 rounded-sm">
                                 REF: {product.model}
                             </p>
                         )}
@@ -119,13 +119,13 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
                         {/* Technical Specs */}
                         <div className="flex flex-wrap gap-2 mb-3 mt-2">
                             {movement && (
-                                <span className="text-[10px] flex items-center gap-1 text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-sm border border-gray-200 dark:border-white/10">
+                                <span className="text-[10px] flex items-center gap-1 text-muted-foreground bg-muted/30 px-2 py-1 rounded-sm border border-border">
                                     <Activity className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                                     {movement}
                                 </span>
                             )}
                             {material && (
-                                <span className="text-[10px] text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-sm border border-gray-200 dark:border-white/10 truncate max-w-[100px]">
+                                <span className="text-[10px] text-muted-foreground bg-muted/30 px-2 py-1 rounded-sm border border-border truncate max-w-[100px]">
                                     {material}
                                 </span>
                             )}
@@ -133,18 +133,18 @@ export const WatchCard = memo(function WatchCard({ product }: WatchCardProps) {
                     </div>
 
                     {/* ── PRICE ── */}
-                    <div className="pt-3 border-t border-gray-100 dark:border-white/5 mt-auto flex justify-between items-end">
+                    <div className="pt-3 border-t border-border mt-auto flex justify-between items-end">
                         <div>
                             {product.basePrice > price && (
-                                <p className="text-[10px] text-gray-400 line-through mb-0.5 font-mono">
+                                <p className="text-[10px] text-muted-foreground line-through mb-0.5 font-mono">
                                     {formatPrice(product.basePrice, currencyCode)}
                                 </p>
                             )}
-                            <p className="text-lg font-bold text-[#0f172a] dark:text-white font-mono tracking-tight">
+                            <p className="text-lg font-bold text-card-foreground font-mono tracking-tight">
                                 {formatPrice(Number(price), currencyCode)}
                             </p>
                         </div>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0" asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full bg-primary/10 text-primary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0" asChild>
                             <span>+</span>
                         </Button>
                     </div>

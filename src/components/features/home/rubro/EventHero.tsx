@@ -68,8 +68,10 @@ export function EventHero() {
     };
 
     const bannerSlides = getBannerSlides();
-    const mainImage = bannerSlides[0]?.url || bannerSlides[0]?.image || "/images/placeholder.png";
+    const mainImage = bannerSlides[0]?.url || bannerSlides[0]?.image || "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1920";
     const secondaryImage = bannerSlides.length > 1 ? (bannerSlides[1]?.url || bannerSlides[1]?.image) : mainImage;
+    const heroTitle = bannerSlides[0]?.title || "Espacios que";
+    const heroTitleLine2 = bannerSlides[0]?.titleLine2 || "inspiran.";
 
     if (isConfigLoading) {
         return <div className="h-screen w-full bg-[#faf9f6] animate-pulse" />;
@@ -161,8 +163,8 @@ export function EventHero() {
                                 </div>
 
                                 <h1 className="text-5xl lg:text-7xl xl:text-8xl text-[#4a453e] leading-[1.1] mb-8" style={{ fontFamily: 'Georgia, serif' }}>
-                                    Espacios que <br className="hidden lg:block" />
-                                    <span className="italic text-[#9c7a70]">inspiran</span>.
+                                    {heroTitle} <br className="hidden lg:block" />
+                                    <span className="italic text-[#9c7a70]">{heroTitleLine2}</span>
                                 </h1>
                                 
                                 <p className="text-lg text-[#8c857b] mb-10 max-w-md leading-relaxed font-light">
@@ -203,12 +205,19 @@ export function EventHero() {
             <div className="bg-[#f0eee4] py-12 relative z-20">
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="flex flex-wrap justify-between items-center gap-8">
-                        {[
-                            { icon: Leaf, title: "Materiales Naturales", sub: "Sostenibilidad en cada pieza" },
-                            { icon: Heart, title: "Hecho a Mano", sub: "Artesanía local" },
-                            { icon: Sparkles, title: "Diseño Único", sub: "Ediciones limitadas" }
-                        ].map((badge, idx) => {
-                            const Icon = badge.icon;
+                        {(config?.customPageTextsSubtitle 
+                            ? config.customPageTextsSubtitle.split(',').map((s) => {
+                                const parts = s.trim().split('|');
+                                return { title: parts[0] || "", sub: parts[1] || "" };
+                            })
+                            : [
+                                { title: "Materiales Naturales", sub: "Sostenibilidad en cada pieza" },
+                                { title: "Hecho a Mano", sub: "Artesanía local" },
+                                { title: "Diseño Único", sub: "Ediciones limitadas" }
+                            ]
+                        ).map((badge, idx) => {
+                            const icons = [Leaf, Heart, Sparkles];
+                            const Icon = icons[idx % icons.length];
                             return (
                                 <div key={idx} className="flex items-start gap-4 max-w-xs">
                                     <div className="mt-1">

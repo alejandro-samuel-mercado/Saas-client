@@ -66,10 +66,43 @@ export function RealEstateHero() {
         return <div className="h-screen w-full bg-black animate-pulse" />;
     }
 
-    // A fallback background video/image if config doesn't have one
-    const heroMediaUrl = config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0 
-        ? config.bannerImage[0].url || config.bannerImage[0].image
-        : (typeof config?.bannerImage === "string" ? config.bannerImage : "https://videos.pexels.com/video-files/3245464/3245464-uhd_2560_1440_25fps.mp4");
+    const bannerData = (config?.bannerImage && Array.isArray(config.bannerImage) && config.bannerImage.length > 0)
+        ? config.bannerImage[0]
+        : null;
+
+    const heroMediaUrl = bannerData?.url || bannerData?.image || (typeof config?.bannerImage === "string" ? config.bannerImage : "https://videos.pexels.com/video-files/3245464/3245464-uhd_2560_1440_25fps.mp4");
+    const heroTitle = bannerData?.title || "Exclusividad";
+    const heroTitleLine2 = bannerData?.titleLine2 || "Inmobiliaria";
+    const heroSubtitle = bannerData?.subtitle || "Descubrí las propiedades más premium y oportunidades únicas de inversión.";
+
+    // Parse stats for the section below hero
+    // format expected in customPageTextsSubtitle: "10+|Años de Experiencia, 250|Propiedades Entregadas, 100%|Rentabilidad Comprobada"
+    const statsArray = config?.customPageTextsSubtitle 
+        ? config.customPageTextsSubtitle.split(',').map(s => s.trim().split('|'))
+        : [
+            ["10+", "Años de Experiencia"],
+            ["250", "Propiedades Entregadas"],
+            ["100%", "Rentabilidad Comprobada"]
+        ];
+
+    // Get 50/50 split banners
+    const rawLeftBanner = config?.customPageImages?.[0];
+    const isLeftObj = rawLeftBanner && typeof rawLeftBanner === "object";
+    const leftBanner = {
+        url: isLeftObj ? ((rawLeftBanner as any).url || (rawLeftBanner as any).image) : (typeof rawLeftBanner === "string" ? rawLeftBanner : "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200"),
+        title: isLeftObj ? ((rawLeftBanner as any).title || "Departamentos") : "Departamentos",
+        subtitle: isLeftObj ? ((rawLeftBanner as any).subtitle || "Ver Proyectos") : "Ver Proyectos",
+        href: isLeftObj ? ((rawLeftBanner as any).href || "/products?search=departamentos") : "/products?search=departamentos"
+    };
+
+    const rawRightBanner = config?.customPageImages?.[1];
+    const isRightObj = rawRightBanner && typeof rawRightBanner === "object";
+    const rightBanner = {
+        url: isRightObj ? ((rawRightBanner as any).url || (rawRightBanner as any).image) : (typeof rawRightBanner === "string" ? rawRightBanner : "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200"),
+        title: isRightObj ? ((rawRightBanner as any).title || "Residencias") : "Residencias",
+        subtitle: isRightObj ? ((rawRightBanner as any).subtitle || "Ver Casas") : "Ver Casas",
+        href: isRightObj ? ((rawRightBanner as any).href || "/products?search=casas") : "/products?search=casas"
+    };
 
     return (
         <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] font-sans overflow-x-hidden">
@@ -100,8 +133,8 @@ export function RealEstateHero() {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="text-white text-5xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tighter leading-[0.9]"
                     >
-                        Inversión de <br />
-                        <span className="text-transparent" style={{ WebkitTextStroke: '2px white' }}>Alto Impacto</span>
+                        {heroTitle} <br />
+                        <span className="text-transparent" style={{ WebkitTextStroke: '2px white' }}>{heroTitleLine2}</span>
                     </motion.h1>
                     <motion.p 
                         initial={{ opacity: 0 }} 
@@ -109,7 +142,7 @@ export function RealEstateHero() {
                         transition={{ duration: 1, delay: 0.5 }}
                         className="text-white/80 mt-6 text-sm md:text-lg font-light tracking-[0.2em] uppercase max-w-2xl"
                     >
-                        Un legado de rapidez y rentabilidad.
+                        {heroSubtitle}
                     </motion.p>
                 </motion.div>
 
@@ -181,18 +214,12 @@ export function RealEstateHero() {
                         viewport={{ once: true, margin: "-100px" }}
                         className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"
                     >
-                        <div>
-                            <h3 className="text-6xl md:text-7xl font-black mb-2 tracking-tighter text-[#f5ab1c]">10+</h3>
-                            <p className="text-sm font-bold tracking-widest uppercase opacity-80">Años de Experiencia</p>
-                        </div>
-                        <div>
-                            <h3 className="text-6xl md:text-7xl font-black mb-2 tracking-tighter text-[#f5ab1c]">250</h3>
-                            <p className="text-sm font-bold tracking-widest uppercase opacity-80">Propiedades Entregadas</p>
-                        </div>
-                        <div>
-                            <h3 className="text-6xl md:text-7xl font-black mb-2 tracking-tighter text-[#f5ab1c]">100%</h3>
-                            <p className="text-sm font-bold tracking-widest uppercase opacity-80">Rentabilidad Comprobada</p>
-                        </div>
+                        {statsArray.map((stat, i) => (
+                            <div key={i}>
+                                <h3 className="text-6xl md:text-7xl font-black mb-2 tracking-tighter text-[#f5ab1c]">{stat[0]}</h3>
+                                <p className="text-sm font-bold tracking-widest uppercase opacity-80">{stat[1] || ""}</p>
+                            </div>
+                        ))}
                     </motion.div>
                 </div>
             </div>
@@ -200,36 +227,36 @@ export function RealEstateHero() {
             {/* ── ROCKHAUS 50/50 SPLIT BANNERS ── */}
             <div className="flex flex-col lg:flex-row w-full h-[600px] lg:h-[800px]">
                 
-                <Link href="/products?search=departamentos" className="relative flex-1 group overflow-hidden block">
+                <Link href={leftBanner.href || "/products"} className="relative flex-1 group overflow-hidden block">
                     <div className="absolute inset-0 bg-black z-0">
                         <Image 
-                            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200" 
-                            alt="Departamentos" 
+                            src={leftBanner.url || "/images/placeholder.png"} 
+                            alt={leftBanner.title || "Departamentos"} 
                             fill 
                             className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700 ease-out" 
                         />
                     </div>
                     <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-white">
-                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Departamentos</h2>
+                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">{leftBanner.title}</h2>
                         <span className="flex items-center gap-2 border border-white/50 rounded-full px-6 py-2 text-xs font-bold tracking-widest uppercase backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-colors">
-                            Ver Proyectos <ArrowRight className="h-4 w-4" />
+                            {leftBanner.subtitle || "Ver Proyectos"} <ArrowRight className="h-4 w-4" />
                         </span>
                     </div>
                 </Link>
 
-                <Link href="/products?search=casas" className="relative flex-1 group overflow-hidden block">
+                <Link href={rightBanner.href || "/products"} className="relative flex-1 group overflow-hidden block">
                     <div className="absolute inset-0 bg-black z-0">
                         <Image 
-                            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&q=80&w=1200" 
-                            alt="Casas" 
+                            src={rightBanner.url || "/images/placeholder.png"} 
+                            alt={rightBanner.title || "Residencias"} 
                             fill 
                             className="object-cover opacity-60 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700 ease-out" 
                         />
                     </div>
                     <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-white">
-                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">Residencias</h2>
+                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4">{rightBanner.title}</h2>
                         <span className="flex items-center gap-2 border border-white/50 rounded-full px-6 py-2 text-xs font-bold tracking-widest uppercase backdrop-blur-sm group-hover:bg-[#f5ab1c] group-hover:border-[#f5ab1c] group-hover:text-black transition-colors">
-                            Ver Casas <ArrowRight className="h-4 w-4" />
+                            {rightBanner.subtitle || "Ver Proyectos"} <ArrowRight className="h-4 w-4" />
                         </span>
                     </div>
                 </Link>

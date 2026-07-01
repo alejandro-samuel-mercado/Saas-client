@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { configService } from "@/services/config";
+import { useQuery } from "@tanstack/react-query";
 import { Search } from "lucide-react";
-import Link from "next/link";
 import { useState } from "react";
 
 export default function FAQPage() {
@@ -18,7 +19,31 @@ export default function FAQPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
-  const filteredCategories = faqContent.categories
+  const { data: config } = useQuery({
+    queryKey: ["publicConfig"],
+    queryFn: configService.getPublicConfig,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  // Build categories from dynamic FAQ or fall back to static file
+  const dynamicFaq: { question: string; answer: string }[] =
+    (config as any)?.customPageFaq || [];
+
+  const categories =
+    dynamicFaq.length > 0
+      ? [
+          {
+            id: "dynamic",
+            title: "Preguntas Frecuentes",
+            questions: dynamicFaq,
+          },
+        ]
+      : faqContent.categories;
+
+  const title = (config as any)?.faqTitle || faqContent.title;
+  const subtitle = (config as any)?.faqSubtitle || faqContent.subtitle;
+
+  const filteredCategories = categories
     .map((category) => ({
       ...category,
       questions: category.questions.filter(
@@ -45,10 +70,10 @@ export default function FAQPage() {
         <div className=" mx-auto px-4  max-md:px-10">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-6xl md:text-8xl font-black mb-6 tracking-tighter leading-[0.9] text-zinc-900 dark:text-zinc-50">
-              {faqContent.title}
+              {title}
             </h1>
             <p className="text-zinc-500 dark:text-zinc-400 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
-              {faqContent.subtitle}
+              {subtitle}
             </p>
 
             <div className="relative max-w-xl mx-auto mt-12 group">

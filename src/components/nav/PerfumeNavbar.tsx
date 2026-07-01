@@ -17,6 +17,12 @@ export function PerfumeNavbar() {
         staleTime: 1000 * 60 * 5,
     });
 
+    const { data: categories = [] } = useQuery({
+        queryKey: ["categories"],
+        queryFn: () => import("@/services/products").then(m => m.productService.getCategoriesTree()),
+        staleTime: 1000 * 60 * 60,
+    });
+
     const { user } = useAuth();
     const { toggleMobileMenu, toggleCart } = useUIStore();
     const { getTotalItems } = useCartStore();
@@ -44,12 +50,18 @@ export function PerfumeNavbar() {
         }
     };
 
+    const dynamicLinks = (categories || [])
+        .filter((c: any) => c._count?.products > 0)
+        .slice(0, 4)
+        .map((cat: any) => ({
+            name: cat.name,
+            href: cat.slug ? `/products?categoria=${cat.slug}` : `/products`
+        }));
+
     const navLinks = [
         { name: "Colección", href: "/products" },
-        { name: "Clásicos", href: "/products?category=clasicos-perfumes" },
-        { name: "Orientales", href: "/products?category=orientales-amaderados" },
-        { name: "Florales", href: "/products?category=florales-frescos" },
-        { name: "Oud", href: "/products?category=arabes-oud" },
+        ...dynamicLinks,
+        ...(config?.navItemName ? [{ name: config.navItemName, href: "/about" }] : []),
         { name: "Contacto", href: "/contact" },
     ];
 

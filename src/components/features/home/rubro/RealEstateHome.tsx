@@ -9,8 +9,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { RealEstateHero } from "./RealEstateHero";
 import { Button } from "@/components/ui/button";
+import { configService } from "@/services/config";
 
 export function RealEstateHome() {
+    const { data: config } = useQuery({
+        queryKey: ["publicConfig"],
+        queryFn: configService.getPublicConfig,
+    });
     const { data: trendingProducts, isLoading: isLoadingTrending } = useQuery({
         queryKey: ["products", "trending", "inmuebles"],
         queryFn: async () => {
@@ -43,14 +48,12 @@ export function RealEstateHome() {
                 <div className="flex whitespace-nowrap animate-marquee">
                     {Array.from({ length: 10 }).map((_, i) => (
                         <div key={i} className="flex items-center mx-8">
-                            <span className="text-xl font-black tracking-widest uppercase opacity-80">Alquileres</span>
-                            <span className="mx-8 text-[#f5ab1c] opacity-50">✦</span>
-                            <span className="text-xl font-black tracking-widest uppercase opacity-80">Inmuebles</span>
-                            <span className="mx-8 text-[#f5ab1c] opacity-50">✦</span>
-                            <span className="text-xl font-black tracking-widest uppercase opacity-80">Terrenos & Lotes</span>
-                            <span className="mx-8 text-[#f5ab1c] opacity-50">✦</span>
-                            <span className="text-xl font-black tracking-widest uppercase opacity-80">Desarrollos Premium</span>
-                            <span className="mx-8 text-[#f5ab1c] opacity-50">✦</span>
+                            {(config?.marqueeText?.length ? config.marqueeText : ["Alquileres", "Inmuebles", "Terrenos & Lotes", "Desarrollos Premium"]).map((text, j) => (
+                                <span key={j} className="flex items-center">
+                                    <span className="text-xl font-black tracking-widest uppercase opacity-80">{text}</span>
+                                    <span className="mx-8 text-[#f5ab1c] opacity-50">✦</span>
+                                </span>
+                            ))}
                         </div>
                     ))}
                 </div>
@@ -61,9 +64,11 @@ export function RealEstateHome() {
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="flex justify-between items-end mb-16">
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-[#1a1a1a]">Nuestros Pilares</h2>
+                            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-[#1a1a1a]">
+                                {config?.customPageTexts?.[0]?.split('|')[0] || "Nuestros Pilares"}
+                            </h2>
                             <p className="text-gray-500 font-medium tracking-wide max-w-2xl">
-                                Seleccionamos estratégicamente cada segmento para ofrecer rentabilidad y exclusividad. Explora nuestras principales líneas de negocio inmobiliario.
+                                {config?.customPageTexts?.[0]?.split('|')[1] || "Seleccionamos estratégicamente cada segmento para ofrecer rentabilidad y exclusividad. Explora nuestras principales líneas de negocio inmobiliario."}
                             </p>
                         </div>
                     </div>
@@ -71,8 +76,12 @@ export function RealEstateHome() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <Link href="/products?saleMode=ALQUILER" className="group block bg-[#f4f4f4] p-12 hover:bg-[#1a1a1a] transition-colors duration-500 rounded-sm">
                             <Home className="h-12 w-12 text-[#1a1a1a] group-hover:text-white mb-8 transition-colors" />
-                            <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-white mb-4 transition-colors">Alquileres Selectos</h3>
-                            <p className="text-gray-500 group-hover:text-gray-400 mb-8 transition-colors">Residencias y departamentos listos para habitar con las mejores condiciones del mercado.</p>
+                            <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-white mb-4 transition-colors">
+                                {config?.customPageTexts?.[1]?.split('|')[0] || "Alquileres Selectos"}
+                            </h3>
+                            <p className="text-gray-500 group-hover:text-gray-400 mb-8 transition-colors">
+                                {config?.customPageTexts?.[1]?.split('|')[1] || "Residencias y departamentos listos para habitar con las mejores condiciones del mercado."}
+                            </p>
                             <span className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-[#1a1a1a] group-hover:text-[#f5ab1c] transition-colors">
                                 Ver Catálogo <ArrowRight className="ml-2 h-4 w-4" />
                             </span>
@@ -80,8 +89,12 @@ export function RealEstateHome() {
 
                         <Link href="/products" className="group block bg-[#7c5a43] p-12 hover:bg-[#1a1a1a] transition-colors duration-500 rounded-sm">
                             <Building className="h-12 w-12 text-white mb-8 transition-colors" />
-                            <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 transition-colors">Inmuebles Premium</h3>
-                            <p className="text-white/70 mb-8 transition-colors">Propiedades de lujo y desarrollos urbanos diseñados para un estilo de vida superior.</p>
+                            <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-4 transition-colors">
+                                {config?.customPageTexts?.[2]?.split('|')[0] || "Inmuebles Premium"}
+                            </h3>
+                            <p className="text-white/70 mb-8 transition-colors">
+                                {config?.customPageTexts?.[2]?.split('|')[1] || "Propiedades de lujo y desarrollos urbanos diseñados para un estilo de vida superior."}
+                            </p>
                             <span className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-white transition-colors">
                                 Explorar Proyectos <ArrowRight className="ml-2 h-4 w-4" />
                             </span>
@@ -89,8 +102,12 @@ export function RealEstateHome() {
 
                         <Link href="/products?search=lote" className="group block bg-[#f4f4f4] p-12 hover:bg-[#1a1a1a] transition-colors duration-500 rounded-sm">
                             <Map className="h-12 w-12 text-[#1a1a1a] group-hover:text-white mb-8 transition-colors" />
-                            <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-white mb-4 transition-colors">Terrenos y Lotes</h3>
-                            <p className="text-gray-500 group-hover:text-gray-400 mb-8 transition-colors">La base sólida para tu próxima gran inversión. Lotes en zonas de alta plusvalía.</p>
+                            <h3 className="text-2xl font-black uppercase tracking-tight text-[#1a1a1a] group-hover:text-white mb-4 transition-colors">
+                                {config?.customPageTexts?.[3]?.split('|')[0] || "Terrenos y Lotes"}
+                            </h3>
+                            <p className="text-gray-500 group-hover:text-gray-400 mb-8 transition-colors">
+                                {config?.customPageTexts?.[3]?.split('|')[1] || "La base sólida para tu próxima gran inversión. Lotes en zonas de alta plusvalía."}
+                            </p>
                             <span className="inline-flex items-center text-xs font-bold tracking-widest uppercase text-[#1a1a1a] group-hover:text-[#f5ab1c] transition-colors">
                                 Ver Oportunidades <ArrowRight className="ml-2 h-4 w-4" />
                             </span>
@@ -137,11 +154,13 @@ export function RealEstateHome() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                         <div>
                             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-8 leading-[0.9]">
-                                Excelencia<br />
-                                <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>Estructural</span>
+                                {config?.customPageTexts?.[4]?.split('|')[0] || "Excelencia"}<br />
+                                <span className="text-transparent" style={{ WebkitTextStroke: '1px white' }}>
+                                    {config?.customPageTexts?.[4]?.split('|')[1] || "Estructural"}
+                                </span>
                             </h2>
                             <p className="text-white/70 text-lg mb-10 font-light max-w-lg">
-                                Cada proyecto en nuestro portfolio representa el balance perfecto entre diseño vanguardista, funcionalidad habitacional y solidez constructiva.
+                                {config?.customPageTexts?.[5] || "Cada proyecto en nuestro portfolio representa el balance perfecto entre diseño vanguardista, funcionalidad habitacional y solidez constructiva."}
                             </p>
                             <div className="grid grid-cols-2 gap-8 mb-10 border-t border-white/20 pt-8">
                                 <div>
@@ -179,8 +198,12 @@ export function RealEstateHome() {
             <section className="py-24 bg-white">
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="text-center mb-16">
-                        <span className="text-[#f5ab1c] font-bold tracking-[0.2em] uppercase text-xs mb-2 block">Recién Llegados</span>
-                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#1a1a1a]">Últimos Ingresos</h2>
+                        <span className="text-[#f5ab1c] font-bold tracking-[0.2em] uppercase text-xs mb-2 block">
+                            Nuevas Oportunidades
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-[#1a1a1a]">
+                            Propiedades Recientes
+                        </h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -1,32 +1,37 @@
 "use client";
 
-import { home } from "@/../content/home";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
 import { configService } from "@/services/config";
-import { productService } from "@/services/products";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-    Bell,
     Heart,
     Menu,
-    Package,
     Search,
     ShoppingCart,
     User,
     X,
     Sparkles,
     Wind,
-    Droplets
+    Droplets,
+    Package,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+const DEFAULT_SLIDES = [
+    {
+        url: "https://images.unsplash.com/photo-1541643600914-78b084683702?auto=format&fit=crop&q=80&w=1920",
+        title: "L'Élixir",
+        titleLine2: "Parfum",
+        subtitle: "Descubre la esencia que define tu aura.",
+    },
+];
 
 export function PerfumeHero() {
     const { data: config, isLoading: isConfigLoading } = useQuery({
@@ -35,9 +40,8 @@ export function PerfumeHero() {
         staleTime: 1000 * 60 * 60,
     });
     
-    const { carousel } = home.hero;
     const { user } = useAuth();
-    const { toggleCart, toggleNotifications, toggleMobileMenu, isMobileMenuOpen } = useUIStore();
+    const { toggleCart, toggleMobileMenu } = useUIStore();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
     const [scrolled, setScrolled] = useState(false);
@@ -61,17 +65,16 @@ export function PerfumeHero() {
     };
 
     const getBannerSlides = () => {
-        if (!config?.bannerImage) return carousel.slides;
-        if (Array.isArray(config.bannerImage) && config.bannerImage.length > 0) return config.bannerImage;
-        const legacyBanner = config.bannerImage as any;
+        if (Array.isArray(config?.bannerImage) && config.bannerImage.length > 0) return config.bannerImage;
+        const legacyBanner = config?.bannerImage as any;
         if (typeof legacyBanner === "string" && legacyBanner.trim()) {
             return [{
-                image: legacyBanner,
-                title: config.storeName || "Maison des Parfums",
+                url: legacyBanner,
+                title: config?.storeName || "Maison des Parfums",
                 subtitle: "L'essence de l'élégance",
             }];
         }
-        return carousel.slides;
+        return DEFAULT_SLIDES;
     };
 
     const bannerSlides = getBannerSlides();

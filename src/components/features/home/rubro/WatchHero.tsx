@@ -1,6 +1,5 @@
 "use client";
 
-import { home } from "@/../content/home";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { configService } from "@/services/config";
@@ -25,6 +24,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
+const DEFAULT_SLIDES = [
+    {
+        url: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&q=80&w=1920",
+        title: "Precisión Absoluta",
+        titleLine2: "Alta Relojería",
+        subtitle: "Diseño e ingeniería en perfecta armonía.",
+    }
+];
+
 export function WatchHero() {
     const { data: config, isLoading: isConfigLoading } = useQuery({
         queryKey: ["publicConfig"],
@@ -32,7 +40,6 @@ export function WatchHero() {
         staleTime: 1000 * 60 * 60,
     });
     
-    const { carousel } = home.hero;
     const { user } = useAuth();
     const { toggleCart, toggleMobileMenu, isMobileMenuOpen } = useUIStore();
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -58,17 +65,16 @@ export function WatchHero() {
     };
 
     const getBannerSlides = () => {
-        if (!config?.bannerImage) return carousel.slides;
-        if (Array.isArray(config.bannerImage) && config.bannerImage.length > 0) return config.bannerImage;
-        const legacyBanner = config.bannerImage as any;
+        if (config && Array.isArray(config.bannerImage) && config.bannerImage.length > 0) return config.bannerImage;
+        const legacyBanner = config?.bannerImage as any;
         if (typeof legacyBanner === "string" && legacyBanner.trim()) {
             return [{
-                image: legacyBanner,
-                title: config.storeName || "Alta Relojería",
+                url: legacyBanner,
+                title: config?.storeName || "Alta Relojería",
                 subtitle: "Precisión y Estilo en cada segundo.",
             }];
         }
-        return carousel.slides;
+        return DEFAULT_SLIDES;
     };
 
     const bannerSlides = getBannerSlides();
@@ -84,16 +90,16 @@ export function WatchHero() {
     }, [isAutoPlaying, nextSlide, bannerSlides.length]);
 
     if (isConfigLoading) {
-        return <div className="h-screen w-full bg-[#0d1115] animate-pulse" />;
+        return <div className="h-screen w-full bg-background animate-pulse" />;
     }
 
     const currentSlideData = bannerSlides[currentSlide];
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-[#0d1115] overflow-hidden font-sans">
+        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-background overflow-hidden font-sans">
             
             {/* ── PRECISION NAVBAR ── */}
-            <div className={`fixed lg:top-0 z-50 transition-all duration-300 w-full left-0 right-0 border-b ${scrolled ? "bg-white/95 dark:bg-[#0d1115]/95 backdrop-blur-md border-gray-200 dark:border-white/10 py-3 shadow-sm" : "bg-transparent border-white/10 py-5"}`}>
+            <div className={`fixed lg:top-0 z-50 transition-all duration-300 w-full left-0 right-0 border-b ${scrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md border-gray-200 dark:border-white/10 py-3 shadow-sm" : "bg-transparent border-white/10 py-5"}`}>
                 <div className="container mx-auto px-6 lg:px-12">
                     <div className="flex items-center justify-between">
                         
@@ -165,10 +171,10 @@ export function WatchHero() {
                 
                 {/* Background Images */}
                 <AnimatePresence mode="wait">
-                    <motion.div key={currentSlide} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="absolute inset-0 bg-[#0d1115]">
+                    <motion.div key={currentSlide} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }} className="absolute inset-0 bg-background">
                         <Image src={currentSlideData?.url || currentSlideData?.image || "/images/placeholder.png"} alt="Watch" fill className="object-cover object-center opacity-70 mix-blend-luminosity" priority />
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#0d1115] via-[#0d1115]/80 to-transparent" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0d1115] via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
                     </motion.div>
                 </AnimatePresence>
 
@@ -204,7 +210,7 @@ export function WatchHero() {
                                 </p>
 
                                 <div className="flex flex-wrap items-center gap-4">
-                                    <Button asChild className="bg-white hover:bg-gray-200 text-[#0d1115] rounded-none font-bold tracking-widest uppercase px-8 py-6 text-xs transition-colors">
+                                    <Button asChild className="bg-white hover:bg-gray-200 text-background rounded-none font-bold tracking-widest uppercase px-8 py-6 text-xs transition-colors">
                                         <Link href="/products">Ver Catálogo</Link>
                                     </Button>
                                     <Button asChild variant="outline" className="border-white/20 text-white hover:bg-white/10 rounded-none font-bold tracking-widest uppercase px-8 py-6 text-xs backdrop-blur-sm">
@@ -251,7 +257,7 @@ export function WatchHero() {
             </div>
 
             {/* ── TECHNICAL BADGES ── */}
-            <div className="bg-white dark:bg-[#161a1e] border-b border-gray-200 dark:border-white/5 py-8">
+            <div className="bg-white dark:bg-background border-b border-gray-200 dark:border-white/5 py-8">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-wrap justify-between items-center gap-6">
                         {[

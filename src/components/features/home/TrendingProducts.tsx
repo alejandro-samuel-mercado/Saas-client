@@ -4,7 +4,6 @@ import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
 import { Button } from "@/components/ui/button";
 import { useRubroConfig } from "@/hooks/useRubroConfig";
 import { productService } from "@/services/products";
-import { home } from "@/../content/home";
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
 import { ArrowRight, Flame } from "lucide-react";
@@ -23,7 +22,7 @@ export function TrendingProducts() {
     queryKey: ["products", "trending"],
     queryFn: async () => {
       const result = await productService.getProducts({
-        limit: home.trending.limit,
+        limit: 15,
         isTrending: "true",
       });
       return result;

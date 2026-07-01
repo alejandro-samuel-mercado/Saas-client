@@ -45,10 +45,10 @@ export function PetNavbar() {
 
     const NAV_LINKS = [
         { label: "Inicio", href: "/", icon: Home },
-        { label: "Perros", href: "/products?category=perros", icon: Dog },
-        { label: "Gatos", href: "/products?category=gatos", icon: Cat },
-        { label: "Alimentos", href: "/products?category=alimentos", icon: Bone },
-        { label: "Accesorios", href: "/products?category=accesorios", icon: Fish },
+        { label: "Perros", href: "/products?category=alimentos-perros", icon: Dog },
+        { label: "Gatos", href: "/products?category=alimentos-gatos", icon: Cat },
+        { label: "Accesorios", href: "/products?category=accesorios-mascotas", icon: Fish },
+        { label: "Higiene", href: "/products?category=higiene-mascotas", icon: Bone },
         { label: "Nosotros", href: "/about", icon: null },
         { label: "Contacto", href: "/contact", icon: null },
     ];

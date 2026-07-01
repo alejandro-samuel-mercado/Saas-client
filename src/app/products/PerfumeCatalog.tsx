@@ -1,6 +1,5 @@
 "use client";
 
-import { products as productsContent } from "@/../content/products";
 import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
 import { ProductSkeleton } from "@/components/shared/ProductSkeleton";
 import { Badge } from "@/components/ui/badge";
@@ -72,7 +71,7 @@ export function PerfumeCatalog() {
 
     const { data, isLoading, error, isFetching } = useQuery({
         queryKey: ["products", page, filters],
-        queryFn: () => productService.getProducts({ page, limit: productsContent.listing.itemsPerPage, ...filters }),
+        queryFn: () => productService.getProducts({ page, limit: 12, ...filters }),
     });
 
     const updateURL = (newFilters: Record<string, any>) => {
@@ -102,18 +101,18 @@ export function PerfumeCatalog() {
 
     // Sidebar Filter Component
     const FilterSidebar = () => (
-        <div className="space-y-8 text-[#f9f1d8]">
+        <div className="space-y-8 text-[hsl(var(--foreground))]">
             {/* Ordenar */}
             <div>
-                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#d4af37] mb-4">Ordenar Por</h3>
+                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[hsl(var(--primary))] mb-4">Ordenar Por</h3>
                 <div className="space-y-2">
-                    {productsContent.listing.sortOptions.map((option) => (
+                    {[{ value: "newest", label: "Más Recientes" }, { value: "price_asc", label: "Menor Precio" }, { value: "price_desc", label: "Mayor Precio" }].map((option) => (
                         <button
                             key={option.value}
                             onClick={() => handleFilterChange("sort", option.value)}
                             className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 filters.sort === option.value
-                                    ? "border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37]"
+                                    ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
                                     : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
                             }`}
                         >
@@ -127,7 +126,7 @@ export function PerfumeCatalog() {
 
             {/* Categoría */}
             <div>
-                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#d4af37] mb-4">Familia Olfativa</h3>
+                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[hsl(var(--primary))] mb-4">Familia Olfativa</h3>
                 <div className="space-y-2">
                     {[{ id: "all", name: "Todas las familias", slug: "all" }, ...categories].map((cat: any) => (
                         <button
@@ -135,7 +134,7 @@ export function PerfumeCatalog() {
                             onClick={() => handleFilterChange("category", cat.slug === "all" ? undefined : cat.slug)}
                             className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 (cat.slug === "all" && !filters.category) || filters.category === cat.slug
-                                    ? "border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37]"
+                                    ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
                                     : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
                             }`}
                         >
@@ -150,7 +149,7 @@ export function PerfumeCatalog() {
             {/* Marcas */}
             {brands.length > 0 && (
                 <div>
-                    <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#d4af37] mb-4 flex items-center gap-2">
+                    <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[hsl(var(--primary))] mb-4 flex items-center gap-2">
                         <Sparkles className="h-3 w-3" />Marca
                     </h3>
                     <div className="space-y-2">
@@ -160,7 +159,7 @@ export function PerfumeCatalog() {
                                 onClick={() => handleFilterChange("brand", filters.brand === b ? undefined : b)}
                                 className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                     filters.brand === b
-                                        ? "border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37]"
+                                        ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
                                         : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
                                 }`}
                             >
@@ -175,9 +174,9 @@ export function PerfumeCatalog() {
 
             {/* Rango de Precio */}
             <div>
-                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#d4af37] mb-4">Rango de Precio</h3>
+                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[hsl(var(--primary))] mb-4">Rango de Precio</h3>
                 <div className="space-y-2">
-                    {productsContent.listing.filters.priceRanges.map((range) => (
+                    {[{ label: "Hasta {0}", min: 0, max: 50 }, { label: "{0} - {1}", min: 50, max: 200 }, { label: "Más de {0}", min: 200, max: 1000000 }].map((range) => (
                         <button
                             key={range.label}
                             onClick={() => {
@@ -188,7 +187,7 @@ export function PerfumeCatalog() {
                             }}
                             className={`block w-full text-left text-[10px] uppercase tracking-widest px-4 py-3 border transition-colors ${
                                 filters.minPrice === range.min && filters.maxPrice === range.max
-                                    ? "border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37] font-bold"
+                                    ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] font-bold"
                                     : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
                             }`}
                         >
@@ -205,7 +204,7 @@ export function PerfumeCatalog() {
 
             {/* Filtros rápidos */}
             <div>
-                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[#d4af37] mb-4 flex items-center gap-2">
+                <h3 className="text-[10px] font-bold tracking-[0.3em] uppercase text-[hsl(var(--primary))] mb-4 flex items-center gap-2">
                     <Wind className="h-3 w-3" />Filtros Rápidos
                 </h3>
                 <div className="space-y-2">
@@ -219,7 +218,7 @@ export function PerfumeCatalog() {
                             onClick={() => handleFilterChange(key, !filters[key])}
                             className={`w-full flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 filters[key]
-                                    ? "border-[#d4af37] bg-[#d4af37]/10 text-[#d4af37]"
+                                    ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
                                     : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
                             }`}
                         >
@@ -233,7 +232,7 @@ export function PerfumeCatalog() {
     );
 
     return (
-        <main className="min-h-screen bg-[#f5f0e6] text-[#1a1614] pt-32 pb-20">
+        <main className="min-h-screen bg-[hsl(var(--background))] text-[hsl(var(--foreground))] pt-32 pb-20">
 
             {/* Mobile filter overlay */}
             <AnimatePresence>
@@ -242,10 +241,10 @@ export function PerfumeCatalog() {
                         initial={{ opacity: 0, x: -300 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -300 }}
-                        className="fixed inset-0 z-[200] bg-[#1a1614] overflow-y-auto p-8"
+                        className="fixed inset-0 z-[200] bg-[hsl(var(--foreground))] overflow-y-auto p-8"
                     >
                         <div className="flex justify-between items-center mb-10">
-                            <h2 className="text-[#d4af37] text-xs tracking-[0.4em] uppercase font-bold">Filtros</h2>
+                            <h2 className="text-[hsl(var(--primary))] text-xs tracking-[0.4em] uppercase font-bold">Filtros</h2>
                             <button onClick={() => setIsMobileFilterOpen(false)} className="text-white/50 hover:text-white">
                                 <X className="h-5 w-5" />
                             </button>
@@ -259,14 +258,14 @@ export function PerfumeCatalog() {
 
                 {/* Header */}
                 <div className="mb-12">
-                    <span className="text-[#d4af37] font-bold tracking-[0.4em] uppercase text-[10px] block mb-4">Catálogo Completo</span>
+                    <span className="text-[hsl(var(--primary))] font-bold tracking-[0.4em] uppercase text-[10px] block mb-4">Catálogo Completo</span>
                     <div className="flex items-end justify-between">
-                        <h1 className="text-5xl md:text-6xl font-serif text-[#1a1614]">
+                        <h1 className="text-5xl md:text-6xl font-serif text-[hsl(var(--foreground))]">
                             Colección
-                            <span className="block text-transparent" style={{ WebkitTextStroke: "1px #d4af37" }}>de Fragancias</span>
+                            <span className="block text-transparent" style={{ WebkitTextStroke: "1px hsl(var(--primary))" }}>de Fragancias</span>
                         </h1>
                         {data && (
-                            <p className="text-[#1a1614]/40 text-xs tracking-widest uppercase hidden md:block">
+                            <p className="text-[hsl(var(--foreground))]/40 text-xs tracking-widest uppercase hidden md:block">
                                 {data.total ?? data.data?.length ?? 0} fragancias
                             </p>
                         )}
@@ -275,17 +274,17 @@ export function PerfumeCatalog() {
 
                 {/* Search bar */}
                 <div className="mb-10">
-                    <div className="relative border border-[#1a1614]/20 hover:border-[#d4af37]/60 focus-within:border-[#d4af37] transition-colors bg-white">
-                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[#d4af37]" />
+                    <div className="relative border border-[hsl(var(--foreground))]/20 hover:border-[hsl(var(--primary))]/60 focus-within:border-[hsl(var(--primary))] transition-colors bg-white">
+                        <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[hsl(var(--primary))]" />
                         <input
                             type="search"
                             placeholder="Buscar fragancia, marca, concentración..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="w-full pl-14 pr-16 h-14 bg-transparent text-sm font-light placeholder:text-[#1a1614]/30 text-[#1a1614] outline-none tracking-widest"
+                            className="w-full pl-14 pr-16 h-14 bg-transparent text-sm font-light placeholder:text-[hsl(var(--foreground))]/30 text-[hsl(var(--foreground))] outline-none tracking-widest"
                         />
                         {searchInput && (
-                            <button onClick={() => setSearchInput("")} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/30 hover:text-[#d4af37]">
+                            <button onClick={() => setSearchInput("")} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/30 hover:text-[hsl(var(--primary))]">
                                 <X className="h-4 w-4" />
                             </button>
                         )}
@@ -305,13 +304,20 @@ export function PerfumeCatalog() {
                             if (key === "inStock") label = "En Stock";
                             if (key === "minPrice") label = `Desde ${formatPrice(Number(value), currency)}`;
                             if (key === "maxPrice") label = `Hasta ${formatPrice(Number(value), currency)}`;
-                            if (key === "sort") label = `Orden: ${productsContent.listing.sortOptions.find(o => o.value === value)?.label || value}`;
+                            if (key === "sort") {
+                                const sortOptions = [
+                                    { value: "newest", label: "Más Recientes" },
+                                    { value: "price_asc", label: "Menor Precio" },
+                                    { value: "price_desc", label: "Mayor Precio" }
+                                ];
+                                label = `Orden: ${sortOptions.find(o => o.value === value)?.label || value}`;
+                            }
                             return (
                                 <motion.span
                                     key={key}
                                     initial={{ opacity: 0, scale: 0.9 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    className="inline-flex items-center gap-2 px-4 py-2 border border-[#d4af37]/40 bg-[#d4af37]/10 text-[#d4af37] text-[10px] tracking-widest uppercase font-bold"
+                                    className="inline-flex items-center gap-2 px-4 py-2 border border-[hsl(var(--primary))]/40 bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] text-[10px] tracking-widest uppercase font-bold"
                                 >
                                     {label}
                                     <button onClick={() => handleFilterChange(key, undefined)} className="hover:text-white">
@@ -333,11 +339,11 @@ export function PerfumeCatalog() {
                     {/* Sidebar */}
                     <aside className="hidden lg:block w-72 flex-shrink-0">
                         <div className="sticky top-36">
-                            <div className="bg-[#1a1614] p-8">
+                            <div className="bg-[hsl(var(--foreground))] p-8">
                                 <div className="flex items-center gap-3 mb-8">
-                                    <div className="h-px flex-1 bg-[#d4af37]/30" />
-                                    <h2 className="text-[10px] text-[#d4af37] tracking-[0.4em] uppercase font-bold">Filtros</h2>
-                                    <div className="h-px flex-1 bg-[#d4af37]/30" />
+                                    <div className="h-px flex-1 bg-[hsl(var(--primary))]/30" />
+                                    <h2 className="text-[10px] text-[hsl(var(--primary))] tracking-[0.4em] uppercase font-bold">Filtros</h2>
+                                    <div className="h-px flex-1 bg-[hsl(var(--primary))]/30" />
                                 </div>
                                 <FilterSidebar />
                             </div>
@@ -350,26 +356,26 @@ export function PerfumeCatalog() {
                         <div className="lg:hidden mb-6 flex gap-3">
                             <button
                                 onClick={() => setIsMobileFilterOpen(true)}
-                                className="flex items-center gap-2 border border-white/10 px-6 py-3 text-[10px] tracking-widest uppercase text-white/60 hover:border-[#d4af37]/40 hover:text-[#d4af37] transition-colors"
+                                className="flex items-center gap-2 border border-white/10 px-6 py-3 text-[10px] tracking-widest uppercase text-white/60 hover:border-[hsl(var(--primary))]/40 hover:text-[hsl(var(--primary))] transition-colors"
                             >
                                 <Filter className="h-4 w-4" />
-                                Filtros {activeFilterCount > 0 && <Badge className="ml-1 bg-[#d4af37] text-black text-[9px]">{activeFilterCount}</Badge>}
+                                Filtros {activeFilterCount > 0 && <Badge className="ml-1 bg-[hsl(var(--primary))] text-black text-[9px]">{activeFilterCount}</Badge>}
                             </button>
                         </div>
 
                         {isLoading || isFetching ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                                 {Array.from({ length: 6 }).map((_, i) => (
-                                    <div key={i} className="h-96 bg-[#1a1a1a] animate-pulse" />
+                                    <div key={i} className="h-96 bg-[hsl(var(--card))] animate-pulse" />
                                 ))}
                             </div>
                         ) : error ? (
                             <p className="text-white/30 text-center py-20">Error cargando fragancias.</p>
                         ) : !data || data.data.length === 0 ? (
                             <div className="text-center py-20">
-                                <Sparkles className="h-12 w-12 text-[#d4af37]/20 mx-auto mb-4" />
+                                <Sparkles className="h-12 w-12 text-[hsl(var(--primary))]/20 mx-auto mb-4" />
                                 <p className="text-white/30 text-sm tracking-widest uppercase">No encontramos fragancias con ese criterio.</p>
-                                <button onClick={clearAllFilters} className="mt-6 px-8 py-3 border border-[#d4af37]/40 text-[#d4af37] text-[10px] tracking-widest uppercase hover:bg-[#d4af37] hover:text-black transition-all">
+                                <button onClick={clearAllFilters} className="mt-6 px-8 py-3 border border-[hsl(var(--primary))]/40 text-[hsl(var(--primary))] text-[10px] tracking-widest uppercase hover:bg-[hsl(var(--primary))] hover:text-black transition-all">
                                     Ver Todo el Catálogo
                                 </button>
                             </div>
@@ -387,7 +393,7 @@ export function PerfumeCatalog() {
                                         <button
                                             disabled={page === 1}
                                             onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "instant" }); }}
-                                            className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:border-[#d4af37]/40 hover:text-[#d4af37] transition-all disabled:opacity-20"
+                                            className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:border-[hsl(var(--primary))]/40 hover:text-[hsl(var(--primary))] transition-all disabled:opacity-20"
                                         >
                                             ←
                                         </button>
@@ -403,8 +409,8 @@ export function PerfumeCatalog() {
                                                     onClick={() => { setPage(pg); window.scrollTo({ top: 0, behavior: "instant" }); }}
                                                     className={`w-10 h-10 flex items-center justify-center text-sm transition-all ${
                                                         page === pg
-                                                            ? "bg-[#d4af37] text-black font-bold"
-                                                            : "border border-white/10 text-white/40 hover:border-[#d4af37]/40 hover:text-[#d4af37]"
+                                                            ? "bg-[hsl(var(--primary))] text-black font-bold"
+                                                            : "border border-white/10 text-white/40 hover:border-[hsl(var(--primary))]/40 hover:text-[hsl(var(--primary))]"
                                                     }`}
                                                 >
                                                     {pg}
@@ -414,7 +420,7 @@ export function PerfumeCatalog() {
                                         <button
                                             disabled={page === data.totalPages}
                                             onClick={() => { setPage(p => Math.min(data.totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "instant" }); }}
-                                            className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:border-[#d4af37]/40 hover:text-[#d4af37] transition-all disabled:opacity-20"
+                                            className="w-10 h-10 flex items-center justify-center border border-white/10 text-white/40 hover:border-[hsl(var(--primary))]/40 hover:text-[hsl(var(--primary))] transition-all disabled:opacity-20"
                                         >
                                             →
                                         </button>

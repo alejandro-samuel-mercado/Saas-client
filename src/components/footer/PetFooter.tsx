@@ -14,10 +14,10 @@ export function PetFooter() {
 
     const LINKS = {
         tienda: [
-            { label: "Alimentos", href: "/products?category=alimentos" },
-            { label: "Juguetes", href: "/products?category=juguetes" },
-            { label: "Accesorios", href: "/products?category=accesorios" },
-            { label: "Higiene & Cuidado", href: "/products?category=higiene" },
+            { label: "Alimentos", href: "/products?category=alimentos-perros" },
+            { label: "Juguetes", href: "/products?category=juguetes-mascotas" },
+            { label: "Accesorios", href: "/products?category=accesorios-mascotas" },
+            { label: "Higiene & Cuidado", href: "/products?category=higiene-mascotas" },
             { label: "Novedades", href: "/products?isNew=true" },
         ],
         info: [

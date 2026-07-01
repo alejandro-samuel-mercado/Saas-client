@@ -90,15 +90,7 @@ export function DecorHome() {
                     style={{ opacity: heroOpacity }}
                     className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 pb-24 lg:pb-32"
                 >
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="text-[#C4A882] text-xs font-light tracking-[0.4em] uppercase mb-8 flex items-center gap-3"
-                    >
-                        <span className="w-12 h-[1px] bg-[#C4A882] inline-block" />
-                        {config?.storeName || "Fleur Events"} — Decoración & Eventos
-                    </motion.p>
+
 
                     <motion.h1
                         initial={{ opacity: 0, y: 40 }}

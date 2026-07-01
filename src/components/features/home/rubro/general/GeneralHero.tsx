@@ -15,17 +15,17 @@ import { useRubroConfig } from "@/hooks/useRubroConfig";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-      Bell,
-      Headphones,
-      Heart,
-      Menu,
-      Package,
-      Search,
-      ShieldCheck,
-      ShoppingCart,
-      Truck,
-      User,
-      X
+    Bell,
+    Headphones,
+    Heart,
+    Menu,
+    Package,
+    Search,
+    ShieldCheck,
+    ShoppingCart,
+    Truck,
+    User,
+    X
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +45,7 @@ export function GeneralHero() {
         queryFn: configService.getPublicConfig,
         staleTime: 1000 * 60 * 60,
     });
-    const { carousel, featureBadges } = home.hero;
+    const { carousel } = home.hero;
     const { user } = useAuth();
     const {
         toggleCart,
@@ -71,6 +71,7 @@ export function GeneralHero() {
     const [isSearching, setIsSearching] = useState(false);
     const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
     const rubroConfig = useRubroConfig();
+    const featureBadges = rubroConfig.benefitItems.slice(0, 2);
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(async () => {
@@ -347,7 +348,7 @@ export function GeneralHero() {
                                             >
                                                 {currentSlideData.subtitle}
                                             </motion.p>
-                                          
+
                                         </div>
                                     </motion.div>
                                 </AnimatePresence>
@@ -363,8 +364,8 @@ export function GeneralHero() {
                                     onMouseEnter={() => setIsAutoPlaying(false)}
                                     onMouseLeave={() => setIsAutoPlaying(true)}
                                     className={`w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 hover:cursor-pointer ${currentSlide === index
-                                            ? "bg-white w-8 shadow-[0_0_10px_rgba(255,255,255,0.8)]"
-                                            : "bg-white/40 hover:bg-white/60"
+                                        ? "bg-white w-8 shadow-[0_0_10px_rgba(255,255,255,0.8)]"
+                                        : "bg-white/40 hover:bg-white/60"
                                         }`}
                                     aria-label={`Go to slide ${index + 1}`}
                                 />
@@ -378,11 +379,11 @@ export function GeneralHero() {
             <div className=" absolute lg:-bottom-16 max-sm:-bottom-[80%]  z-40 w-full max-md:-bottom-10  max-md:h-full ">
                 <div className="md:container flex mx-auto  w-full justify-center    max-sm:h-46 max-md:h-48 lg:h-46 ">
                     <div className="flex gap-60 max-lg:gap-36 justify-center max-md:justify-between w-[40vw] md:w-[65vw] max-md:gap-28 max-sm:gap-4 max-md:w-[100%] max-sm:mx-6 max-sm:w-[100%]  max-md:mx-10    h-full">
-                        {featureBadges.map((badge, index) => {
+                        {featureBadges.map((badge: any, index: any) => {
                             const Icon = iconMap[badge.icon];
                             return (
                                 <motion.div
-                                    key={badge.id}
+                                    key={index}
                                     initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.1 * index }}
@@ -404,7 +405,7 @@ export function GeneralHero() {
                                                 {badge.title}
                                             </h3>
                                             <p className="text-xs text-gray-400  font-semibold">
-                                                {badge.subtitle}
+                                                {badge.description}
                                             </p>
                                         </div>
                                     </div>
