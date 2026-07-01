@@ -113,7 +113,7 @@ export function PerfumeCatalog() {
                             className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 filters.sort === option.value
                                     ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
-                                    : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
+                                    : "border-foreground/10 text-foreground/50 hover:border-foreground/30 hover:text-foreground/80"
                             }`}
                         >
                             {option.label}
@@ -122,7 +122,7 @@ export function PerfumeCatalog() {
                 </div>
             </div>
 
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-foreground/10" />
 
             {/* Categoría */}
             <div>
@@ -135,7 +135,7 @@ export function PerfumeCatalog() {
                             className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 (cat.slug === "all" && !filters.category) || filters.category === cat.slug
                                     ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
-                                    : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
+                                    : "border-foreground/10 text-foreground/50 hover:border-foreground/30 hover:text-foreground/80"
                             }`}
                         >
                             {cat.name}
@@ -144,7 +144,7 @@ export function PerfumeCatalog() {
                 </div>
             </div>
 
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-foreground/10" />
 
             {/* Marcas */}
             {brands.length > 0 && (
@@ -160,7 +160,7 @@ export function PerfumeCatalog() {
                                 className={`w-full text-left px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                     filters.brand === b
                                         ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
-                                        : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
+                                        : "border-foreground/10 text-foreground/50 hover:border-foreground/30 hover:text-foreground/80"
                                 }`}
                             >
                                 {b}
@@ -170,7 +170,7 @@ export function PerfumeCatalog() {
                 </div>
             )}
 
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-foreground/10" />
 
             {/* Rango de Precio */}
             <div>
@@ -188,7 +188,7 @@ export function PerfumeCatalog() {
                             className={`block w-full text-left text-[10px] uppercase tracking-widest px-4 py-3 border transition-colors ${
                                 filters.minPrice === range.min && filters.maxPrice === range.max
                                     ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))] font-bold"
-                                    : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
+                                    : "border-foreground/10 text-foreground/50 hover:border-foreground/30 hover:text-foreground/80"
                             }`}
                         >
                             {range.label.replace(/{(\d+)}/g, (_, num) => {
@@ -200,7 +200,7 @@ export function PerfumeCatalog() {
                 </div>
             </div>
 
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-foreground/10" />
 
             {/* Filtros rápidos */}
             <div>
@@ -219,7 +219,7 @@ export function PerfumeCatalog() {
                             className={`w-full flex items-center gap-3 px-4 py-3 text-xs tracking-widest uppercase border transition-all ${
                                 filters[key]
                                     ? "border-[hsl(var(--primary))] bg-[hsl(var(--primary))]/10 text-[hsl(var(--primary))]"
-                                    : "border-white/10 text-white/50 hover:border-white/30 hover:text-white/80"
+                                    : "border-foreground/10 text-foreground/50 hover:border-foreground/30 hover:text-foreground/80"
                             }`}
                         >
                             <Icon className="h-3 w-3" />
@@ -274,17 +274,17 @@ export function PerfumeCatalog() {
 
                 {/* Search bar */}
                 <div className="mb-10">
-                    <div className="relative border border-[hsl(var(--foreground))]/20 hover:border-[hsl(var(--primary))]/60 focus-within:border-[hsl(var(--primary))] transition-colors bg-white">
+                    <div className="relative border border-[hsl(var(--foreground))]/20 hover:border-[hsl(var(--primary))]/60 focus-within:border-[hsl(var(--primary))] transition-colors bg-transparent">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-[hsl(var(--primary))]" />
                         <input
                             type="search"
                             placeholder="Buscar fragancia, marca, concentración..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="w-full pl-14 pr-16 h-14 bg-transparent text-sm font-light placeholder:text-[hsl(var(--foreground))]/30 text-[hsl(var(--foreground))] outline-none tracking-widest"
+                            className="w-full pl-14 pr-16 h-14 bg-transparent text-sm font-light placeholder:text-[hsl(var(--foreground))]/50 text-[hsl(var(--foreground))] outline-none tracking-widest"
                         />
                         {searchInput && (
-                            <button onClick={() => setSearchInput("")} className="absolute right-6 top-1/2 -translate-y-1/2 text-white/30 hover:text-[hsl(var(--primary))]">
+                            <button onClick={() => setSearchInput("")} className="absolute right-6 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-[hsl(var(--primary))]">
                                 <X className="h-4 w-4" />
                             </button>
                         )}

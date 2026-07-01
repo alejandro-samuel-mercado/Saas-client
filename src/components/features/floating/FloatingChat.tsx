@@ -110,7 +110,7 @@ export function FloatingChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="max-sm:-mr-3 w-[330px] sm:w-[360px] h-[520px] bg-white/90 backdrop-blur-xl border border-white/50 rounded-[2rem] shadow-2xl flex flex-col overflow-hidden relative"
+            className="max-sm:-mr-3 w-[330px] sm:w-[360px] h-[520px] bg-card/95 backdrop-blur-xl border border-border/50 rounded-[2rem] shadow-2xl flex flex-col overflow-hidden relative"
           >
             {/* Fondo decorativo */}
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -z-10 translate-x-10 -translate-y-10"></div>
@@ -143,7 +143,7 @@ export function FloatingChat() {
 
             {/* Mensajes */}
             <div
-              className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/50"
+              className="flex-1 p-5 overflow-y-auto space-y-4 bg-background/50"
               ref={scrollRef}
             >
               {messages.map((msg, idx) => (
@@ -203,16 +203,16 @@ export function FloatingChat() {
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t border-slate-100">
+            <div className="p-4 border-t border-border/50 bg-card">
               <form
-                className="flex gap-2 relative bg-slate-100 rounded-full p-1 pl-4  transition-all"
+                className="flex gap-2 relative bg-background rounded-full p-1 pl-4 transition-all"
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleSend();
                 }}
               >
                 <Input
-                  className=" bg-gray-200 border-2 border-secondary  focus-visible:ring-0 p-0 text-sm placeholder:text-gray-400/70 pl-2"
+                  className="bg-transparent border-2 border-primary/20 focus-visible:ring-0 p-0 text-sm placeholder:text-foreground/40 pl-2 text-foreground"
                   placeholder="Escribe tu consulta..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}

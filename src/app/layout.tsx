@@ -63,14 +63,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             const productLabel = config.rubro?.productFormConfig?.productLabel || "Productos";
             document.title = `${storeName} | Descubre nuestros/as ${productLabel.toLowerCase()}`;
             
-            if (config.rubro?.slug === "perfumes") {
-                document.body.classList.add("theme-perfumes");
-                document.body.classList.remove("theme-general");
-            } else if (config.rubro?.slug === "general") {
-                document.body.classList.add("theme-general");
-                document.body.classList.remove("theme-perfumes");
-            } else {
-                document.body.classList.remove("theme-perfumes", "theme-general");
+            const themes = ["theme-perfumes", "theme-general", "theme-relojes", "theme-barberias", "theme-mascotas", "theme-decoracion"];
+            themes.forEach(t => document.body.classList.remove(t));
+            
+            if (config.rubro?.slug) {
+                document.body.classList.add(`theme-${config.rubro.slug}`);
             }
         }
     }, [config]);
@@ -104,7 +101,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                             .join('\n')}
                     }
                     ${config.themeColors.background ? `
-                    body.theme-perfumes {
+                    body.theme-perfumes, body.theme-relojes {
                         background: hsl(${config.themeColors.background});
                     }
                     ` : ''}`

@@ -117,7 +117,7 @@ export function WatchCatalog() {
                 </div>
                 <div className="container relative mx-auto px-6 lg:px-12 text-center">
 
-                    <h1 className="text-5xl md:text-6xl font-serif text-white mb-6">
+                    <h1 className="text-5xl md:text-6xl font-serif text-foreground mb-6">
                         {config?.storeName ? `Colección ${config.storeName}` : "Colección Exclusiva"}
                     </h1>
                     <p className="text-foreground/70 max-w-2xl mx-auto font-light text-lg">
@@ -135,7 +135,7 @@ export function WatchCatalog() {
                                 <Image src={cat.image} alt={cat.name} fill className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500" />
                             </div>
                             <div>
-                                <h3 className="font-serif text-xl text-white mb-1 group-hover:text-primary transition-colors">{cat.name}</h3>
+                                <h3 className="font-serif text-xl text-foreground mb-1 group-hover:text-primary transition-colors">{cat.name}</h3>
                                 <span className="text-foreground/50 text-xs tracking-widest uppercase flex items-center gap-2 group-hover:text-foreground transition-colors">
                                     Ver productos <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                                 </span>
@@ -266,9 +266,9 @@ export function WatchCatalog() {
                         ) : products.length === 0 ? (
                             <div className="text-center py-32 bg-card rounded-[2.5rem] border border-primary/10">
                                 <Watch className="w-16 h-16 text-primary/30 mx-auto mb-6" />
-                                <h3 className="text-2xl font-serif text-white mb-2">Sin Resultados</h3>
+                                <h3 className="text-2xl font-serif text-foreground mb-2">Sin Resultados</h3>
                                 <p className="text-foreground/60 mb-8 max-w-md mx-auto">No pudimos encontrar piezas que coincidan con tu búsqueda. Intenta modificar los filtros.</p>
-                                <button onClick={clearAll} className="px-8 py-3 rounded-full bg-primary text-background font-medium hover:bg-white transition-colors">
+                                <button onClick={clearAll} className="px-8 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
                                     Ver toda la colección
                                 </button>
                             </div>

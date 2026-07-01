@@ -281,60 +281,8 @@ export function PerfumeHome() {
                 </div>
             </section>
 
-            {/* ── ÚLTIMAS NOVEDADES ── */}
-            {/* Filtro REAL: se activa marcando "Novedad" en cada producto del panel */}
-            <section className="py-24 bg-background">
-                <div className="container mx-auto px-6 lg:px-12">
-                    <div className="text-center mb-16">
-                        <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] block mb-4">Recién Llegadas</span>
-                        <h2 className="text-4xl md:text-5xl font-serif text-foreground">Últimas Novedades</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {isLoadingNew
-                            ? Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-96 bg-card animate-pulse" />)
-                            : newProducts?.data?.length
-                                ? newProducts.data.map((product) => (
-                                    <ProductCardRouter key={product.id} product={product} />
-                                ))
-                                : <p className="col-span-4 text-center text-foreground/40 py-16 italic">Marcá productos como &quot;Novedad&quot; desde el panel para mostrarlos aquí.</p>
-                        }
-                    </div>
-                    <div className="mt-14 text-center">
-                        <Link href="/products?isNew=true"
-                            className="inline-flex items-center gap-3 border border-primary/40 px-12 py-5 text-[10px] font-bold tracking-[0.3em] uppercase text-primary hover:bg-primary hover:text-black transition-all duration-300">
-                            Ver Todas las Novedades <ArrowRight className="h-4 w-4" />
-                        </Link>
-                    </div>
-                </div>
-            </section>
 
-            {/* ── GUÍA DEL EXPERTO ── */}
-            {/* Contenido fijo educativo — no requiere edición frecuente */}
-            <section className="py-24 bg-card border-t border-primary/10">
-                <div className="container mx-auto px-6 lg:px-12">
-                    <div className="text-center mb-16">
-                        <span className="text-primary font-bold tracking-[0.4em] uppercase text-[10px] block mb-4">Guía del Experto</span>
-                        <h2 className="text-4xl font-serif text-foreground">¿Qué concentración elegir?</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {guideItems.map((c, i) => (
-                            <div key={i} className="border border-primary/20 bg-background p-8 hover:border-primary/50 transition-all group">
-                                <div className="flex items-center justify-between mb-6">
-                                    <span className="text-4xl font-serif text-primary">{c.type}</span>
-                                    <div className="h-12 w-px bg-primary/20" />
-                                    <span className="text-xs text-primary text-right font-bold">
-                                        {c.strength}<br />
-                                        <span className="text-foreground/30 font-normal">persistencia</span>
-                                    </span>
-                                </div>
-                                <p className="text-foreground/30 text-[10px] tracking-[0.2em] uppercase mb-3">{c.full}</p>
-                                <p className="text-foreground/60 text-sm font-light leading-relaxed mb-4">{c.desc}</p>
-                                <p className="text-[10px] text-primary tracking-widest uppercase font-bold">Duración: {c.duration}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+
 
             {/* ── CTA FINAL ── */}
             {/* Editable: Panel → Página (Menú) → Título Principal y Descripción */}
