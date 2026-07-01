@@ -210,7 +210,7 @@ export function PerfumeHome() {
                                 ? trendingProducts.data.map((product) => (
                                     <ProductCardRouter key={product.id} product={product} />
                                 ))
-                                : <p className="col-span-4 text-center text-foreground/40 py-16 italic">Marcá productos como "Destacados" desde el panel para mostrarlos aquí.</p>
+                                : <p className="col-span-4 text-center text-foreground/40 py-16 italic">Marcá productos como &quot;Destacados&quot; desde el panel para mostrarlos aquí.</p>
                         }
                     </div>
                 </div>
@@ -296,7 +296,7 @@ export function PerfumeHome() {
                                 ? newProducts.data.map((product) => (
                                     <ProductCardRouter key={product.id} product={product} />
                                 ))
-                                : <p className="col-span-4 text-center text-foreground/40 py-16 italic">Marcá productos como "Novedad" desde el panel para mostrarlos aquí.</p>
+                                : <p className="col-span-4 text-center text-foreground/40 py-16 italic">Marcá productos como &quot;Novedad&quot; desde el panel para mostrarlos aquí.</p>
                         }
                     </div>
                     <div className="mt-14 text-center">
