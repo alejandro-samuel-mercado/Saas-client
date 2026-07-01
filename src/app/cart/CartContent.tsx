@@ -326,7 +326,7 @@ export default function CartContent() {
     };
 
     fetchPaymentOptions();
-  }, [currency, storeConfig]);
+  }, [currency, storeConfig, paymentOptions.length]);
 
   const shippingMutation = useMutation({
     mutationFn: async (address: {
@@ -381,6 +381,7 @@ export default function CartContent() {
     customerData.state,
     customerData.zipCode,
     customerData.country,
+    shippingMutation,
   ]);
 
   const isAddressValid = useMemo(() => {
@@ -551,7 +552,7 @@ export default function CartContent() {
       prevDepsRef.current = dependencyString;
       previewMutation.mutate();
     }
-  }, [dependencyString, user, previewMutation.isPending]);
+  }, [dependencyString, user, previewMutation.isPending, items.length, previewMutation]);
 
   useEffect(() => {
     if (deliveryData.method === "pickup") {

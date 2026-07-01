@@ -425,6 +425,7 @@ function CartContent() {
         customerData.state,
         customerData.zipCode,
         customerData.country,
+        shippingMutation,
     ]);
 
     const isAddressValid = useMemo(() => {
@@ -586,7 +587,7 @@ function CartContent() {
         if (items.length > 0 && debouncedItems.length > 0) {
             previewMutation.mutate();
         }
-    }, [dependencyString]);
+    }, [dependencyString, items.length, debouncedItems.length, previewMutation]);
 
     useEffect(() => {
         if (deliveryData.method === "pickup") {
