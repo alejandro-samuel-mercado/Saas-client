@@ -241,7 +241,7 @@ export function PerfumeCatalog() {
                         initial={{ opacity: 0, x: -300 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -300 }}
-                        className="fixed inset-0 z-[200] bg-[hsl(var(--foreground))] overflow-y-auto p-8"
+                        className="fixed inset-0 z-[200] bg-[hsl(var(--background))] overflow-y-auto p-8"
                     >
                         <div className="flex justify-between items-center mb-10">
                             <h2 className="text-[hsl(var(--primary))] text-xs tracking-[0.4em] uppercase font-bold">Filtros</h2>
@@ -339,7 +339,7 @@ export function PerfumeCatalog() {
                     {/* Sidebar */}
                     <aside className="hidden lg:block w-72 flex-shrink-0">
                         <div className="sticky top-36">
-                            <div className="bg-[hsl(var(--foreground))] p-8">
+                            <div className="bg-[hsl(var(--card))] border border-[hsl(var(--primary))]/20 p-8 rounded-sm">
                                 <div className="flex items-center gap-3 mb-8">
                                     <div className="h-px flex-1 bg-[hsl(var(--primary))]/30" />
                                     <h2 className="text-[10px] text-[hsl(var(--primary))] tracking-[0.4em] uppercase font-bold">Filtros</h2>

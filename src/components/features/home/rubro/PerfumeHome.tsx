@@ -119,26 +119,7 @@ export function PerfumeHome() {
             {/* Imagen, Título y Subtítulo: Panel → Hero Carousel */}
             <PerfumeHero />
 
-            {/* ── FEATURE BADGES ── */}
-            {/* Contenido fijo (estructura compleja sin campo panel dedicado) */}
-            <div className="bg-background border-t border-b border-primary/10 py-12">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {featureBadges.map((badge, idx) => {
-                            const Icon = BADGE_ICONS[badge.icon] ?? Sparkles;
-                            return (
-                                <div key={idx} className="flex flex-col items-center text-center group">
-                                    <div className="w-12 h-12 mb-4 rounded-full border border-primary/30 flex items-center justify-center bg-card transition-transform duration-500 group-hover:rotate-180 group-hover:bg-primary/10">
-                                        <Icon className="h-5 w-5 text-primary transition-transform duration-500 group-hover:-rotate-180" />
-                                    </div>
-                                    <h3 className="font-serif text-foreground text-sm tracking-widest uppercase mb-1">{badge.title}</h3>
-                                    <p className="text-xs text-foreground/40 italic">{badge.sub}</p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
+
 
             {/* ── MARQUEE ── */}
             {/* Editable: Panel → Identidad Visual → Marquee Text */}
