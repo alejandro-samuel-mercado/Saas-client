@@ -121,21 +121,7 @@ export default function CartAnimation({ invert = false }: CartAnimationProps) {
                 </foreignObject>
               </motion.g>
 
-              {/* Puntos */}
-              <circle
-                cx={startX}
-                cy="170"
-                r="8"
-                fill="hsl(var(--secondary))"
-                className="max-md:[r:16px]"
-              />
-              <circle
-                cx={endX}
-                cy="330"
-                r="8"
-                fill="hsl(var(--primary))"
-                className="max-md:[r:16px]"
-              />
+             
 
               {/* Texto separado del carrito */}
               <text

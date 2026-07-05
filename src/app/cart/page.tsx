@@ -1,6 +1,7 @@
 "use client";
 
 import { cart as cartContent } from "@/../content/cart";
+import MercadoPagoBrick from "@/components/features/checkout/MercadoPagoBrick";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -8,11 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+      Select,
+      SelectContent,
+      SelectItem,
+      SelectTrigger,
+      SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
@@ -22,9 +23,9 @@ import { formatPrice } from "@/lib/utils";
 import { Branch, branchService } from "@/services/branch";
 import { PublicConfig, configService } from "@/services/config";
 import {
-    OrderPreviewRequest,
-    OrderPreviewResponse,
-    orderService,
+      OrderPreviewRequest,
+      OrderPreviewResponse,
+      orderService,
 } from "@/services/orders";
 import { PaymentGatewayOption, paymentService } from "@/services/payment";
 import { ShippingZone, shippingService } from "@/services/shipping";
@@ -32,24 +33,22 @@ import { useCartStore } from "@/store/cart";
 import { useCurrencyStore } from "@/store/currency";
 import { useMutation } from "@tanstack/react-query";
 import {
-    AlertCircle,
-    Award,
-    Check,
-    Loader2,
-    MapPin,
-    Minus,
-    Plus,
-    ShieldCheck,
-    Tag,
-    Trash2,
-    Truck,
-    User,
+      AlertCircle,
+      Check,
+      Loader2,
+      MapPin,
+      Minus,
+      Plus,
+      ShieldCheck,
+      Tag,
+      Trash2,
+      Truck,
+      User
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
-import MercadoPagoBrick from "@/components/features/checkout/MercadoPagoBrick";
 
 type Step = "cart" | "data" | "delivery" | "payment";
 
@@ -1273,98 +1272,8 @@ function CartContent() {
                                         </div>
                                     )}
 
-                                    {/* Canje de puntos */}
-                                    {user &&
-                                        user.points > 0 &&
-                                        storeConfig?.enablePoints &&
-                                        storeConfig?.enablePointsRedemption && (
-                                            <div className="mt-8 pt-6 border-t border-primary/10">
-                                                <div className="flex items-center justify-between mb-4">
-                                                    <Label className="font-bold flex items-center gap-2">
-                                                        <Check className="h-4 w-4 text-amber-500" />
-                                                        Canjear Puntos
-                                                    </Label>
-                                                    <span className="text-sm text-muted-foreground">
-                                                        Disponibles:{" "}
-                                                        <span className="font-bold text-amber-600">
-                                                            {user.points} pts
-                                                        </span>
-                                                    </span>
-                                                </div>
-
-                                                <div className="flex gap-4 items-end">
-                                                    <div className="flex-1">
-                                                        <Input
-                                                            type="number"
-                                                            inputMode="numeric"
-                                                            placeholder="Cantidad de puntos a usar"
-                                                            value={pointsToUse || ""}
-                                                            onChange={(e) => {
-                                                                const val = parseInt(e.target.value) || 0;
-                                                                setPointsToUse(
-                                                                    val > user.points ? user.points : val,
-                                                                );
-                                                            }}
-                                                            disabled={isUpdating}
-                                                            className="h-12 rounded-xl border-2 border-primary/20 focus:border-primary bg-card/50"
-                                                        />
-                                                    </div>
-                                                    {pointsToUse > 0 &&
-                                                        (preview?.pointsDiscount ?? 0) > 0 && (
-                                                            <div className="h-12 flex items-center px-4 bg-amber-50 border-2 border-amber-200 rounded-xl animate-in fade-in zoom-in duration-300">
-                                                                <span className="text-amber-700 font-bold text-sm">
-                                                                    Ahorras:{" "}
-                                                                    {formatPrice(
-                                                                        preview?.pointsDiscount ?? 0,
-                                                                        currency,
-                                                                    )}
-                                                                </span>
-                                                            </div>
-                                                        )}
-                                                    {pointsToUse > 0 && pointsToUse !== appliedPoints && (
-                                                        <Button
-                                                            className="h-12 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 shadow-md hover:shadow-lg transition-all"
-                                                            onClick={() => setAppliedPoints(pointsToUse)}
-                                                            disabled={isUpdating}
-                                                        >
-                                                            Canjear
-                                                        </Button>
-                                                    )}
-                                                    {(pointsToUse > 0 || appliedPoints > 0) && (
-                                                        <Button
-                                                            variant="ghost"
-                                                            className="h-12 rounded-xl text-destructive hover:bg-destructive/10"
-                                                            onClick={() => {
-                                                                setPointsToUse(0);
-                                                                setAppliedPoints(0);
-                                                            }}
-                                                            disabled={isUpdating}
-                                                        >
-                                                            Limpiar
-                                                        </Button>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-
-                                    {/* Vista previa de puntos ganados - oculto si los puntos están deshabilitados */}
-                                    {storeConfig?.enablePoints && (
-                                        <div className="mt-4 flex items-center gap-2 text-amber-600 font-bold bg-amber-50 p-3 rounded-2xl border border-amber-100 animate-in fade-in duration-500">
-                                            <Award className="h-4 w-4" />
-                                            <span>
-                                                ¡Ganarás{" "}
-                                                {preview?.totalPointsEarned ??
-                                                    (() => {
-                                                        const pointsRate =
-                                                            storeConfig.activeEvent?.pointsPerCurrency ||
-                                                            storeConfig.pointsPerCurrency ||
-                                                            0.001;
-                                                        return Math.floor(clientSubtotal * pointsRate);
-                                                    })()}{" "}
-                                                puntos con esta compra!
-                                            </span>
-                                        </div>
-                                    )}
+                                   
+                                   
                                 </div>
                             )}
 
@@ -2213,24 +2122,7 @@ function CartContent() {
                                                 </div>
                                             )}
 
-                                        {/* Descuentos por Puntos */}
-                                        {storeConfig?.enablePoints &&
-                                            (preview?.pointsDiscount ?? 0) > 0 && (
-                                                <div className="flex justify-between text-xs text-amber-600 font-bold bg-amber-50 p-1.5 rounded-lg border border-amber-100">
-                                                    <span className="flex items-center gap-1">
-                                                        <Award className="h-3 w-3" />
-                                                        Descuento por Puntos
-                                                    </span>
-                                                    <span>
-                                                        -
-                                                        {formatPrice(
-                                                            preview?.pointsDiscount ?? 0,
-                                                            currency,
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            )}
-
+                                       
                                         {/* Envío */}
                                         <div className="flex justify-between text-xs text-cyan-700 font-bold bg-cyan-50 p-1.5 rounded-lg border border-cyan-100">
                                             <span className="flex items-center gap-1">

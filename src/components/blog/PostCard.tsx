@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BlogPost } from "@/types";
-import { ArrowRight, Clock, Share2 } from "lucide-react";
+import { Clock, Share2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -95,12 +95,7 @@ export function PostCard({ post }: PostCardProps) {
             ))}
           </div>
 
-          <Link href={`/blog/detail?slug=${post.slug}`} className="w-full">
-            <Button className="w-full rounded-2xl font-black text-xs h-14 bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 hover:bg-primary dark:hover:bg-primary hover:text-white transition-all shadow-2xl shadow-zinc-300 dark:shadow-none uppercase tracking-widest gap-2">
-              Seguir Leyendo{" "}
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
+         
         </div>
       </div>
     </div>

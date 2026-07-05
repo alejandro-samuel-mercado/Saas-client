@@ -35,7 +35,7 @@ export const footer = {
       title: "Negocio",
       links: [
         { label: "Sobre Nosotros", href: "/about" },
-         { label: "Blog", href: "/blog" },
+       
         { label: "Contacto", href: "/contact" },
         { label: "Preguntas Frecuentes", href: "/faq" },
       ],

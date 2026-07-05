@@ -68,14 +68,7 @@ export const profile = {
     writeReview: "Escribir una Reseña",
   },
 
-  points: {
-    title: "Puntos y Recompensas",
-    currentBalance: "Saldo Actual",
-    earned: "Ganados",
-    used: "Usados",
-    expired: "Expirados",
-    history: "Historial de Puntos",
-  },
+
 
   security: {
     logoutAllButton: "Cerrar Sesión en Todos los Dispositivos",

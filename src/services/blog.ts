@@ -19,15 +19,5 @@ export const blogService = {
     return http<SearchResult<BlogPost>>(`/api/blog?${query.toString()}`);
   },
 
-  getPost: async (slug: string) => {
-    return http<BlogPost>(`/api/blog/${slug}`);
-  },
 
-  getTags: async () => {
-    return http<string[]>("/api/blog/tags");
-  },
-
-  getRelatedPosts: async (slug: string, limit: number = 3) => {
-    return http<BlogPost[]>(`/api/blog/${slug}/related?limit=${limit}`);
-  },
 };

@@ -9,12 +9,12 @@ import { ReviewsTab } from "@/components/features/profile/ReviewsTab";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
+import { guestOrderPersistence } from "@/lib/guest-persistence";
 import { PublicConfig, configService } from "@/services/config";
 import { AnimatePresence, motion } from "framer-motion";
 import { Gift, Heart, LogOut, Mail, MapPin, MessageSquare, Package, User as UserIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { guestOrderPersistence } from "@/lib/guest-persistence";
 
 export function PerfumeProfile() {
   const { user: authUser, isLoading, logout } = useAuth();
@@ -114,12 +114,7 @@ export function PerfumeProfile() {
             </div>
           </div>
 
-          {storeConfig?.enablePoints && (
-            <div className="text-center md:text-right pt-4">
-              <p className="text-4xl font-serif text-[#d4af37] mb-1">{user.points}</p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold">Puntos</p>
-            </div>
-          )}
+          
         </div>
 
         <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="w-full">
