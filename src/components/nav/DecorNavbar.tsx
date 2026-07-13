@@ -2,14 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { configService } from "@/services/config";
-import { productService } from "@/services/products";
 import Link from "next/link";
-import { Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Menu, Search, ShoppingBag, User } from "lucide-react";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
 import { useCartStore } from "@/store/cart";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUIStore } from "@/store/ui";
 
 export function DecorNavbar() {
     const { data: config } = useQuery({
@@ -19,20 +18,12 @@ export function DecorNavbar() {
     });
 
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { toggleMobileMenu } = useUIStore();
     const cartItems = useCartStore((state) => state.items);
     const { user } = useAuth();
     const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
     const pathname = usePathname();
     const isHomePage = pathname === "/";
-    const [categoriesTree, setCategoriesTree] = useState<any[]>([]);
-    const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
-
-
-    useEffect(() => {
-        productService.getCategoriesTree().then(setCategoriesTree);
-    }, []);
-
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
@@ -56,9 +47,9 @@ export function DecorNavbar() {
                     {/* Mobile Menu Toggle */}
                     <button
                         className="lg:hidden hover:opacity-70 transition-colors"
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        onClick={toggleMobileMenu}
                     >
-                        {isMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
+                        <Menu size={24} strokeWidth={1.5} />
                     </button>
 
                     {/* Logo */}
@@ -102,15 +93,6 @@ export function DecorNavbar() {
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`lg:hidden fixed inset-0 top-[72px] bg-[#F0E5D8] transition-transform duration-500 ease-in-out ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-                <div className="flex flex-col p-8 gap-8 text-[#3A302A] text-xl font-serif">
-                    <Link href="/" onClick={() => setIsMenuOpen(false)}>Inicio</Link>
-                    <Link href="/products" onClick={() => setIsMenuOpen(false)}>Colecciones</Link>
-                    <Link href="/about" onClick={() => setIsMenuOpen(false)}>Nosotros</Link>
-                    <Link href="/contact" onClick={() => setIsMenuOpen(false)}>Contacto</Link>
-                </div>
-            </div>
         </nav>
     );
 }

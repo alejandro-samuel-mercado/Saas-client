@@ -5,7 +5,6 @@ import { configService } from "@/services/config";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
 import { useQuery } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
 import { Dog, Heart, Menu, Search, ShoppingCart, User, X, Cat, Bone, Fish, PawPrint, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -163,39 +162,6 @@ export function PetNavbar() {
                 </div>
             </div>
 
-            {/* Mobile Menu */}
-            <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="lg:hidden overflow-hidden border-t border-white/20 bg-[#D4B896]/50 backdrop-blur-xl shadow-2xl"
-                    >
-                        <nav className="px-4 py-4 flex flex-col gap-1">
-                            {NAV_LINKS.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    onClick={toggleMobileMenu}
-                                    className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-[#5C3D2E] hover:bg-[#EDE0CF] transition-colors"
-                                >
-                                    {link.icon && <link.icon className="h-4 w-4 text-[#8B5E3C]" />}
-                                    {link.label}
-                                </Link>
-                            ))}
-                            <div className="flex gap-2 mt-3 pt-3 border-t border-[#D4B896]">
-                                <Link href="/favorites" onClick={toggleMobileMenu} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl border border-[#D4B896] text-[#5C3D2E] font-bold text-sm">
-                                    <Heart className="h-4 w-4" /> Favoritos
-                                </Link>
-                                <Link href={user ? "/profile" : "/login"} onClick={toggleMobileMenu} className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-2xl border border-[#D4B896] text-[#5C3D2E] font-bold text-sm">
-                                    <User className="h-4 w-4" /> {user ? "Perfil" : "Ingresar"}
-                                </Link>
-                            </div>
-                        </nav>
-                    </motion.div>
-                )}
-            </AnimatePresence>
         </header>
     );
 }
