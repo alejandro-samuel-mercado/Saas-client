@@ -5,6 +5,7 @@ import { configService } from "@/services/config";
 import { useCartStore } from "@/store/cart";
 import { useUIStore } from "@/store/ui";
 import { useQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { Dog, Heart, Menu, Search, ShoppingCart, User, X, Cat, Bone, Fish, PawPrint, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
