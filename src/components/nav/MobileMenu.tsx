@@ -62,7 +62,7 @@ function DefaultMobileMenu() {
           animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -2000, x: 1000 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="fixed top-0 left-0 right-0 pb-20 z-[1000] lg:hidden flex flex-col bg-white/95 backdrop-blur-3xl overflow-y-auto w-full h-auto"
+          className="fixed top-0 left-0 right-0 pb-20 z-[1050] lg:hidden flex flex-col bg-white/95 backdrop-blur-3xl overflow-y-auto w-full h-auto"
         >
           <div className="flex items-center justify-between p-4 px-6 border-b border-gray-200/50">
             <Link className="h-10 w-14 m-2" href="/">
@@ -191,7 +191,7 @@ function RealEstateMobileMenu() {
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-xl flex flex-col"
+          className="fixed inset-0 z-[1050] lg:hidden bg-gradient-to-b from-black/95 to-black/90 backdrop-blur-xl flex flex-col"
         >
           {/* Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
@@ -270,7 +270,7 @@ function PerfumeMobileMenu() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col"
           style={{ background: "linear-gradient(135deg, #0a0a0a 0%, #1a1010 50%, #0d0d1a 100%)" }}
         >
           {/* Decorative gold lines */}
@@ -358,7 +358,7 @@ function WatchMobileMenu() {
           animate={{ clipPath: "circle(150% at 95% 5%)" }}
           exit={{ clipPath: "circle(0% at 95% 5%)" }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col bg-card"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col bg-card"
         >
           <div className="flex items-center justify-between px-6 py-5 border-b border-primary/10">
             <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-2">
@@ -427,7 +427,7 @@ function BarberMobileMenu() {
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col bg-stone-950"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col bg-stone-950"
         >
           {/* Orange accent line */}
           <div className="h-1 bg-gradient-to-r from-[#e65c00] via-[#f9a825] to-[#e65c00]" />
@@ -507,7 +507,7 @@ function PetMobileMenu() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col bg-[#EDE0CF]"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col bg-[#EDE0CF]"
         >
           {/* Decorative paw prints */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5">
@@ -584,7 +584,7 @@ function DecorMobileMenu() {
           animate={{ x: 0 }}
           exit={{ x: "-100%" }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col bg-[#F0E5D8] text-[#3A302A]"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col bg-[#F0E5D8] text-[#3A302A]"
         >
           <div className="flex items-center justify-between px-8 py-6 border-b border-[#D5BBAA]/50">
             <Link href="/" onClick={closeMobileMenu}>
@@ -641,7 +641,7 @@ function GeneralMobileMenu() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="fixed inset-0 z-[1000] lg:hidden flex flex-col bg-gradient-to-br from-[hsl(var(--secondary))] to-[hsl(var(--primary))]"
+          className="fixed inset-0 z-[1050] lg:hidden flex flex-col bg-gradient-to-br from-[hsl(var(--secondary))] to-[hsl(var(--primary))]"
         >
           <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
             <Link href="/" onClick={closeMobileMenu}>
