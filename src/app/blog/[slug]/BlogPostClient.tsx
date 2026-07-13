@@ -105,7 +105,7 @@ export function BlogPostClient({
                         </Link>
 
                         <div className="flex flex-wrap gap-3 mb-8">
-                            {post.tags.map((tag) => (
+                            {post.tags.map((tag: string) => (
                                 <Link key={tag} href={`/blog?tag=${tag}`}>
                                     <Badge className="bg-primary/10 text-primary hover:bg-primary hover:text-white border-none font-black text-[11px] px-5 py-2 rounded-xl transition-all uppercase tracking-[0.2em]">
                                         #{tag}
@@ -253,7 +253,7 @@ export function BlogPostClient({
                                 </Link>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                                {relatedPosts.map((related) => (
+                                {relatedPosts.map((related: BlogPost) => (
                                     <PostCard key={related.slug} post={related} />
                                 ))}
                             </div>

@@ -86,7 +86,7 @@ export default function BlogPage() {
               >
                 TODOS
               </Button>
-              {tags?.map((t) => (
+              {tags?.map((t: string) => (
                 <Button
                   key={t}
                   variant={tag === t ? "default" : "secondary"}
