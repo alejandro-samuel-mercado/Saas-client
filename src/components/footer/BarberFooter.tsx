@@ -159,7 +159,7 @@ export function BarberFooter() {
 
             {/* Bottom bar */}
             <div className="relative border-t border-[#333] bg-[#0a0a0a]">
-                <div className="container mx-auto px-6 lg:px-12 py-6 max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="container mx-auto px-6 lg:px-12 py-6 pb-24 sm:pb-6 max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-gray-600 text-xs font-bold tracking-widest uppercase">
                         © {new Date().getFullYear()} {config?.storeName || "Barbería"}. Todos los derechos reservados.
                     </p>

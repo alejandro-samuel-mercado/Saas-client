@@ -105,7 +105,7 @@ export function RealEstateHero() {
     };
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] font-sans overflow-x-hidden">
+        <section className="relative w-full font-sans overflow-x-hidden">
             
             {/* ── 100VH IMMERSIVE HERO ── */}
             <div className="relative h-screen min-h-[700px] w-full overflow-hidden bg-black">

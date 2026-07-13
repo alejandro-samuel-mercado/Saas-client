@@ -146,7 +146,7 @@ export function PetFooter() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="mt-10 pt-6 border-t border-[#8B5E3C]/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="mt-10 pt-6 pb-24 sm:pb-6 border-t border-[#8B5E3C]/50 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <p className="text-[#8B5E3C] text-xs">
                         © {new Date().getFullYear()} {config?.storeName || "PetShop"}. Todos los derechos reservados.
                     </p>

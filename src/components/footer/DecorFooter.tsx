@@ -80,7 +80,7 @@ export function DecorFooter() {
                     </div>
                 </div>
 
-                <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-[#C4A882]/10 text-xs text-[#C4A882]/60">
+                <div className="flex flex-col md:flex-row items-center justify-between pt-8 pb-24 sm:pb-8 border-t border-[#C4A882]/10 text-xs text-[#C4A882]/60">
                     <p>© {new Date().getFullYear()} {config?.storeName || "Fleur"}. Todos los derechos reservados.</p>
                     <div className="flex items-center gap-6 mt-4 md:mt-0">
                         <Link href="/legal/terms" className="hover:text-[#C4A882] transition-colors">Términos y Condiciones</Link>

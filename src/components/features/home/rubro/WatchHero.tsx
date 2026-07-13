@@ -96,7 +96,7 @@ export function WatchHero() {
     const currentSlideData = bannerSlides[currentSlide];
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-background overflow-hidden font-sans">
+        <section className="relative w-full mb-[10vh] bg-background overflow-hidden font-sans">
             
             {/* ── PRECISION NAVBAR ── */}
             <div className={`fixed lg:top-0 z-50 transition-all duration-300 w-full left-0 right-0 border-b ${scrolled ? "bg-white/95 dark:bg-background/95 backdrop-blur-md border-gray-200 dark:border-white/10 py-3 shadow-sm" : "bg-transparent border-white/10 py-5"}`}>

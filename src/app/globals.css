@@ -80,13 +80,15 @@
         @apply border-border;
     }
 
+    html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+    }
+
     body {
         @apply text-foreground bg-background;
         min-height: 100vh;
-    }
-
-    html {
-        scroll-behavior: smooth;
+        overflow-x: hidden;
     }
 }
 

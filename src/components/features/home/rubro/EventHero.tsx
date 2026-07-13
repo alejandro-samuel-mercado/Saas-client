@@ -78,7 +78,7 @@ export function EventHero() {
     }
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-[#faf9f6] overflow-hidden text-[#4a453e]">
+        <section className="relative w-full mb-[10vh] bg-[#faf9f6] overflow-hidden text-[#4a453e]">
             
             {/* ── BOHO CHIC NAVBAR ── */}
             <div className={`fixed lg:top-0 z-50 transition-all duration-500 w-full left-0 right-0 ${scrolled ? "bg-[#faf9f6]/90 backdrop-blur-md shadow-[0_4px_20px_rgba(140,133,123,0.05)] py-4" : "bg-transparent py-8"}`}>

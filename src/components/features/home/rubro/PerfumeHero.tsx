@@ -96,7 +96,7 @@ export function PerfumeHero() {
     const currentSlideData = bannerSlides[currentSlide];
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[15vh] bg-[#0a0a0a] overflow-hidden">
+        <section className="relative w-full mb-[15vh] bg-[#0a0a0a] overflow-hidden">
 
             {/* ── HERO CONTENT ── */}
             <div className="relative h-screen min-h-[600px] w-full" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>

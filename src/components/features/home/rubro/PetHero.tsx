@@ -107,7 +107,7 @@ export function PetHero() {
     const currentSlideData = bannerSlides[currentSlide] as any;
 
     return (
-        <section ref={containerRef} className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] overflow-hidden min-h-screen bg-[#EDE0CF]">
+        <section ref={containerRef} className="relative w-full overflow-hidden min-h-screen bg-[#EDE0CF]">
 
             {/* ── HERO CONTENT WITH PARALLAX ── */}
             <motion.div style={{ y: yHero, opacity: opacityHero }} className="relative min-h-[90vh] w-full flex items-center" onMouseEnter={() => setIsAutoPlaying(false)} onMouseLeave={() => setIsAutoPlaying(true)}>

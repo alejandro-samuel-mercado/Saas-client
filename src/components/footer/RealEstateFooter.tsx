@@ -93,7 +93,7 @@ export function RealEstateFooter() {
 
                 </div>
 
-                <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold tracking-[0.2em] text-white/40 uppercase">
+                <div className="border-t border-white/10 pt-8 pb-24 sm:pb-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold tracking-[0.2em] text-white/40 uppercase">
                     <p>&copy; {new Date().getFullYear()} {config?.storeName || "REAL ESTATE"}. TODOS LOS DERECHOS RESERVADOS.</p>
                     <div className="flex gap-6">
                         <Link href="/terminos" className="hover:text-white transition-colors">Términos</Link>

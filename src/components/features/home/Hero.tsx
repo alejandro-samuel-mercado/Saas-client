@@ -189,7 +189,7 @@ export function Hero() {
 
     if (isConfigLoading) {
         return (
-            <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[25vh] pt-6 max-md:pt-0 pb-12">
+            <section className="relative w-full mb-[25vh] pt-6 max-md:pt-0 pb-12">
                 <div className="px-40 mx-auto px-4 ">
                     <div className="bg-zinc-50 borde">
                         {/* Barra de búsqueda Skeleton */}
@@ -264,7 +264,7 @@ export function Hero() {
     };
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[25vh] max-lg:mb-[15vh] max-md:mb-[25vh] pt-6 max-md:pt-0 pb-12 max-sm:pb-28">
+        <section className="relative w-full mb-[25vh] max-lg:mb-[15vh] max-md:mb-[25vh] pt-6 max-md:pt-0 pb-12 max-sm:pb-28">
             {/* Navbar */}
             <div
                 className={`fixed lg:top-5 z-50 transition-all duration-300 max-sm:w-full   left-0 right-0 ${scrolled

@@ -175,7 +175,7 @@ export function WatchFooter() {
 
             {/* Bottom bar */}
             <div className="relative border-t border-primary/8">
-                <div className="container mx-auto px-6 lg:px-12 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="container mx-auto px-6 lg:px-12 py-5 pb-24 sm:pb-5 flex flex-col md:flex-row items-center justify-between gap-4">
                     <p className="text-primary/25 text-[9px] tracking-[0.4em] uppercase font-mono">
                         © {new Date().getFullYear()} {config?.storeName || "Horloger"}. Todos los derechos reservados.
                     </p>

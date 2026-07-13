@@ -48,30 +48,30 @@ export function PerfumeFooter() {
 
             {/* ── NEWSLETTER STRIP ── */}
             <div className="bg-primary">
-                <div className="container mx-auto px-6 lg:px-12 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="text-center md:text-left">
                         <p className="text-black/50 text-[10px] tracking-[0.4em] uppercase font-bold mb-1">Exclusivo</p>
-                        <h3 className="text-2xl font-serif text-black">Recibe nuestras novedades</h3>
+                        <h3 className="text-xl sm:text-2xl font-serif text-black">Recibe nuestras novedades</h3>
                     </div>
-                    <form className="flex w-full md:w-auto gap-0" onSubmit={(e) => e.preventDefault()}>
+                    <form className="flex w-full md:w-auto gap-0 max-w-sm md:max-w-none" onSubmit={(e) => e.preventDefault()}>
                         <input
                             type="email"
                             placeholder="Tu email"
-                            className="flex-1 md:w-72 px-6 py-4 bg-black/10 border border-black/20 text-black placeholder:text-black/40 text-sm focus:outline-none focus:bg-black/20 transition-colors"
+                            className="flex-1 md:w-64 px-4 py-3 sm:px-6 sm:py-4 bg-black/10 border border-black/20 text-black placeholder:text-black/40 text-sm focus:outline-none focus:bg-black/20 transition-colors min-w-0"
                         />
-                        <button type="submit" className="bg-black text-primary px-6 py-4 font-bold text-xs tracking-widest uppercase hover:bg-black/80 transition-colors flex items-center gap-2">
-                            Suscribir <ArrowRight className="h-3 w-3" />
+                        <button type="submit" className="bg-black text-primary px-4 sm:px-6 py-3 sm:py-4 font-bold text-xs tracking-widest uppercase hover:bg-black/80 transition-colors flex items-center gap-2 flex-shrink-0">
+                            <ArrowRight className="h-3 w-3" />
                         </button>
                     </form>
                 </div>
             </div>
 
             {/* ── MAIN FOOTER GRID ── */}
-            <div className="container mx-auto px-6 lg:px-12 py-20">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-12 sm:py-20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
 
                     {/* Brand */}
-                    <div className="lg:col-span-1">
+                    <div className="sm:col-span-2 lg:col-span-1">
                         <div className="mb-8">
                             {config?.logoUrl ? (
                                 <img src={config.logoUrl} alt={config.storeName || "Logo"} className="h-10 w-auto brightness-0 invert mb-4" />
@@ -104,7 +104,7 @@ export function PerfumeFooter() {
 
                     {/* Colección */}
                     <div>
-                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-8">Colección</h4>
+                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6 sm:mb-8">Colección</h4>
                         <ul className="space-y-4">
                             {NAV_LINKS.map((l) => (
                                 <li key={l.label}>
@@ -119,7 +119,7 @@ export function PerfumeFooter() {
 
                     {/* Información */}
                     <div>
-                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-8">Información</h4>
+                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6 sm:mb-8">Información</h4>
                         <ul className="space-y-4">
                             {INFO_LINKS.map((l) => (
                                 <li key={l.label}>
@@ -134,7 +134,7 @@ export function PerfumeFooter() {
 
                     {/* Contacto */}
                     <div>
-                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-8">Contacto</h4>
+                        <h4 className="text-[10px] font-bold tracking-[0.4em] uppercase text-primary mb-6 sm:mb-8">Contacto</h4>
                         <ul className="space-y-5">
                             {branch?.address && (
                                 <li className="flex items-start gap-3">
@@ -177,8 +177,8 @@ export function PerfumeFooter() {
 
             {/* ── BOTTOM BAR ── */}
             <div className="border-t border-foreground/5">
-                <div className="container mx-auto px-6 lg:px-12 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-foreground/20 text-[10px] tracking-[0.3em] uppercase">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-12 py-6 pb-24 sm:pb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <p className="text-foreground/20 text-[10px] tracking-[0.3em] uppercase text-center md:text-left">
                         © {new Date().getFullYear()} {config?.storeName || "Maison Parfum"}. Todos los derechos reservados.
                     </p>
                     <div className="flex gap-6">

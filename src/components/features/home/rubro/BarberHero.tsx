@@ -64,7 +64,7 @@ export function BarberHero() {
     }
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[10vh] bg-[#1e1c18] overflow-hidden font-sans border-b-[10px] border-[#8b6b4a]">
+        <section className="relative w-full mb-[10vh] bg-[#1e1c18] overflow-hidden font-sans border-b-[10px] border-[#8b6b4a]">
 
             {/* ── OLD SCHOOL NAVBAR ── */}
             <div className={`fixed lg:top-0 z-50 transition-all duration-300 w-full left-0 right-0 ${scrolled ? "bg-[#1e1c18] border-b-2 border-[#8b6b4a] py-4 shadow-xl" : "bg-transparent py-6"}`}>

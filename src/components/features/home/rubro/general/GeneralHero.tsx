@@ -189,7 +189,7 @@ export function GeneralHero() {
 
     if (isConfigLoading) {
         return (
-            <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[25vh] pt-6 max-md:pt-0 pb-12">
+            <section className="relative w-full mb-[25vh] pt-6 max-md:pt-0 pb-12">
                 <div className="px-40 mx-auto px-4 ">
                     <div className="bg-zinc-50 borde">
                         {/* Barra de búsqueda Skeleton */}
@@ -264,7 +264,7 @@ export function GeneralHero() {
     };
 
     return (
-        <section className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-[25vh] max-lg:mb-[15vh] max-md:mb-[25vh] pt-6 max-md:pt-0 pb-12 max-sm:pb-28">
+        <section className="relative w-full mb-[25vh] max-lg:mb-[15vh] max-md:mb-[25vh] pt-6 max-md:pt-0 pb-12 max-sm:pb-28">
 
             {/* Tarjeta de Calificación Flotante - Lado Izquierdo */}
             <div className="px-20 mx-auto max-xl:px-10 max-lg:px-5 max-md:px-0 max-md:mt-12 max-sm:pt-4 ">

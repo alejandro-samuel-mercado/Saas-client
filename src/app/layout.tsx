@@ -109,7 +109,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             )}
 
             <Navbar />
-            <div className={!isHomePage && config?.rubro?.slug !== "perfumes" ? "pt-16  md:pt-2  " : "max-sm:px-2 max-md:px-6 max-xl:px-10 overflow-x-hidden"}>
+            <div className={`overflow-x-hidden ${!isHomePage && config?.rubro?.slug !== "perfumes" ? "pt-16 md:pt-2" : "max-sm:px-2 max-md:px-6 max-xl:px-10"}`}>
                 {children}
             </div>
             <Footer />
