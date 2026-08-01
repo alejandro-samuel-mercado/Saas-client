@@ -147,12 +147,13 @@ export function RealEstateHero() {
                 </motion.div>
 
                 {/* ── GIROMINI STYLE GLASSMORPHIC SEARCH BAR ── */}
-                <motion.div 
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl z-20"
-                >
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-[95%] max-w-5xl z-20">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: 0.8 }}
+                        className="w-full"
+                    >
                     <div className="bg-black/60 backdrop-blur-md border border-white/20 p-4 md:p-6 shadow-2xl flex flex-col md:flex-row items-center gap-4">
                         <form onSubmit={handleSearch} className="flex-1 w-full flex flex-col md:flex-row items-center gap-4">
                             
@@ -201,7 +202,8 @@ export function RealEstateHero() {
                             </Button>
                         </form>
                     </div>
-                </motion.div>
+                    </motion.div>
+                </div>
 
             </div>
 
