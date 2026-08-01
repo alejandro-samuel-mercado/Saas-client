@@ -128,7 +128,7 @@ function RealEstateBottomNav() {
     { label: "Inicio", icon: Home, href: "/", active: pathname === "/" },
     { label: "Inmuebles", icon: Building2, href: "/products", active: pathname === "/products" },
     { label: "Alquiler", icon: Key, href: "/products?saleMode=ALQUILER", active: false },
-    { label: "Mapa", icon: MapPin, href: "/products", active: false },
+    { label: "Lotes", icon: MapPin, href: "/products", active: false },
     { label: "Contacto", icon: Phone, href: "/contact", active: pathname === "/contact" },
   ];
 

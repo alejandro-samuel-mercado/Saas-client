@@ -131,7 +131,7 @@ export function RealEstateHero() {
                         initial={{ opacity: 0, y: 50 }} 
                         animate={{ opacity: 1, y: 0 }} 
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className="text-white text-5xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tighter leading-[0.9]"
+                        className="text-white text-4xl sm:text-5xl md:text-7xl lg:text-[6rem] font-black uppercase tracking-tighter leading-[0.9] break-words"
                     >
                         {heroTitle} <br />
                         <span className="text-transparent" style={{ WebkitTextStroke: '2px white' }}>{heroTitleLine2}</span>

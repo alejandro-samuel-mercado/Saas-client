@@ -148,12 +148,12 @@ export function PetHero() {
                                         </span>
                                     </div>
 
-                                    <h1 className="text-6xl md:text-8xl font-black text-[#5C3D2E] leading-[0.9] mb-8 tracking-tighter drop-shadow-xl">
+                                    <h1 className="text-4xl sm:text-5xl md:text-8xl font-black text-[#5C3D2E] leading-[0.9] mb-8 tracking-tighter drop-shadow-xl break-words">
                                         {currentSlideData?.title || "Amor Incondicional."}
                                         {currentSlideData?.titleLine2 && (
                                             <>
                                                 <br />
-                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E8963C] to-[#8B5E3C] inline-block mt-2">
+                                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#E8963C] to-[#8B5E3C] inline-block mt-2 break-words">
                                                     {currentSlideData.titleLine2}
                                                 </span>
                                             </>

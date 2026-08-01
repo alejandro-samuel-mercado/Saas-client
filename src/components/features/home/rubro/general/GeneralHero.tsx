@@ -377,8 +377,8 @@ export function GeneralHero() {
 
             {/* Badges de Características - Sobresaliendo del fondo */}
             <div className=" absolute lg:-bottom-16 max-sm:-bottom-[80%]  z-40 w-full max-md:-bottom-10  max-md:h-full ">
-                <div className="md:container flex mx-auto  w-full justify-center    max-sm:h-46 max-md:h-48 lg:h-46 ">
-                    <div className="flex gap-60 max-lg:gap-36 justify-center max-md:justify-between w-[40vw] md:w-[65vw] max-md:gap-28 max-sm:gap-4 max-md:w-[100%] max-sm:mx-6 max-sm:w-[100%]  max-md:mx-10    h-full">
+                <div className="md:container flex mx-auto w-full justify-center max-sm:h-46 max-md:h-48 lg:h-46 px-6">
+                    <div className="flex gap-60 max-lg:gap-36 justify-center max-md:justify-between w-[40vw] md:w-[65vw] max-md:gap-28 max-sm:gap-4 max-md:w-full h-full">
                         {featureBadges.map((badge: any, index: any) => {
                             const Icon = iconMap[badge.icon];
                             return (
