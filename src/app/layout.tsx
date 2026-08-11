@@ -88,7 +88,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
             {config?.themeColors && Object.keys(config.themeColors).length > 0 && (
                 <style dangerouslySetInnerHTML={{
-                    __html: `:root {
+                    __html: `:root, body, body.theme-perfumes, body.theme-general, body.theme-relojes, body.theme-barberias, body.theme-mascotas, body.theme-decoracion {
                         ${Object.entries(config.themeColors)
                             .filter(([key]) => !key.endsWith('-hex'))
                             .map(([key, value]) => {
