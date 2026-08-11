@@ -88,7 +88,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
             {config?.themeColors && Object.keys(config.themeColors).length > 0 && (
                 <style dangerouslySetInnerHTML={{
-                    __html: `:root, .theme-perfumes {
+                    __html: `:root {
                         ${Object.entries(config.themeColors)
                             .filter(([key]) => !key.endsWith('-hex'))
                             .map(([key, value]) => {
@@ -101,7 +101,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                             .join('\n')}
                     }
                     ${config.themeColors.background ? `
-                    body.theme-perfumes, body.theme-relojes {
+                    body {
                         background: hsl(${config.themeColors.background});
                     }
                     ` : ''}`

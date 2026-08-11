@@ -7,8 +7,7 @@
  *  general | perfumes | relojes | barberias | mascotas | decoracion | ropa | inmuebles
  */
 
-import { PublicConfig } from "@/services/config";
-import { configService } from "@/services/config";
+import { configService, PublicConfig } from "@/services/config";
 import { useQuery } from "@tanstack/react-query";
 
 export interface RubroUIConfig {
@@ -326,13 +325,13 @@ const RUBRO_CONFIGS: Record<string, Partial<RubroUIConfig>> = {
       { icon: "refresh-cw", title: "Devoluciones Fáciles", description: "30 días para cambiar de opinión", color: "#10b981" },
       { icon: "headphones", title: "Soporte Técnico", description: "Asesoramiento especializado en tecnología", color: "#f59e0b" },
     ],
-    trendingTitle: "Más Vendidos",
+    trendingTitle: "Tendencias",
     trendingSubtitle: "Los productos más elegidos de la semana",
     newProductsTitle: "Novedades",
     newProductsSubtitle: "Las últimas incorporaciones en tecnología y electrodomésticos",
     viewAllLabel: "Ver Todos los Productos",
     navProductsLabel: "Productos",
-    navTrendingLabel: "Más Vendidos",
+    navTrendingLabel: "Tendencias",
     navNewLabel: "Novedades",
   },
 };

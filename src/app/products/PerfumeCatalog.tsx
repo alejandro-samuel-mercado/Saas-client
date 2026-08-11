@@ -1,16 +1,15 @@
 "use client";
 
 import { ProductCardRouter } from "@/components/shared/ProductCardRouter";
-import { ProductSkeleton } from "@/components/shared/ProductSkeleton";
 import { Badge } from "@/components/ui/badge";
+import { useRubroConfig } from "@/hooks/useRubroConfig";
 import { formatPrice } from "@/lib/utils";
 import { configService } from "@/services/config";
 import { productService } from "@/services/products";
 import { useCurrencyStore } from "@/store/currency";
-import { useRubroConfig } from "@/hooks/useRubroConfig";
 import { Category } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Droplets, Filter, Search, Sparkles, Star, Wind, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -209,7 +208,7 @@ export function PerfumeCatalog() {
                 </h3>
                 <div className="space-y-2">
                     {[
-                        { key: "isTrending", label: "Más Vendidos", icon: Star },
+                        { key: "isTrending", label: "Tendencias", icon: Star },
                         { key: "isNew", label: "Recién Llegadas", icon: Sparkles },
                         { key: "inStock", label: "En Stock", icon: Droplets },
                     ].map(({ key, label, icon: Icon }) => (
@@ -299,7 +298,7 @@ export function PerfumeCatalog() {
                             let label = `${key}: ${value}`;
                             if (key === "category") label = `Familia: ${value}`;
                             if (key === "search") label = `"${value}"`;
-                            if (key === "isTrending") label = "Más Vendidos";
+                            if (key === "isTrending") label = "Tendencias";
                             if (key === "isNew") label = "Nuevas";
                             if (key === "inStock") label = "En Stock";
                             if (key === "minPrice") label = `Desde ${formatPrice(Number(value), currency)}`;
