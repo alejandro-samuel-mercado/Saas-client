@@ -185,7 +185,7 @@ const RUBRO_CONFIGS: Record<string, Partial<RubroUIConfig>> = {
     benefitItems: [
       { icon: "scissors", title: "Uso Profesional", description: "Productos para resultados perfectos" },
       { icon: "truck", title: "Envío Rápido", description: "Tu pedido llega sin demoras" },
-      { icon: "shield-check", title: "Calidad Garantizada", Vendidosdescription: "Solo las mejores marcas" },
+      { icon: "shield-check", title: "Calidad Garantizada", description: "Solo las mejores marcas" },
       { icon: "headphones", title: "Soporte Experto", description: "Asesoramiento de profesionales" },
     ],
     trendingTitle: "Tendencia",
